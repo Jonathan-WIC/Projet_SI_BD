@@ -14,51 +14,7 @@ if(isset($_REQUEST['idPrev'])){
 switch($EX)
 {
     case 'home'      : home();       break;
-    case 'cloud'      : cloud();       break;
-    case 'downloadCloud'      : downloadCloud();       break;
-    case 'addFile'      : addFile();       break;
-    case 'login'     : login();      break;
-    case 'reportList': reportList(); break;
-    case 'searchMember'     : searchMember();      break;
-    case 'manageMembers': manageMembers(); break;
-    case 'createMember': createMember(); break;
-    case 'createUser': createUser(); break;
-    case 'updateMember': updateMember(); break;
-    case 'deleteMember': deleteMember(); break;
-    case 'insert'    : insert();     exit; // Mèthode insert() pour enregistrer le changement de mot de passe
-    case 'changePass': changePass(); exit; // Mèthode changePass() pour enregistrer le changement de mot de passe
-    case 'mailconf'  : mailconf();   exit; // Mèthode pour envoyer l'email de confirmation
-    case 'maillog'   : maillog();    exit;
     case 'recup'     : recuperation(); break; // Presentation de la vue
-    case 'deconnexion' :
-        if (isset($_POST['login']) && isset($_POST['password']))
-        {
-            home();
-        }
-        else
-        {
-            deconnexion();
-        }
-        break;
-    case 'writeMessages' : writeMessages(); break;
-    case 'consultMessages' : consultMessages(); break;
-    case 'endMessages' : endMessages(); break;
-    case 'createArticle':   createArticle(); break;
-    case 'calendar'     :   calendar();break;
-    case 'showArticle'		: showArticle(); 	 break;
-    case 'showInfoArticle'	: showInfoArticle(); break;
-    case 'formCreateArticle' : formCreateArticle(); break;
-    case 'updateAsso' : updateAsso(); break;
-    case 'updateAdminAsso': updateAdminAsso(); break;
-    case 'swapRoles': swapRoles($idPrev,$idNext); break;
-    case 'createAsso' : createAsso(); break;
-    case 'createAdmin' : createAdmin(); break;
-    case 'creationAdmin' : creationAdmin(); break;
-    case 'manageAsso': manageAsso(); break;
-    case 'deleteAsso'  : deleteAsso();      break;
-    case 'profil'    : profil(); break; // Affichage du profil
-    case 'legal' : legal(); break;
-    case 'updateMail' : updateMail(); break;
     default : check($EX);
 }
 
