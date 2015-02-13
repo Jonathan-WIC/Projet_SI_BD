@@ -13,7 +13,7 @@
 
     switch($EX)
     {
-        case 'home'      : home();       break;
+        case 'home'      : home();         break;
         case 'recup'     : recuperation(); break; // Presentation de la vue
         default : check($EX);
     }

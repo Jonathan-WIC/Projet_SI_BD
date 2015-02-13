@@ -4,7 +4,7 @@
 
         private static $engine = 'mysql';
 
-        private static $dbName = 'db_Monster_Park' ;
+        private static $dbName = 'db_monsterpark' ;
         private static $dbHost = 'localhost' ;
         private static $dbUsername = 'root';
         private static $dbUserPassword = '';
