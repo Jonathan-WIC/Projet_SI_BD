@@ -1,10 +1,6 @@
 <?php
-$vnav = new VNav();
-$vUserInfo = new VUserInfo();
-$vpage = new $page['class']();
-global $connec, $customAlert;
-$connec = new MDBase();
-$vHtml = new VHtml();
+    $vpage = new $page['class']();
+    $vHtml = new VHtml();
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,12 +11,24 @@ $vHtml = new VHtml();
     <?php
         // Ajout feuille de style spécifique à cette page
         if (isset($page['css'])) {
-            echo '<link rel="stylesheet" type="text/css" href="'.$page['css'].'" />' ;
+            echo '<link rel="stylesheet" type="text/css" href="'.$page['css'].'" />';
         }
     ?>
     <link rel="icon" type="image/png" href="Img/favicon.png" />
     <script src="Lib/jquery.min.js"></script>
 </head>
 <body>
+    
+    <header>
+        <?php 
+            
+        ?>
+    </header>
+
+    <div id="content">
+        <?php
+            $vpage->$page['method']($page['arg']);
+        ?>
+    </div>
     
 </body>
