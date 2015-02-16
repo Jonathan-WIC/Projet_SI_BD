@@ -1,1 +1,1 @@
-<h1>Bienvenue sur Monster Park :-)</h1>
+<h1>Vous êtes actuellement sur la page d'accueil ;-)</h1>

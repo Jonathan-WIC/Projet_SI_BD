@@ -7,8 +7,13 @@
 
     switch($EX)
     {
-        case 'home'     : home(); break;
-        case 'header'   : head(); break;
+        case 'home':        home();         break;
+        case 'actus':       actus();        break;
+        case 'quest':       quest();        break;
+        case 'myParks':     myParks();      break;
+        case 'myMonsters':  myMonsters();   break;
+        case 'myItems':     myItems();      break;
+        case 'store':       store();        break;
         default : error();
     }
 
@@ -18,17 +23,63 @@
     {
         global $page;
         $page['title'] = 'Home';
-        $page['class'] = 'VHome';
+        $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/home.php';
     }
 
-    function head()
+    function actus()
     {
         global $page;
-        $page['class'] = 'VHeader';
+        $page['title'] = 'Actus';
+        $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/header.php';
+        $page['arg'] = 'Html/actus.php';
+    }
+
+    function quest()
+    {
+        global $page;
+        $page['title'] = 'Quests';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/quest.php';
+    }
+
+    function myParks()
+    {
+        global $page;
+        $page['title'] = 'Parks';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/myParks.php';
+    }
+
+    function myMonsters()
+    {
+        global $page;
+        $page['title'] = 'Monsters';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/myMonsters.php';
+    }
+
+    function myItems()
+    {
+        global $page;
+        $page['title'] = 'Items';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/myItems.php';
+    }
+
+    function store()
+    {
+        global $page;
+        $page['title'] = 'Items';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/store.php';
     }
 
     function error()
@@ -39,5 +90,4 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/unknown.html';
     }
-
 ?>

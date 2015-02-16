@@ -1,12 +1,15 @@
 <?php
     $vpage = new $page['class']();
     $vHtml = new VHtml();
+    $vheader = new VHeader();
+    $vfooter = new VFooter();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title><?= $page['title']; ?></title>
+    <link rel="stylesheet" href="./Lib/bootstrap.css">
     <link rel="stylesheet" href="./Css/main.css">
     <?php
         // Ajout feuille de style spécifique à cette page
@@ -21,7 +24,7 @@
     
     <header>
         <?php 
-            
+            $vheader->showHeader();
         ?>
     </header>
 
@@ -30,5 +33,13 @@
             $vpage->$page['method']($page['arg']);
         ?>
     </div>
+
+    <footer>
+        <?php 
+            $vfooter->showFooter();
+        ?>
+    </footer>
     
+    <script type="text/javascript" src="./Lib/jquery.min.js"></script>
+    <script type="text/javascript" src="./Lib/bootstrap.js"></script>
 </body>

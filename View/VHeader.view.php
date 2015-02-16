@@ -5,10 +5,10 @@
 
 		public function __destruct(){}
 
-		public function showHtml($path)
+		public function showHeader()
 		{
 			$vhtml = new VHtml();
-        	$vhtml->showHtml($path);
-		} // showHtml()
+        	$vhtml->showHtml('Html/header.php');
+		} // showHeader()
 	} // VHeader
 ?>
