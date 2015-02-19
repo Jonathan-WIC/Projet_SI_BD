@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS DB_MonsterPark ;
 CREATE DATABASE DB_MonsterPark ;
 USE DB_MonsterPark ;
 
