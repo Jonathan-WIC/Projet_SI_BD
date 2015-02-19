@@ -4,7 +4,7 @@
 
         private static $engine = 'mysql';
 
-        private static $dbName = 'db_Monster_Park' ;
+        private static $dbName = 'db_monsterpark' ;
         private static $dbHost = 'localhost' ;
         private static $dbUsername = 'root';
         private static $dbUserPassword = '';
@@ -22,6 +22,18 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT * FROM user";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        //get all monster from the game
+        public static function getAllMonsters()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM monster";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
