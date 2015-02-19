@@ -29,6 +29,13 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<form class="navbar-form navbar-left" role="search">
+			        <div class="form-group">
+			        	<input type="text" id="headerUsername" class="form-control headerUsername" placeholder="UserName">
+			        	<input type="password" id="headerPassword" class="form-control headerPassword" placeholder="Password">
+			        </div>
+			        <button type="submit" class="btn btn-default">Log in</button>
+			    </form>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mon compte<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
