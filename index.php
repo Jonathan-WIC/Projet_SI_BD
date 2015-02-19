@@ -8,7 +8,6 @@
     switch($EX)
     {
         case 'home':        home();         break;
-        case 'actus':       actus();        break;
         case 'quest':       quest();        break;
         case 'myParks':     myParks();      break;
         case 'myMonsters':  myMonsters();   break;
@@ -26,15 +25,6 @@
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/home.php';
-    }
-
-    function actus()
-    {
-        global $page;
-        $page['title'] = 'Actus';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/actus.php';
     }
 
     function quest()

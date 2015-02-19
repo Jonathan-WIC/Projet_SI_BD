@@ -1,1 +1,0 @@
-<h2>What's up in Monster Park ?</h2>
