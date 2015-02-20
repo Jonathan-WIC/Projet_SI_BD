@@ -28,19 +28,20 @@
         ?>
     </header>
 
-    <div id="content">
-        <?php
-            $vpage->$page['method']($page['arg']);
-        ?>
-    </div>
-
-    <div id="error">
+    <div id="divErrorLogin">
         <?php 
             if (isset($page['errorMethod'])) {
                 $vpage->$page['errorMethod']();
             }
         ?>
     </div>
+    
+    <div id="content">
+        <?php
+            $vpage->$page['method']($page['arg']);
+        ?>
+    </div>
+
 
     <footer>
         <?php 

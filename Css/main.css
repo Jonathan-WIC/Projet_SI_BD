@@ -1,11 +1,52 @@
-#loginForm{
+body{
+	background: #D7BD8D;
+}
+
+h1{
 	text-align: center;
 }
 
+h2{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+}
+
+footer{
+	display: block;
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+}
+
+#globalHeader{
+	background: #5E420D;
+}
+
+#divErrorLogin{
+	padding-top: 3%;
+	text-align: center;
+}
+
+#loginForm{
+	text-align: left;
+	margin: auto;
+	width: 15%;
+}
+
 #password{
-	width : 10%;
+	width : 90%;
+	margin: auto;
 }
 
 #username{
-	width : 10%;
+	width : 90%;
+	margin: auto;
+}
+
+.subtitle{
+	text-align: center;
 }

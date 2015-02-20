@@ -10,9 +10,9 @@
         case 'home':        home();         break;
         case 'connect':     connect();      break;
         case 'quest':       quest();        break;
-        case 'myParks':     myParks();      break;
-        case 'myMonsters':  myMonsters();   break;
-        case 'myItems':     myItems();      break;
+        case 'parks':       parks();        break;
+        case 'monsters':    monsters();     break;
+        case 'items':       items();        break;
         case 'store':       store();        break;
         default : error();
     }
@@ -45,8 +45,8 @@
             $page['title'] = 'Home';
             $page['class'] = 'VHtml';
             $page['method'] = 'showHtml';
-            $page['errorMethod'] = 'showErrorLogin';
             $page['arg'] = 'Html/home.php';
+            $page['errorMethod'] = 'showErrorLogin';
         }
     }
 
@@ -59,40 +59,31 @@
         $page['arg'] = 'Html/quest.php';
     }
 
-    function myParks()
+    function parks()
     {
         global $page;
-        $page['title'] = 'Parks';
+        $page['title'] = 'parks';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/myParks.php';
+        $page['arg'] = 'Html/parks.php';
     }
 
-    function myMonsters()
+    function monsters()
     {
         global $page;
-        $page['title'] = 'Monsters';
+        $page['title'] = 'monsters';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/myMonsters.php';
+        $page['arg'] = 'Html/monsters.php';
     }
 
-    function myItems()
+    function items()
     {
         global $page;
         $page['title'] = 'Items';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/myItems.php';
-    }
-
-    function store()
-    {
-        global $page;
-        $page['title'] = 'Items';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/store.php';
+        $page['arg'] = 'Html/items.php';
     }
 
     function error()

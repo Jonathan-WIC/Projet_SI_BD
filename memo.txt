@@ -13,6 +13,8 @@ Modfication de la BDD :
 - renommer la table parc en park
 - simplifié l'id du joueur dans la table park
 - ajouter un champ nom pour la table park
+- renomer "speice" en "specie"
+- renommer dealing en PTRANSACTION
 
 
 
@@ -22,10 +24,21 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 
 RAF :
-- Verification du login dans l'index. (switch case style).
+- Verification du login dans l'index. (switch case style biatch!).
 - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
 - Creer des Model pour affiner les requete on fonction de la personne connectée.
 - mettre à jour l'index
 - creer/modifier les pages HTML qui vont bien
 - Voir pour la pagination
 - Voir pour le tri dans les tables.
+- Aligner le bouton de logIn.
+- un petit peu de CSS quand même
+
+
+snippet à faire :
+template __autoload
+template index
+template Mod/View
+template de layout
+template getAll function
+
