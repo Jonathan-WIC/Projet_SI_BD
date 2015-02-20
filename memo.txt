@@ -1,0 +1,13 @@
+Memo :
+- Pour gerer les différents role, on pourrait faire un Header par rôle, renvoyant sur les différentes page associées.
+- Pour ce qui est des admins, on fait des tableau avec des boutons d'action associé à des requetes (un peu comme optitour).
+- pas besoin de pousser trop le design, on fera ça apres.
+- bien voir comment fonctionne les session, ça va être le plus chiant :s
+- optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
+- balancer de l'ajax les requetes?
+
+
+Modfication de la BDD :
+- renommer la table parc en park
+- simplifié l'id du joueur dans la table park
+- ajouter un champ nom pour la table park
