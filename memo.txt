@@ -5,9 +5,27 @@ Memo :
 - bien voir comment fonctionne les session, ça va être le plus chiant :s
 - optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
 - balancer de l'ajax les requetes?
+- ne pas oublier la pagination et le tri des données.
+
 
 
 Modfication de la BDD :
 - renommer la table parc en park
 - simplifié l'id du joueur dans la table park
 - ajouter un champ nom pour la table park
+
+
+
+Les differents users:
+gros switch case. le formulaire de co du début on stocke les données dont on a besoin pour les requetes, on voit qui est co et puis on se débrouille quoi.
+
+
+
+RAF :
+- Verification du login dans l'index. (switch case style).
+- getAll sur toutes les tables de la base de données => on cale tout dans MD base.
+- Creer des Model pour affiner les requete on fonction de la personne connectée.
+- mettre à jour l'index
+- creer/modifier les pages HTML qui vont bien
+- Voir pour la pagination
+- Voir pour le tri dans les tables.

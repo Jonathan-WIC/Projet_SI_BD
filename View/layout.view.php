@@ -34,6 +34,14 @@
         ?>
     </div>
 
+    <div id="error">
+        <?php 
+            if (isset($page['errorMethod'])) {
+                $vpage->$page['errorMethod']();
+            }
+        ?>
+    </div>
+
     <footer>
         <?php 
             $vfooter->showFooter();

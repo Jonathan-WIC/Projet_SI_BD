@@ -8,6 +8,7 @@
     switch($EX)
     {
         case 'home':        home();         break;
+        case 'connect':     connect();      break;
         case 'quest':       quest();        break;
         case 'myParks':     myParks();      break;
         case 'myMonsters':  myMonsters();   break;
@@ -25,6 +26,28 @@
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/home.php';
+    }
+
+    function connect()
+    {
+        global $page;
+
+    /**
+    TODO
+    *   Faire la condition de vérification de login. les résultats sont fonctionnels.
+    **/
+        if($logSuccess){
+            $page['title'] = 'connect';
+            $page['class'] = 'VHtml';
+            $page['method'] = 'showHtml';
+            $page['arg'] = 'Html/connect.php';
+        } else{
+            $page['title'] = 'Home';
+            $page['class'] = 'VHtml';
+            $page['method'] = 'showHtml';
+            $page['errorMethod'] = 'showErrorLogin';
+            $page['arg'] = 'Html/home.php';
+        }
     }
 
     function quest()

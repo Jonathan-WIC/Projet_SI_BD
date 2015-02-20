@@ -10,13 +10,12 @@
         private static $dbUserPassword = '';
         private static $cont  = null;
 
-
         public function __construct(){
             $dns = self::$engine.':dbname='.self::$dbName.";host=".self::$dbHost;
             parent::__construct( $dns, self::$dbUsername, self::$dbUserPassword );
         }
 
-        //TEMPLATE pour faire des getAll
+        /*//TEMPLATE pour faire des getAll
         public static function getAllUsers()
         {
             $pdo = self::connect();
@@ -26,10 +25,22 @@
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
+        }*/
+
+        //get all monsters from the game
+        public static function getAllMonsters()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM monster";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
         }
 
-        //get all monster from the game
-        public static function getAllMonsters()
+        //get all parks from the game
+        public static function getAllParks()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
