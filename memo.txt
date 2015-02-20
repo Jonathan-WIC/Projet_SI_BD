@@ -43,3 +43,11 @@ template Mod/View
 template de layout
 template getAll function
 
+
+texte de Jona:
+Pour l'admin, une grosse moitié des requetes ont été faites, les html (basiques) sont créés
+On gere les logins, une redirection en cas d'erreur (CF screenshot).
+RAF: Finir les traiments PHP, les attachers a leurs html (rapide avec un joli Controller)
+	 paginer / trier les données
+	 optimiser les requetes
+	 éventuellement un peu de CSS
