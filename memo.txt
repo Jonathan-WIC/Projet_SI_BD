@@ -25,6 +25,7 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 RAF :
 - Verification du login dans l'index. (switch case style biatch!).
+- Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres).
 - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
 - Creer des Model pour affiner les requete on fonction de la personne connectée.
 - mettre à jour l'index

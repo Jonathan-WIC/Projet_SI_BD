@@ -15,19 +15,6 @@
             parent::__construct( $dns, self::$dbUsername, self::$dbUserPassword );
         }
 
-        /*//TEMPLATE pour faire des getAll
-        public static function getAllUsers()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM user";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }*/
-
-
         public static function getAllAccount()
         {
             $pdo = self::connect();

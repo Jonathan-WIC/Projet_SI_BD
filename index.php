@@ -14,6 +14,7 @@
         case 'monsters':    monsters();     break;
         case 'items':       items();        break;
         case 'store':       store();        break;
+        //case 'failLog':     failLog();      break;
         default : error();
     }
 
@@ -47,6 +48,7 @@
             $page['method'] = 'showHtml';
             $page['arg'] = 'Html/home.php';
             $page['errorMethod'] = 'showErrorLogin';
+            $page['script'] = 'Js/showErrorLogin.js';
         }
     }
 
@@ -66,6 +68,7 @@
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/parks.php';
+
     }
 
     function monsters()
@@ -94,4 +97,15 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/unknown.html';
     }
+
+/*    function failLog()
+    {
+        global $page;
+        $page['title'] = 'Home';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/home.php';
+        $page['errorMethod'] = 'showErrorLogin';
+        $page['script'] = 'Js/showErrorLogin.js';
+    }*/
 ?>

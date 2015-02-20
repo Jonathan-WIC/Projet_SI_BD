@@ -28,7 +28,7 @@
         ?>
     </header>
 
-    <div id="divErrorLogin">
+    <div id="divErrorLogin" style="display:none;">
         <?php 
             if (isset($page['errorMethod'])) {
                 $vpage->$page['errorMethod']();
@@ -42,13 +42,18 @@
         ?>
     </div>
 
-
     <footer>
         <?php 
             $vfooter->showFooter();
         ?>
     </footer>
-    
+
     <script type="text/javascript" src="./Lib/jquery.min.js"></script>
     <script type="text/javascript" src="./Lib/bootstrap.js"></script>
+    <?php 
+        if (isset($page['script'])) {
+            echo '<script src="'.$page['script'].'" /></script>';
+        }
+    ?>
+
 </body>
