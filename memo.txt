@@ -10,11 +10,11 @@ Memo :
 
 
 Modfication de la BDD :
-- renommer la table parc en park
-- simplifié l'id du joueur dans la table park
-- ajouter un champ nom pour la table park
-- renomer "speice" en "specie"
-- renommer dealing en PTRANSACTION
+- renommer la table parc en park			 FINI
+- simplifié l'id du joueur dans la table park		 FINI
+- ajouter un champ nom pour la table park		 FINI
+- renomer "speice" en "specie"				 FINI
+- renommer dealing en PTRANSACTION			 FINI
 
 
 
