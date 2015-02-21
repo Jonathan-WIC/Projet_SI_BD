@@ -15,7 +15,7 @@
             parent::__construct( $dns, self::$dbUsername, self::$dbUserPassword );
         }
 
-        public static function getAllAccount()
+        public static function getAllAccounts()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -26,6 +26,50 @@
             return $data;
         }
 
+        public static function getAllElements()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllEnclosures()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ENCLOSURE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllItems()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ITEM";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        //get all maturity level
+        public static function getAllMaturityLevels()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM MATURITY";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
 
         //get all monsters
         public static function getAllMonsters()
@@ -39,7 +83,29 @@
             return $data;
         }
 
-        //get all parks from
+        public static function getAllNews()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM NEWS";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllNewspapers()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM NEWSPAPER";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        //get all parks
         public static function getAllParks()
         {
             $pdo = self::connect();
@@ -51,7 +117,7 @@
             return $data;
         }
 
-        public static function getAllPlayer()
+        public static function getAllPlayers()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -62,7 +128,7 @@
             return $data;
         }
 
-        public static function getAllTransaction()
+        public static function getAllPTransactions()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -74,7 +140,7 @@
         }
 
         //get all quest
-        public static function getAllQuest()
+        public static function getAllQuests()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -85,7 +151,7 @@
             return $data;
         }
 
-        public static function getAllSpecie()
+        public static function getAllSpecies()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -96,11 +162,11 @@
             return $data;
         }
 
-        public static function getAllSubSpecie()
+        public static function getAllSubSpecies()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SPECIE";
+            $query = "SELECT * FROM SUB_PECIE";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

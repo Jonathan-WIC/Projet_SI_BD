@@ -9,13 +9,9 @@ Memo :
 
 
 
-Modfication de la BDD :
-- renommer la table parc en park			 FINI
-- simplifié l'id du joueur dans la table park		 FINI
-- ajouter un champ nom pour la table park		 FINI
-- renomer "speice" en "specie"				 FINI
-- renommer dealing en PTRANSACTION			 FINI
 
+Modfication de la BDD :
+- 
 
 
 Les differents users:
@@ -23,17 +19,17 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 
 
-RAF :
-- Verification du login dans l'index. (switch case style biatch!).
-- Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres).
-- getAll sur toutes les tables de la base de données => on cale tout dans MD base.
-- Creer des Model pour affiner les requete on fonction de la personne connectée.
-- mettre à jour l'index
-- creer/modifier les pages HTML qui vont bien
-- Voir pour la pagination
-- Voir pour le tri dans les tables.
-- Aligner le bouton de logIn.
-- un petit peu de CSS quand même
+RAF :	- Verification du login dans l'index. (switch case style biatch!)
+	    - Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres);
+	    - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
+	    - Creer des Model pour affiner les requete on fonction de la personne connectée.
+	    - mettre à jour l'index
+	    - creer/modifier les pages HTML qui vont bien
+	    - Voir pour la pagination
+	    - Voir pour le tri dans les tables.
+	    - Aligner le bouton de logIn.
+	    - un petit peu de CSS quand même
+
 
 
 snippet à faire :
@@ -44,10 +40,12 @@ template de layout
 template getAll function
 
 
-texte de Jona mail du 20/03/2015:
-Pour l'admin, une grosse moitié des requetes ont été faites, les html (basiques) sont créés
-On gere les logins, une redirection en cas d'erreur (CF screenshot).
-RAF: Finir les traiments PHP, les attachers a leurs html (rapide avec un joli Controller)
-	 paginer / trier les données
-	 optimiser les requetes
-	 éventuellement un peu de CSS
+
+Extraction exact des infos selon les requetes :
+-Pour les MONSTRES il nous faut : 	- L'ID;
+									- Toutes les caractéristique non clef étrangère;
+									- l'ID du joueur auquel le monstre appartient;
+									- son espece;
+									- sa sous-espece;
+									- son niveau de maturité;
+									- ses éléments
