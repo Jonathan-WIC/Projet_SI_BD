@@ -4,7 +4,7 @@ Memo :
 - pas besoin de pousser trop le design, on fera ça apres.
 - bien voir comment fonctionne les session, ça va être le plus chiant :s
 - optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
-- balancer de l'ajax les requetes?
+- balancer de l'ajax pour les requetes?
 - ne pas oublier la pagination et le tri des données.
 
 
@@ -44,7 +44,7 @@ template de layout
 template getAll function
 
 
-texte de Jona:
+texte de Jona mail du 20/03/2015:
 Pour l'admin, une grosse moitié des requetes ont été faites, les html (basiques) sont créés
 On gere les logins, une redirection en cas d'erreur (CF screenshot).
 RAF: Finir les traiments PHP, les attachers a leurs html (rapide avec un joli Controller)
