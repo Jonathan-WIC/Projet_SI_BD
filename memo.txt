@@ -6,12 +6,13 @@
 - optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
 - balancer de l'ajax pour les requetes?
 - ne pas oublier la pagination et le tri des données.
+- Pour la pagination voir l'utiliation de LIMIT.
 
 
 
 
 Modfication de la BDD :
-- 
+
 
 
 Les differents users:
@@ -60,7 +61,10 @@ Extraction exact des infos selon les requetes :
 									- ses transactions
 
 
-UTILISATEUR MySQL
+UTILISATEURS MySQL:
+
+LOGIN          - PASS   => FUNCTION   <3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3
+
 administrateur - admin  => tout les droits sur DB_MONSTER_PARK
 adminprivilege - priv   => pas accès tables/gerer permissions utilisateur HS
 respindex      - index  => gerer index

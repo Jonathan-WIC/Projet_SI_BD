@@ -98,14 +98,4 @@
         $page['arg'] = 'Html/unknown.html';
     }
 
-/*    function failLog()
-    {
-        global $page;
-        $page['title'] = 'Home';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/home.php';
-        $page['errorMethod'] = 'showErrorLogin';
-        $page['script'] = 'Js/showErrorLogin.js';
-    }*/
 ?>

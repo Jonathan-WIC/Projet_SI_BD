@@ -22,9 +22,11 @@
 **/
 				$admin = new MDBaseSuperAdmin();
 				$monsters = $admin->getAllMonsters();
-				$infosMonster = "";
+
+				
 				
 				//On boucle sur monsters pour remplir le tableau des carac
+				$infosMonster = "";
 				for($i = 0 ; $i < count($monsters) ; ++$i){
 					if($monsters[$i]['ID_PLAYER'] == "") $monsters[$i]['ID_PLAYER'] = "N/A";
 				    $infosMonster.= '<tr>'.
