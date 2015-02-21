@@ -24,6 +24,7 @@ RAF :	- Verification du login dans l'index. (switch case style biatch!)
 		- faire un MDBase PAR UTILISATEUR!!!!
 		- Trouver un moyen de stocker ce MDBASE (peut être via un index de $page lors du switch case de connexion);
 		- Dans les tableau de résultat, mettre les attributs "multi-valué" dans des select (HTML);
+		- Faire des requete personnalisée pour ces attrinut "multi-valué"
 	    - Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres);
 	    - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
 	    - Creer des Model pour affiner les requete on fonction de la personne connectée.

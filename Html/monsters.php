@@ -21,10 +21,10 @@
 	TODO
 **/
 				$admin = new MDBaseSuperAdmin();
-				$monsters = $admin->getAllMonsters();
+				$monsters = $admin->getMonsterInfos();
+				var_dump($monsters);
 
-				
-				
+
 				//On boucle sur monsters pour remplir le tableau des carac
 				$infosMonster = "";
 				for($i = 0 ; $i < count($monsters) ; ++$i){

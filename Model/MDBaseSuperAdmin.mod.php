@@ -260,16 +260,15 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT M.*, 
-                      FROM MONSTER MO, PLAYER P, ASSOC_MONSTER_ELEMENT AME, ELEMENT E, MATURITY MA, ASSOC_MONSTER_SUB_SPECIE ASP, SUB_SPECIE SSP, SPECIE SP
+            $query = "SELECT DISTINCT M.*, P.ID_PLAYER, E.ID_ELEMENT, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
+                      FROM MONSTER M, PLAYER P, ASSOC_MONSTER_ELEMENT AME, ELEMENT E, MATURITY MA, ASSOC_MONSTER_SUB_SPECIE ASP, SUB_SPECIE SSP, SPECIE SP
                       WHERE M.ID_PLAYER = P.ID_PLAYER 
-                      AND M.ID_PLAYER = AME.ID_MONSTER
+                      AND M.ID_MONSTER = AME.ID_MONSTER
                       AND AME.ID_ELEMENT = E.ID_ELEMENT
                       AND M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_MONSTER = ASP.ID_MONSTER
                       AND ASP.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
-                      AND SSP.ID_SUB_SPECIE = SP.ID_SPECIE
-                      ORDER BY M.SENDDATE DESC";
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
