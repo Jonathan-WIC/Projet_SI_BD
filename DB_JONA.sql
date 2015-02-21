@@ -69,26 +69,6 @@ INSERT INTO `assoc_monster_element` (`ID_ELEMENT`, `ID_MONSTER`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `assoc_monster_sub_specie`
---
-
-CREATE TABLE IF NOT EXISTS `assoc_monster_sub_specie` (
-  `ID_SUB_SPECIE` int(10) NOT NULL AUTO_INCREMENT,
-  `ID_MONSTER` int(10) NOT NULL,
-  PRIMARY KEY (`ID_SUB_SPECIE`,`ID_MONSTER`),
-  KEY `FK_ASSOC_MONSTER_SUB_SPECIE_ID_MONSTER` (`ID_MONSTER`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Contenu de la table `assoc_monster_sub_specie`
---
-
-INSERT INTO `assoc_monster_sub_specie` (`ID_SUB_SPECIE`, `ID_MONSTER`) VALUES
-(5, 1);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `assoc_player_account`
 --
 
