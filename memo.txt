@@ -1,4 +1,4 @@
-Memo :
+﻿Memo :
 - Pour gerer les différents role, on pourrait faire un Header par rôle, renvoyant sur les différentes page associées.
 - Pour ce qui est des admins, on fait des tableau avec des boutons d'action associé à des requetes (un peu comme optitour).
 - pas besoin de pousser trop le design, on fera ça apres.
@@ -51,3 +51,16 @@ RAF: Finir les traiments PHP, les attachers a leurs html (rapide avec un joli Co
 	 paginer / trier les données
 	 optimiser les requetes
 	 éventuellement un peu de CSS
+
+
+UTILISATEUR MySQL
+administrateur - admin  => tout les droit sur DB_MONSTER_PARK
+adminprivilege - priv   => pas accès tables/gerer permissions utilisateur HS
+respindex      - index  => gerer index
+taskauto       - auto   => lancer, arrêter, recharger MySQL/contrôle proc users HS 
+developpeur    - dev    => inserer, modifier, supprimer données DB_M..._P...
+moderateur     - mod    => modifier, supprimer données PLAYER
+specialiste    - spec   => visualiser, modifier données MONSTER
+adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
+editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
+client         - client => visualiser données QUEST, NEWSPAPER
