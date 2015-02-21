@@ -1,10 +1,10 @@
 <?php
-    class MDBase extends PDO {
+    class MDBaseSuperAdmin extends PDO {
 
 
         private static $engine = 'mysql';
 
-        private static $dbName = 'db_monsterpark' ;
+        private static $dbName = 'DB_MONSTER_PARK' ;
         private static $dbHost = 'localhost' ;
         private static $dbUsername = 'root';
         private static $dbUserPassword = '';
@@ -15,11 +15,82 @@
             parent::__construct( $dns, self::$dbUsername, self::$dbUserPassword );
         }
 
+        public function __destruct(){}
+
+        public static function connect()
+        {
+            // One connection through whole application
+            if ( null == self::$cont ){
+                try{
+                    self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbName, self::$dbUsername, self::$dbUserPassword);
+                }
+                catch(PDOException $e){
+                    die($e->getMessage());
+                }
+            }
+            return self::$cont;
+        }
+
         public static function getAllAccounts()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT * FROM ACCOUNT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAssocMonsterElement()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ASSOC_MONSTER_ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAssocMonsterSubSpecie()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ASSOC_MONSTER_SUB_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAssocPlayerAccount()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ASSOC_PLAYER_ACCOUNT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAssocPlyerEnclosure()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ASSOC_PLAYER_ENCLOSURE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAssocPlayerQuest()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ASSOC_PLAYER_QUEST";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -166,7 +237,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SUB_PECIE";
+            $query = "SELECT * FROM SUB_SPECIE";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

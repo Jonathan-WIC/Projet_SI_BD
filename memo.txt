@@ -20,6 +20,9 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 
 RAF :	- Verification du login dans l'index. (switch case style biatch!)
+		- faire un MDBase PAR UTILISATEUR!!!!
+		- Trouver un moyen de stocker ce MDBASE (peut être via un index de $page lors du switch case de connexion);
+		- Dans les tableau de résultat, mettre les attributs "multi-valué" dans des select (HTML);
 	    - Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres);
 	    - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
 	    - Creer des Model pour affiner les requete on fonction de la personne connectée.
@@ -42,10 +45,17 @@ template getAll function
 
 
 Extraction exact des infos selon les requetes :
--Pour les MONSTRES il nous faut : 	- L'ID;
+- Pour les MONSTRES il nous faut : 	- L'ID;
 									- Toutes les caractéristique non clef étrangère;
 									- l'ID du joueur auquel le monstre appartient;
 									- son espece;
 									- sa sous-espece;
 									- son niveau de maturité;
 									- ses éléments
+
+- Pour les PLAYERS il nous faut : 	- L'ID;
+									- Toutes les caractéristique non clef étrangère;
+									- l'ID de ses monstres;
+									- l'ID de ses parks;
+									- l'ID de son compte;
+									- ses transactions
