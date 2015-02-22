@@ -6,8 +6,8 @@
 
         private static $dbName = 'DB_MONSTER_PARK' ;
         private static $dbHost = 'localhost' ;
-        private static $dbUsername = 'root';
-        private static $dbUserPassword = '';
+        private static $dbUsername = 'administrateur';
+        private static $dbUserPassword = 'admin';
         private static $cont  = null;
 
         public function __construct(){
@@ -253,18 +253,16 @@
         }
 
         /**
-        Request to get all monsters information
+        Requests to get all monsters information
         **/
 
         public static function getMonsterInfos()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT DISTINCT M.*, P.ID_PLAYER, E.ID_ELEMENT, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
-                      FROM MONSTER M, PLAYER P, ASSOC_MONSTER_ELEMENT AME, ELEMENT E, MATURITY MA, SUB_SPECIE SSP, SPECIE SP
+            $query = "SELECT M.*, P.ID_PLAYER, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
+                      FROM MONSTER M, PLAYER P, MATURITY MA, SUB_SPECIE SSP, SPECIE SP
                       WHERE M.ID_PLAYER = P.ID_PLAYER 
-                      AND M.ID_MONSTER = AME.ID_MONSTER
-                      AND AME.ID_ELEMENT = E.ID_ELEMENT
                       AND M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND SSP.ID_SPECIE = SP.ID_SPECIE";
@@ -274,5 +272,18 @@
             return $data;
         }
 
+        public static function getMonsterElementsInfos()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT E.LIB_ELEMENT
+                      FROM MONSTER M, ASSOC_MONSTER_ELEMENT AME, ELEMENT E
+                      WHERE M.ID_MONSTER = AME.ID_MONSTER
+                      AND AME.ID_ELEMENT = E.ID_ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
     }
 ?>

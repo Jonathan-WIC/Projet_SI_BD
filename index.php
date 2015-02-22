@@ -12,8 +12,8 @@
         case 'quest':       quest();        break;
         case 'parks':       parks();        break;
         case 'monsters':    monsters();     break;
+        case 'news':        news();         break;
         case 'items':       items();        break;
-        case 'store':       store();        break;
         //case 'failLog':     failLog();      break;
         default : error();
     }
@@ -78,6 +78,15 @@
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/monsters.php';
+    }
+
+    function news()
+    {
+        global $page;
+        $page['title'] = 'News';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/news.php';
     }
 
     function items()

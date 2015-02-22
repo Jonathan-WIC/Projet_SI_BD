@@ -17,6 +17,7 @@
 				<li><a class="linkHeader" href="index.php?EX=quest">Quêtes</a></li>
 				<li><a class="linkHeader" href="index.php?EX=parks">Park</a></li>
 				<li><a class="linkHeader" href="index.php?EX=monsters">Monsters</a></li>
+				<li><a class="linkHeader" href="index.php?EX=news">News</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a class="linkHeader" href="index.php?EX=home">Se déconnecter</a></li>
