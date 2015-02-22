@@ -1,11 +1,12 @@
 <h3>Voici les News du jeu</h3>
 <div id="divNew">
 	<?php 
+		global $page;
 		/**
 			get monsters informations
 		**/
-		$client = new MDBaseClient();
-		$news = $client->getNewsFromGame();
+		$connect = new $_SESSION['model']();
+		$news = $connect->getNewsFromGame();
 
 		//On boucle sur quests pour remplir le tableau
 		$divNews = "";

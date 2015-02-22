@@ -1,5 +1,5 @@
 <?php
-    class MDBaseSuperAdmin extends PDO {
+    class MDBase_administrateur extends PDO {
 
 
         private static $engine = 'mysql';

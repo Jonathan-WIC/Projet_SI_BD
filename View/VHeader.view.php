@@ -5,10 +5,21 @@
 
 		public function __destruct(){}
 
-		public function showHeader()
+		public function showHeader($log)
 		{
 			$vhtml = new VHtml();
-        	$vhtml->showHtml('Html/header.php');
+			$header = 'Html/header.php';
+			switch ($log) {
+				case "MDBase_administrateur": 										break;
+				case "MDBase_adminquest": 	  $header = 'Html/simpleHeader.html';	break;
+				case "MDBase_devloppeur": 	  										break;
+				case "MDBase_moderateur": 	  $header = 'Html/simpleHeader.html';	break;
+				case "MDBase_specialiste": 	  $header = 'Html/simpleHeader.html';	break;
+				case "MDBase_editorialiste":  $header = 'Html/simpleHeader.html';	break;
+				case "MDBase_client": 		  $header = 'Html/headerClient.php';	break;
+				default : 					  $header = 'Html/header.html';			break;
+			}
+        	$vhtml->showHtml($header);
 		} // showHeader()
 	} // VHeader
 ?>
