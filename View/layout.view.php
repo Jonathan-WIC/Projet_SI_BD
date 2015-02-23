@@ -24,7 +24,10 @@
     
     <header>
         <?php 
-            $vheader->showHeader();
+            if (isset($_SESSION['model']))
+                $vheader->showHeader($_SESSION['model']);
+            else
+                $vheader->showHeader(null);
         ?>
     </header>
 
@@ -50,6 +53,7 @@
 
     <script type="text/javascript" src="./Lib/jquery.min.js"></script>
     <script type="text/javascript" src="./Lib/bootstrap.js"></script>
+    <script type="text/javascript" src="./Js/verifConnection.js"></script>
     <?php 
         if (isset($page['script'])) {
             echo '<script src="'.$page['script'].'" /></script>';

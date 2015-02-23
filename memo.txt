@@ -7,6 +7,7 @@
 - balancer de l'ajax pour les requetes?
 - ne pas oublier la pagination et le tri des données.
 - Pour la pagination voir l'utiliation de LIMIT.
+- Pour le tri, c'est du order by. passer des valeur via les header des colonnes.
 
 
 
@@ -67,12 +68,14 @@ UTILISATEURS MySQL:
 LOGIN          - PASS   => FUNCTION   <3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3
 
 administrateur - admin  => tout les droits sur DB_MONSTER_PARK
-adminprivilege - priv   => pas accès tables/gerer permissions utilisateur HS
-respindex      - index  => gerer index
-taskauto       - auto   => lancer, arrêter, recharger MySQL/contrôle proc users HS 
 developpeur    - dev    => inserer, modifier, supprimer données DB_M..._P...
 moderateur     - mod    => modifier, supprimer données PLAYER
 specialiste    - spec   => visualiser, modifier données MONSTER
 adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
 editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
 client         - client => visualiser données QUEST, NEWSPAPER
+
+//don't mess with these:
+adminprivilege - priv   => pas accès tables/gerer permissions utilisateur HS
+respindex      - index  => gerer index
+taskauto       - auto   => lancer, arrêter, recharger MySQL/contrôle proc users HS 
