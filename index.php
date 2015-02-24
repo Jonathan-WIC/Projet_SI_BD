@@ -119,6 +119,7 @@
     {
         global $page;
         $_SESSION['model'] = 'MDBase_specialiste';
+        $page['script'] = 'Js/monstersSpec.js';
         monsters();
     }
     /*
@@ -146,7 +147,6 @@
 
     function logclient()
     {
-        global $page;
         $_SESSION['model'] = 'MDBase_client';
         news();
     }
@@ -159,7 +159,6 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/home.php';
         $page['errorMethod'] = 'showErrorLogin';
-        $page['script'] = 'Js/showErrorLogin.js';
     }
 
 

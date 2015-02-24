@@ -36,10 +36,10 @@
         }
 
         /**
-        get informations about monsters
+        get informations about all monsters and their elements
         **/
 
-        public static function getMonsterInfos()
+        public static function getMonstersInfos()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -54,7 +54,7 @@
             return $data;
         }
 
-        public static function getMonsterElementsInfos()
+        public static function getMonstersElementsInfos()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -67,5 +67,97 @@
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
+
+         /**
+        get informations about 1 monster and his elements
+        **/
+
+        public static function getMonsterInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT M.*, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
+                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP
+                      WHERE M.ID_MATURITY = MA.ID_MATURITY
+                      AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE
+                      AND M.ID_MONSTER = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getMonsterElementsInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT E.LIB_ELEMENT
+                      FROM MONSTER M, ASSOC_MONSTER_ELEMENT AME, ELEMENT E
+                      WHERE M.ID_MONSTER = AME.ID_MONSTER
+                      AND AME.ID_ELEMENT = E.ID_ELEMENT
+                      AND AME.ID_ELEMENT = E.ID_ELEMENT
+                      AND M.ID_MONSTER = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        /**
+            getAll function (used to fill dropdown on alteration's modal)
+        **/
+            
+
+        public static function getAllElements()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        //get all maturity level
+        public static function getAllMaturityLevels()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM MATURITY";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function getAllSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllSubSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM SUB_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
    }
 ?>
