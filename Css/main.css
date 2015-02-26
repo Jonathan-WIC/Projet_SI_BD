@@ -57,3 +57,23 @@ footer{
 .subtitle{
 	text-align: center;
 }
+
+.modal-body{
+	background: #D7BD8D;
+}
+
+.modal-header{
+	background: #5E420D;
+	color: #FFF;
+}
+
+.modal-footer{
+	background: #5E420D;
+	color: #FFF;
+}
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
+}

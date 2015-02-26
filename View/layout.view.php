@@ -31,7 +31,7 @@
         ?>
     </header>
 
-    <div id="divErrorLogin" style="display:none;">
+    <div id="divErrorLogin">
         <?php 
             if (isset($page['errorMethod'])) {
                 $vpage->$page['errorMethod']();
