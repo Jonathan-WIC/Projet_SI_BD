@@ -1,5 +1,44 @@
 <h3>Administrer les monstres du jeu</h3>
-<div>
+
+	
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+	<!-- ------------------------------------------------ Main Page Part -------------------------------------------------- -->
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+
+
+	<!-- ------------------------------------ Search fields ------------------------------------ -->
+
+<div class="col-md-2 search">
+	<div id="leftSearch">
+		<legend>Search</legend>
+		<fieldset id="searchFields">
+			<div>
+				<label>Search by Name</label>
+				<input class="search_bar" id="nameSearch" type="text" placeholder="Name" />
+				<label>Search by specie</label>
+				<select class="search_bar selectSpecies" id="selectSpecies"></select>
+				<label>Search by sub specie</label>
+				<select class="search_bar selectSubSpecies" id="selectSubSpecies" ></select>
+				<label>Search by maturity</label>
+				<select class="search_bar selectMaturity" id="selectMaturity" ></select>
+				<div>
+					<label class="radio-inline">
+						<input type="radio" name="gender" id="searchGenderM" value="M" />M
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="gender" id="searchGenderF" value="F"/>F
+					</label>
+				</div>
+				<br />
+				<button class="btn" id="btnMonsterSearch">Search</button>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+	<!-- ------------------------------------ Table result ------------------------------------ -->
+
+<div class="col-md-10" style="margin-top:2%;">
 	<table id="tableMonsters" class="table table-bordered">
 		<thead>
 			<tr>
@@ -110,14 +149,14 @@
 								<div class="control-group">
 									<label class="control-label" for="selectAlterSpecieMonster">Specie :</label>
 									<div class="controls">
-										<select id="selectAlterSpecieMonster">
+										<select id="selectAlterSpecieMonster" class="selectSpecies">
 										</select>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label" for="selectAlterSubSpecieMonster">Sub Specie:</label>
 									<div class="controls">
-										<select id="selectAlterSubSpecieMonster">
+										<select id="selectAlterSubSpecieMonster" class="selectSubSpecies">
 										</select>
 									</div>
 								</div>
@@ -133,14 +172,14 @@
 								<div class="control-group">
 									<label class="control-label" for="selectAlterMaturityMonster">Maturity :</label>
 									<div class="controls">
-										<select id="selectAlterMaturityMonster">
+										<select id="selectAlterMaturityMonster" class="selectMaturity">
 										</select>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label" for="selectAlterRegimeMonster">Regime :</label>
 									<div class="controls">
-										<select id="selectAlterRegimeMonster">
+										<select id="selectAlterRegimeMonster" class="selectRegime">
 										</select>
 									</div>
 								</div>
@@ -195,7 +234,15 @@
 					<!-- ------------------------------------ Infos on elements ------------------------------------ -->
 
 					<div class="row">
-						
+						<ul class="checkbox-grid">
+						<?php 
+							$j = 18;
+							for($i = 0 ; $i < $j ; ++$i)
+							{
+								echo '<li><input type="checkbox" name="text'.$i.'" value="value'.$i.'" /><label for="text1">Element'.$i.'</label></li>';
+							}
+						?>
+						</ul>
 					</div>
 
 

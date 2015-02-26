@@ -71,3 +71,9 @@ footer{
 	background: #5E420D;
 	color: #FFF;
 }
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
+}

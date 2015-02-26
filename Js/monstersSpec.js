@@ -53,7 +53,7 @@ function fillSelectSpecie(){
 	    dataType: 'json',
 	    success: function(response){
 	    	for(i in response.specie)
-	    		$('#selectAlterSpecieMonster').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
+	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
 	    }
 	});
 };
@@ -66,7 +66,7 @@ function fillSelectSubSpecie(){
 	    dataType: 'json',
 	    success: function(response){
 			for(i in response.subSpecie)
-	    		$('#selectAlterSubSpecieMonster').append('<option value='+ response.subSpecie[i]['ID_SUB_SPECIE'] +'>'+ response.subSpecie[i]['LIB_SUB_SPECIE'] +'</option>');
+	    		$('.selectSubSpecies').append('<option value='+ response.subSpecie[i]['ID_SUB_SPECIE'] +'>'+ response.subSpecie[i]['LIB_SUB_SPECIE'] +'</option>');
 	    }
 	});
 };
@@ -79,7 +79,7 @@ function fillSelectMaturity(){
 	    dataType: 'json',
 	    success: function(response){
 			for(i in response.maturity)
-	    		$('#selectAlterMaturityMonster').append('<option value='+ response.maturity[i]['ID_MATURITY'] +'>'+ response.maturity[i]['LIB_MATURITY'] +'</option>');
+	    		$('.selectMaturity').append('<option value='+ response.maturity[i]['ID_MATURITY'] +'>'+ response.maturity[i]['LIB_MATURITY'] +'</option>');
 	    }
 	});
 };
