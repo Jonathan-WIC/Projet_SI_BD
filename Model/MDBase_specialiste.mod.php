@@ -43,10 +43,11 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT M.*, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
-                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP
+            $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
+                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
+                      AND M.ID_REGIME = R.ID_REGIME
                       AND SSP.ID_SPECIE = SP.ID_SPECIE";
             $qq = $pdo->prepare($query);
             $qq->execute();
@@ -76,11 +77,12 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT M.*, MA.*, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
-                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP
+            $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.*
+                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND SSP.ID_SPECIE = SP.ID_SPECIE
+                      AND M.ID_REGIME = R.ID_REGIME
                       AND M.ID_MONSTER = :ID";
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
@@ -93,10 +95,9 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT E.LIB_ELEMENT
+            $query = "SELECT E.*
                       FROM MONSTER M, ASSOC_MONSTER_ELEMENT AME, ELEMENT E
                       WHERE M.ID_MONSTER = AME.ID_MONSTER
-                      AND AME.ID_ELEMENT = E.ID_ELEMENT
                       AND AME.ID_ELEMENT = E.ID_ELEMENT
                       AND M.ID_MONSTER = :ID";
             $qq = $pdo->prepare($query);
@@ -153,6 +154,18 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT * FROM SUB_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+        
+        //get all regime of monster
+        public static function getAllRegimes()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM REGIME";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

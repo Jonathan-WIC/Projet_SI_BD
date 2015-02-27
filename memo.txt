@@ -1,13 +1,10 @@
 ﻿Memo :
-- Pour gerer les différents role, on pourrait faire un Header par rôle, renvoyant sur les différentes page associées.
-- Pour ce qui est des admins, on fait des tableau avec des boutons d'action associé à des requetes (un peu comme optitour).
+- Refaire la verification des co en passant par le serveur en plus du client.
 - pas besoin de pousser trop le design, on fera ça apres.
-- bien voir comment fonctionne les session, ça va être le plus chiant :s
 - optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
-- balancer de l'ajax pour les requetes?
 - ne pas oublier la pagination et le tri des données.
 - Pour la pagination voir l'utiliation de LIMIT.
-- Pour le tri, c'est du order by. passer des valeur via les header des colonnes.
+- Pour le tri, c'est du order by. passer des valeurs via les headers des colonnes.
 
 
 
@@ -21,19 +18,15 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 
 
-RAF :	- Verification du login dans l'index. (switch case style biatch!)
-		- faire un MDBase PAR UTILISATEUR!!!!
-		- Trouver un moyen de stocker ce MDBASE (peut être via un index de $page lors du switch case de connexion);
-		- Dans les tableau de résultat, mettre les attributs "multi-valué" dans des select (HTML);
-		- Faire des requete personnalisée pour ces attrinut "multi-valué"
-	    - Dropdown par themes de page (style on me Monstre et dans le dropdwon on clae toutes les page liées aux monstres);
-	    - getAll sur toutes les tables de la base de données => on cale tout dans MD base.
+RAF :	- Verification du login côté serveur. (switch case style biatch!)
+		- faire un MDBase PAR UTILISATEUR!!!! (2/7)
+	    - faire des catégories dans l'header que l'on mettra dans des dropdown
 	    - Creer des Model pour affiner les requete on fonction de la personne connectée.
 	    - mettre à jour l'index
 	    - creer/modifier les pages HTML qui vont bien
 	    - Voir pour la pagination
 	    - Voir pour le tri dans les tables.
-	    - Aligner le bouton de logIn.
+	    - Formulaire de recherche pour affiner les requêtes.
 	    - un petit peu de CSS quand même
 
 
@@ -44,16 +37,6 @@ template index
 template Mod/View
 template de layout
 template getAll function
-
-
-Extraction exact des infos selon les requetes :
-- Pour les MONSTRES il nous faut : 	- L'ID;
-									- Toutes les caractéristique non clef étrangère;
-									- l'ID du joueur auquel le monstre appartient;
-									- son espece;
-									- sa sous-espece;
-									- son niveau de maturité;
-									- ses éléments
 
 - Pour les PLAYERS il nous faut : 	- L'ID;
 									- Toutes les caractéristique non clef étrangère;
@@ -73,6 +56,8 @@ moderateur     - mod    => modifier, supprimer données PLAYER
 specialiste    - spec   => visualiser, modifier données MONSTER
 adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
 editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
+
+//---------------------------- FINISH ----------------------------//
 client         - client => visualiser données QUEST, NEWSPAPER
 
 //don't mess with these:

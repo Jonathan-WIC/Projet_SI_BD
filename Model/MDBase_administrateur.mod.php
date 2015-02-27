@@ -230,6 +230,18 @@
             return $data;
         }
 
+        //get all regime of monster
+        public static function getAllRegimes()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM REGIME";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
         public static function getAllSpecies()
         {
             $pdo = self::connect();

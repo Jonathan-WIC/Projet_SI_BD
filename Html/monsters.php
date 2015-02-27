@@ -18,9 +18,13 @@
 				<label>Search by specie</label>
 				<select class="search_bar selectSpecies" id="selectSpecies"></select>
 				<label>Search by sub specie</label>
-				<select class="search_bar selectSubSpecies" id="selectSubSpecies" ></select>
+				<select class="search_bar selectSubSpecies" id="selectSubSpecies"></select>
 				<label>Search by maturity</label>
-				<select class="search_bar selectMaturity" id="selectMaturity" ></select>
+				<select class="search_bar selectMaturity" id="selectMaturity"></select>
+				<label>Search by Regime</label>
+				<select class="search_bar selectRegime" id="selectRegime"></select>
+				<label>Search by Danger Scale</label>
+				<select class="search_bar selectDanger" id="selectDanger"></select>
 				<div>
 					<label class="radio-inline">
 						<input type="radio" name="gender" id="searchGenderM" value="M" />M
@@ -81,12 +85,12 @@
 				//On boucle sur monsters pour remplir le tableau des carac
 				$infosMonster = "";
 				for($i = 0 ; $i < count($monsters) ; ++$i){
-					if($monsters[$i]['ID_PLAYER'] == "") $monsters[$i]['ID_PLAYER'] = "N/A";
+					if($monsters[$i]['ID_PERSO'] == "") $monsters[$i]['ID_PERSO'] = "N/A";
 				    $infosMonster .= '<tr>'.
 				    				 '<td>'.$monsters[$i]['ID_MONSTER'].'</td>'.
 				    				 '<td>'.$monsters[$i]['NAME'].'</td>'.
-				    				 '<td>'.$monsters[$i]['LIB_SUB_SPECIE'].'</td>'.
 				    				 '<td>'.$monsters[$i]['LIB_SPECIE'].'</td>'.
+				    				 '<td>'.$monsters[$i]['LIB_SUB_SPECIE'].'</td>'.
 				    				 '<td>'.$monsters[$i]['GENDER'].'</td>'.
 				    				 '<td>'.$monsters[$i]['AGE'].'</td>'.
 				    				 '<td>'.$monsters[$i]['LIB_MATURITY'].'</td>'.
@@ -95,11 +99,11 @@
 				    				 '<td>'.$monsters[$i]['HEALTH_STATE'].'</td>'.
 				    				 '<td>'.$monsters[$i]['HUNGER_STATE'].'</td>'.
 				    				 '<td>'.$monsters[$i]['CLEAN_SCALE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['REGIME'].'</td>'.
+				    				 '<td>'.$monsters[$i]['LIB_REGIME'].'</td>'.
 				    				 '<td><select>'.$option.'</select></td>';
 
 				    if( $_SESSION['model'] == "MDBase_administrateur")
-				    	$infosMonster .= '<td>'.$monsters[$i]['ID_PLAYER'].'</td>';
+				    	$infosMonster .= '<td>'.$monsters[$i]['ID_PERSO'].'</td>';
 
 				    $infosMonster .= '<td><button class="altMonster" idMonster="'.$monsters[$i]['ID_MONSTER'].'">Mofifier</button></td>'.
 				    				 '</tr>';
@@ -220,9 +224,10 @@
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="alterDangerMonster">Danger :</label>
+								<label class="control-label" for="selectAlterDangerMonster">Danger :</label>
 								<div class="controls">
-									<input type="text" id="alterDangerMonster"/>
+									<select id="selectAlterDangerMonster" class="selectDanger">
+									</select>
 								</div>
 							</div>
 	            		</div>
@@ -234,14 +239,7 @@
 					<!-- ------------------------------------ Infos on elements ------------------------------------ -->
 
 					<div class="row">
-						<ul class="checkbox-grid">
-						<?php 
-							$j = 18;
-							for($i = 0 ; $i < $j ; ++$i)
-							{
-								echo '<li><input type="checkbox" name="text'.$i.'" value="value'.$i.'" /><label for="text1">Element'.$i.'</label></li>';
-							}
-						?>
+						<ul id="listElement" class="checkbox-grid">
 						</ul>
 					</div>
 

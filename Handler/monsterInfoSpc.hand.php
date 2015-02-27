@@ -34,7 +34,7 @@
 			echo $jsonReturned;
 		break;
     	case "element": 
-	    	$element = $connect->getAllElements();
+	    	$elements = $connect->getAllElements();
 			$jsonarray = array("element" => $elements);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;

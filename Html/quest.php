@@ -29,9 +29,9 @@
 
 			    $infosQuests.=  '<tr>'.
 			    				'<td>'.$quests[$i]['ID_QUEST'].'</td>'.
-			    				'<td>'.$quests[$i]['FEE'].'</td>'.
+			    				'<td>'.$quests[$i]['FEE'].' G</td>'.
 			    				'<td>'.$quests[$i]['DATE_DEB'].'</td>'.
-			    				'<td>'.$quests[$i]['DURATION'].'</td>'.
+			    				'<td>'.$quests[$i]['DURATION'].' jours</td>'.
 			    				'</tr>';
 			}
 

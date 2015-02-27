@@ -24,6 +24,12 @@ footer{
 	width: 100%;
 }
 
+/** Size of the font on the search tables's body **/
+
+table>tbody{
+	font-size: 0.85em;
+}
+
 #globalHeader{
 	background: #5E420D;
 }
