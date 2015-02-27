@@ -67,51 +67,7 @@
 				<th>Action</th>
 			</tr>
 		</thead>
-		<tbody>
-			<?php 
-				/**
-					get monsters informations
-				**/
-				$connect = new $_SESSION['model']();
-				$monsters = $connect->getMonstersInfos();
-				$monstersElements = $connect->getMonstersElementsInfos();
-
-				$option = "";
-                //Les values des options du select, les textex aux libelles des elements.
-                for($i = 0 ; $i < count($monstersElements) ; ++$i){
-                    $option .= '<option>'.$monstersElements[$i]['LIB_ELEMENT'].'</option>';
-                }
-
-				//On boucle sur monsters pour remplir le tableau des carac
-				$infosMonster = "";
-				for($i = 0 ; $i < count($monsters) ; ++$i){
-					if($monsters[$i]['ID_PERSO'] == "") $monsters[$i]['ID_PERSO'] = "N/A";
-				    $infosMonster .= '<tr>'.
-				    				 '<td>'.$monsters[$i]['ID_MONSTER'].'</td>'.
-				    				 '<td>'.$monsters[$i]['NAME'].'</td>'.
-				    				 '<td>'.$monsters[$i]['LIB_SPECIE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['LIB_SUB_SPECIE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['GENDER'].'</td>'.
-				    				 '<td>'.$monsters[$i]['AGE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['LIB_MATURITY'].'</td>'.
-				    				 '<td>'.$monsters[$i]['WEIGHT'].'</td>'.
-				    				 '<td>'.$monsters[$i]['DANGER_SCALE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['HEALTH_STATE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['HUNGER_STATE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['CLEAN_SCALE'].'</td>'.
-				    				 '<td>'.$monsters[$i]['LIB_REGIME'].'</td>'.
-				    				 '<td><select>'.$option.'</select></td>';
-
-				    if( $_SESSION['model'] == "MDBase_administrateur")
-				    	$infosMonster .= '<td>'.$monsters[$i]['ID_PERSO'].'</td>';
-
-				    $infosMonster .= '<td><button class="altMonster" idMonster="'.$monsters[$i]['ID_MONSTER'].'">Mofifier</button></td>'.
-				    				 '</tr>';
-				}
-
-				//On affiche enfin nos infosMonsters remplies comme il faut.
-				echo $infosMonster;
-			?>
+		<tbody id="bodyTableMonsters">
 		</tbody>
 	</table>
 
@@ -145,20 +101,20 @@
 						<div class="col-md-6">
 	                        <form class="form-horizontal">
 								<div class="control-group">
-									<label class="control-label" for="alterNameMonster">Name :</label>
+									<label class="control-label" for="alterNameMonster">Name* :</label>
 									<div class="controls">
 										<input type="text" id="alterNameMonster" />
 									</div>
 								</div>
 								<div class="control-group">
-									<label class="control-label" for="selectAlterSpecieMonster">Specie :</label>
+									<label class="control-label" for="selectAlterDangerMonster">Danger :</label>
 									<div class="controls">
-										<select id="selectAlterSpecieMonster" class="selectSpecies">
+										<select id="selectAlterDangerMonster" class="selectDanger">
 										</select>
 									</div>
 								</div>
 								<div class="control-group">
-									<label class="control-label" for="selectAlterSubSpecieMonster">Sub Specie:</label>
+									<label class="control-label" for="selectAlterSubSpecieMonster">Sub Specie :</label>
 									<div class="controls">
 										<select id="selectAlterSubSpecieMonster" class="selectSubSpecies">
 										</select>
@@ -194,40 +150,33 @@
 
 	            		<div class="col-md-6">
 	                	    <div class="control-group">
-								<label class="control-label" for="alterAgeMonster">Age :</label>
+								<label class="control-label" for="alterAgeMonster">Age* :</label>
 								<div class="controls">
 									<input type="number" id="alterAgeMonster" readonly="true"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="alterWeightMonster">Weight :</label>
+								<label class="control-label" for="alterWeightMonster">Weight* :</label>
 								<div class="controls">
 									<input type="number" id="alterWeightMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="alterHungerMonster">Hunger :</label>
+								<label class="control-label" for="alterHungerMonster">Hunger* :</label>
 								<div class="controls">
 									<input type="number" id="alterHungerMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="alterHealthMonster">Health :</label>
+								<label class="control-label" for="alterHealthMonster">Health* :</label>
 								<div class="controls">
 									<input type="number" id="alterHealthMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="alterCleanMonster">Clean :</label>
+								<label class="control-label" for="alterCleanMonster">Clean* :</label>
 								<div class="controls">
 									<input type="number" id="alterCleanMonster"/>
-								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label" for="selectAlterDangerMonster">Danger :</label>
-								<div class="controls">
-									<select id="selectAlterDangerMonster" class="selectDanger">
-									</select>
 								</div>
 							</div>
 	            		</div>
@@ -238,7 +187,8 @@
 					
 					<!-- ------------------------------------ Infos on elements ------------------------------------ -->
 
-					<div class="row">
+					<div id="elementalInfos" class="row">
+						<b>Elements* :</b>
 						<ul id="listElement" class="checkbox-grid">
 						</ul>
 					</div>
@@ -248,7 +198,7 @@
 				<div class="modal-footer">
 					<span class="pull-left">* Required Fields</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-primary" id="btnSaveChangesMonster">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->

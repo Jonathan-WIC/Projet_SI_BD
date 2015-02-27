@@ -59,7 +59,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT E.LIB_ELEMENT
+            $query = "SELECT M.ID_MONSTER, E.LIB_ELEMENT
                       FROM MONSTER M, ASSOC_MONSTER_ELEMENT AME, ELEMENT E
                       WHERE M.ID_MONSTER = AME.ID_MONSTER
                       AND AME.ID_ELEMENT = E.ID_ELEMENT";
@@ -77,11 +77,10 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.*
-                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
+            $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT
+                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
-                      AND SSP.ID_SPECIE = SP.ID_SPECIE
                       AND M.ID_REGIME = R.ID_REGIME
                       AND M.ID_MONSTER = :ID";
             $qq = $pdo->prepare($query);
@@ -170,6 +169,47 @@
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
+        }
+
+        /**
+        Update of monsters
+        **/
+
+        public static function updateMonster($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            var_dump($infos);
+            $query = "  UPDATE MONSTER
+                        SET  NAME = :NAME,
+                             GENDER = :GENDER,
+                             AGE = :AGE,
+                             WEIGHT = :WEIGHT,
+                             DANGER_SCALE = :DANGER_SCALE,
+                             HEALTH_STATE = :HEALTH_STATE,
+                             HUNGER_STATE = :HUNGER_STATE,
+                             CLEAN_SCALE = :CLEAN_SCALE,
+                             ID_SUB_SPECIE = :ID_SUB_SPECIE,
+                             ID_MATURITY = :ID_MATURITY,
+                             ID_REGIME = :ID_REGIME
+                        WHERE ID_MONSTER = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('NAME', $infos['NAME'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('AGE', $infos['AGE'], PDO::PARAM_INT);
+            $qq->bindValue('WEIGHT', $infos['WEIGHT'], PDO::PARAM_INT);
+            $qq->bindValue('DANGER_SCALE', $infos['DANGER_SCALE'], PDO::PARAM_STR);
+            $qq->bindValue('HEALTH_STATE', $infos['HEALTH_STATE'], PDO::PARAM_INT);
+            $qq->bindValue('HUNGER_STATE', $infos['HUNGER_STATE'], PDO::PARAM_INT);
+            $qq->bindValue('CLEAN_SCALE', $infos['CLEAN_SCALE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_SUB_SPECIE', $infos['ID_SUB_SPECIE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_MATURITY', $infos['ID_MATURITY'], PDO::PARAM_INT);
+            $qq->bindValue('ID_REGIME', $infos['ID_REGIME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
         }
 
    }

@@ -2,15 +2,7 @@ body{
 	background: #D7BD8D;
 }
 
-h1{
-	text-align: center;
-}
-
-h2{
-	text-align: center;
-}
-
-h3{
+h1, h2, h3{
 	text-align: center;
 }
 
@@ -82,4 +74,8 @@ table>tbody{
     display: block;
     float: left;
     width: 20%;
+}
+
+#elementalInfos b {
+    margin-left: 5%;
 }
