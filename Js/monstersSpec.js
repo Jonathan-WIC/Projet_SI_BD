@@ -39,8 +39,8 @@ function fillMonsterTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php"+url,
-	    data: {'role': "table" },
+	    url:"Handler/specialiste.hand.php"+url,
+	    data: {'role': "tableMonster" },
 	    dataType: 'json',
 	    success: function(response){
 
@@ -91,12 +91,12 @@ function fillMonsterTable(page){
 									'</a>'+
 								'</li>');
 
-		if (response.page == 1){
+		if (previousPage == 0){
 			$('#previousArrow').attr('class', 'disabled');
 			$('#previousArrow').removeAttr('onclick');
 		}
 		
-		for (var i = 1; i < response.nbPage; i++) {
+		for (var i = 1; i <= response.nbPage; i++) {
 			$('#pagination').append('<li id="page'+i+'""><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
 			if (i == response.page) {
 				$('#page'+i).attr('class', 'active');
@@ -110,7 +110,7 @@ function fillMonsterTable(page){
 									'</a>'+
 								'</li>')
 
-		if (response.page == response.nbPage -1){
+		if (nextPage > response.nbPage){
 			$('#nextArrow').attr('class', 'disabled');
 			$('#nextArrow').removeAttr('onclick');
 		}
@@ -118,71 +118,10 @@ function fillMonsterTable(page){
 	});
 };
 
-function fillSelectSpecie(){
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'role': "specie" },
-	    dataType: 'json',
-	    success: function(response){
-	    	for(i in response.specie)
-	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
-	    }
-	});
-};
-
-function fillSelectSubSpecie(){
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'role': "subSpecie" },
-	    dataType: 'json',
-	    success: function(response){
-			for(i in response.subSpecie)
-	    		$('.selectSubSpecies').append('<option value='+ response.subSpecie[i]['ID_SUB_SPECIE'] +'>'+ response.subSpecie[i]['LIB_SUB_SPECIE'] +'</option>');
-	    }
-	});
-};
-
-function fillSelectMaturity(){
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'role': "maturity" },
-	    dataType: 'json',
-	    success: function(response){
-			for(i in response.maturity)
-	    		$('.selectMaturity').append('<option value='+ response.maturity[i]['ID_MATURITY'] +'>'+ response.maturity[i]['LIB_MATURITY'] +'</option>');
-	    }
-	});
-};
-
-function fillSelectRegime(){
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'role': "regime" },
-	    dataType: 'json',
-	    success: function(response){
-			for(i in response.regime)
-	    		$('.selectRegime').append('<option value='+ response.regime[i]['ID_REGIME'] +'>'+ response.regime[i]['LIB_REGIME'] +'</option>');
-	    }
-	});
-};
-
-function fillSelectDanger(){
-	$('.selectDanger').append(
-		'<option value="INOFFENSIVE">INOFFENSIVE</option>' +
-		'<option value="AGGRESSIVE">AGGRESSIVE</option>'	 +
-		'<option value="DANGEROUS">DANGEROUS</option>'	 +
-		'<option value="MORTAL">MORTAL</option>'
-	);
-};
-
 function fillElementModalGrid(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
+	    url:"Handler/specialiste.hand.php",
 	    data: {'role': "element"},
 	    dataType: 'json',
 	    success: function(response){
@@ -200,8 +139,8 @@ function fillMonsterInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'id': id, 'role': "infos" },
+	    url:"Handler/specialiste.hand.php",
+	    data: {'id': id, 'role': "infosMonster" },
 	    dataType: 'json',
 	    success: function(response){
 	        $('#alterNameMonster').val(response.infos[0]['NAME']);
@@ -238,8 +177,8 @@ function updateMonsterInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'id': id, 'data': elementChecked, 'role': "updateElem" }
+	    url:"Handler/specialiste.hand.php",
+	    data: {'id': id, 'data': elementChecked, 'role': "updateElemMonster" }
 	}).done(function(){
 		var json_option = {
 		    NAME : $('#alterNameMonster').val(),
@@ -257,15 +196,77 @@ function updateMonsterInfos(id){
 
 		$.ajax({
 		    type: "POST", //Sending method
-		    url:"Handler/monsterInfoSpc.hand.php",
-		    data: {'id': id, 'data': json_option, 'role': "update" }
+		    url:"Handler/specialiste.hand.php",
+		    data: {'id': id, 'data': json_option, 'role': "updateMonster" }
 		}).done(function(){
-			fillMonsterTable();
+			var currentPage = $('.active').attr('id').replace("page", "");
+			fillMonsterTable(currentPage);
 			$('#UpdateMonsterModal').modal('hide');
 		});
 
 	});
 
+};
+
+function fillSelectSpecie(){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/specialiste.hand.php",
+	    data: {'role': "specie" },
+	    dataType: 'json',
+	    success: function(response){
+	    	for(i in response.specie)
+	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
+	    }
+	});
+};
+
+function fillSelectSubSpecie(){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/specialiste.hand.php",
+	    data: {'role': "subSpecie" },
+	    dataType: 'json',
+	    success: function(response){
+			for(i in response.subSpecie)
+	    		$('.selectSubSpecies').append('<option value='+ response.subSpecie[i]['ID_SUB_SPECIE'] +'>'+ response.subSpecie[i]['LIB_SUB_SPECIE'] +'</option>');
+	    }
+	});
+};
+
+function fillSelectMaturity(){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/specialiste.hand.php",
+	    data: {'role': "maturity" },
+	    dataType: 'json',
+	    success: function(response){
+			for(i in response.maturity)
+	    		$('.selectMaturity').append('<option value='+ response.maturity[i]['ID_MATURITY'] +'>'+ response.maturity[i]['LIB_MATURITY'] +'</option>');
+	    }
+	});
+};
+
+function fillSelectRegime(){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/specialiste.hand.php",
+	    data: {'role': "regime" },
+	    dataType: 'json',
+	    success: function(response){
+			for(i in response.regime)
+	    		$('.selectRegime').append('<option value='+ response.regime[i]['ID_REGIME'] +'>'+ response.regime[i]['LIB_REGIME'] +'</option>');
+	    }
+	});
+};
+
+function fillSelectDanger(){
+	$('.selectDanger').append(
+		'<option value="INOFFENSIVE">INOFFENSIVE</option>' +
+		'<option value="AGGRESSIVE">AGGRESSIVE</option>'	 +
+		'<option value="DANGEROUS">DANGEROUS</option>'	 +
+		'<option value="MORTAL">MORTAL</option>'
+	);
 };
 
 /*	/////////////////////////////////////////////////////////////////

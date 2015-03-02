@@ -2,9 +2,8 @@
 - Refaire la verification des co en passant par le serveur en plus du client.
 - pas besoin de pousser trop le design, on fera ça apres.
 - optimiser les requete. ya des millions de données, ça va piquer si on fait des trucs mainstream.
-- ne pas oublier la pagination et le tri des données.
-- Pour la pagination voir l'utiliation de LIMIT.
 - Pour le tri, c'est du order by. passer des valeurs via les headers des colonnes.
+- Activer les formulaire de recherche!.
 
 
 
@@ -21,14 +20,16 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 RAF :	- Verification du login côté serveur. (switch case style biatch!)
 		- faire un MDBase PAR UTILISATEUR!!!! (2/7)
 	    - faire des catégories dans l'header que l'on mettra dans des dropdown
-	    - Creer des Model pour affiner les requete on fonction de la personne connectée.
 	    - mettre à jour l'index
 	    - creer/modifier les pages HTML qui vont bien
-	    - Voir pour la pagination
 	    - Voir pour le tri dans les tables.
 	    - Formulaire de recherche pour affiner les requêtes.
 	    - un petit peu de CSS quand même
 
+
+VERIFICATIONS
+	    - /!\ 			RE-VERIFIER LA PAGINATION DANS MONSTER 			/!\
+	    - /!\ VERIFIER LES VALUES AU NIVEAU DU JS POUR L'UPDATE MONSTER /!\
 
 
 snippet à faire :

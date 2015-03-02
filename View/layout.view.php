@@ -55,8 +55,8 @@
     <script type="text/javascript" src="./Lib/bootstrap.js"></script>
     <script type="text/javascript" src="./Js/verifConnection.js"></script>
     <?php 
-        if (isset($page['script'])) {
-            echo '<script src="'.$page['script'].'" /></script>';
+        if (isset($_SESSION['script'])) {
+            echo '<script src="'.$_SESSION['script'].'" /></script>';
         }
     ?>
 

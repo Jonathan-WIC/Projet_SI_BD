@@ -1,7 +1,6 @@
 <?php
     class MDBase_specialiste extends PDO {
 
-
         private static $engine = 'mysql';
 
         private static $dbName = 'DB_MONSTER_PARK' ;
@@ -34,6 +33,12 @@
             }
             return self::$cont;
         }
+
+        /**
+
+                                                REQUESTS ABOUT MONSTERS
+
+        **/
 
         /**
         get informations about all monsters and their elements
@@ -69,8 +74,8 @@
                       AND SSP.ID_SPECIE = SP.ID_SPECIE
                       LIMIT :STARTPAGE, :PERPAGE";
             $qq = $pdo->prepare($query);
-            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             
@@ -128,73 +133,8 @@
             return $data;
         }
 
-
         /**
-            getAll function (used to fill dropdown on alteration's modal)
-        **/
-            
-
-        public static function getAllElements()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM ELEMENT";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }
-
-
-        //get all maturity level
-        public static function getAllMaturityLevels()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM MATURITY";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }
-
-
-        public static function getAllSpecies()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SPECIE";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }
-
-        public static function getAllSubSpecies()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SUB_SPECIE";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }
-        
-        //get all regime of monster
-        public static function getAllRegimes()
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM REGIME";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        }
-
-        /**
-        Update of monsters
+        Update 1 monster
         **/
 
         public static function updateMonster($id, $infos)
@@ -258,6 +198,212 @@
             }
 
             return $result;
+        }
+
+
+        /**
+
+                                                REQUEST ABOUT SPECIES
+    
+        **/
+            
+        public static function countSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillSpecieTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM SPECIE
+                      LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function getSpecieInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM SPECIE
+                      WHERE ID_SPECIE = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updateSpecie($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE SPECIE
+                        SET  LIB_SPECIE = :NAME
+                        WHERE ID_SPECIE = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('NAME', $infos['NAME'], PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                                                REQUEST ABOUT SUB_SPECIES
+    
+        **/
+            
+        public static function countSubSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillSubSpecieTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT SSP.*, SP.LIB_SPECIE
+                      FROM SUB_SPECIE SSP, SPECIE SP
+                      WHERE SSP.ID_SPECIE = SP.ID_SPECIE
+                      LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+   
+        public static function getSubSpecieInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT SSP.*, SP.LIB_SPECIE
+                      FROM SUB_SPECIE SSP, SPECIE SP
+                      WHERE SSP.ID_SUB_SPECIE = :ID
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateSubSpecie($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE SUB_SPECIE
+                        SET  LIB_SUB_SPECIE  = :NAME,
+                             ID_SPECIE   = :ID_SPECIE,
+                             LIB_HABITAT = :HABITAT
+                        WHERE ID_SUB_SPECIE  = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID',        $id,                 PDO::PARAM_INT);
+            $qq->bindValue('NAME',      $infos['NAME'],      PDO::PARAM_STR);
+            $qq->bindValue('ID_SPECIE', $infos['ID_SPECIE'], PDO::PARAM_INT);
+            $qq->bindValue('HABITAT',   $infos['HABITAT'],   PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+            getAll functions (used to fill dropdown on alteration's modal)
+
+        **/
+            
+
+        public static function getAllElements()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        //get all maturity level
+        public static function getAllMaturityLevels()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM MATURITY";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function getAllSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllSubSpecies()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM SUB_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+        
+        //get all regime of monster
+        public static function getAllRegimes()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM REGIME";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
         }
 
    }

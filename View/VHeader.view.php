@@ -12,9 +12,9 @@
 			switch ($log) {
 				case "MDBase_administrateur": 										break;
 				case "MDBase_adminquest": 	  $header = 'Html/simpleHeader.html';	break;
-				case "MDBase_devloppeur": 	  										break;
+				case "MDBase_devloppeur": 	  $header = 'Html/simpleHeader.html';	break;
 				case "MDBase_moderateur": 	  $header = 'Html/simpleHeader.html';	break;
-				case "MDBase_specialiste": 	  $header = 'Html/simpleHeader.html';	break;
+				case "MDBase_specialiste": 	  $header = 'Html/headerSpec.html';		break;
 				case "MDBase_editorialiste":  $header = 'Html/simpleHeader.html';	break;
 				case "MDBase_client": 		  $header = 'Html/headerClient.php';	break;
 				default : 					  $header = 'Html/header.html';			break;

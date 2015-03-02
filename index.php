@@ -9,24 +9,38 @@
 
     switch($EX)
     {
-        case 'home':        home();         break;
-        case 'quest':       quest();        break;
-        case 'parks':       parks();        break;
-        case 'monsters':    monsters();     break;
-        case 'news':        news();         break;
-        case 'items':       items();        break;
-        case 'logadmin':    logadmin();     break;
-        /*case 'failLog':     failLog();      break;
-        case 'failLog':     failLog();      break;*/
-        case 'logspec':     logspec();      break;
-        /*case 'failLog':     failLog();      break;
-        case 'failLog':     failLog();      break;*/
-        case 'logclient':   logclient();    break;
-        case 'failLog':     failLog();      break;
-        default : error();
+        case 'home':            home();         break;
+        case 'quest':           quest();        break;
+        case 'parks':           parks();        break;
+        case 'monsters':        monsters();     break;
+        case 'monstersSpec':    monstersSpec(); break;
+        case 'specieSpec':      specieSpec();   break;
+        case 'subSpecieSpec':   subSpecieSpec();break;
+        case 'elementsSpec':    elementsSpec(); break;
+        case 'regimeSpec':      regimeSpec();   break;
+        case 'maturitySpec':    maturitySpec(); break;
+        case 'news':            news();         break;
+        case 'items':           items();        break;
+        case 'logadmin':        logadmin();     break;
+        /*case 'failLog':       failLog();      break;
+        case 'failLog':         failLog();      break;*/
+        case 'logspec':         logspec();      break;
+        /*case 'failLog':       failLog();      break;
+        case 'failLog':         failLog();      break;*/
+        case 'logclient':       logclient();    break;
+        case 'failLog':         failLog();      break;
+        default :               error();
     }
 
     require('./View/layout.view.php');
+
+
+    /**
+
+    Pages functions
+    
+    **/
+
 
     function home()
     {
@@ -41,6 +55,10 @@
         $page['arg'] = 'Html/home.php';
     }
 
+    /**
+    Access to quest pages
+    **/
+
     function quest()
     {
         global $page;
@@ -49,6 +67,10 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/quest.php';
     }
+
+    /**
+    Access to park pages
+    **/
 
     function parks()
     {
@@ -60,6 +82,10 @@
 
     }
 
+    /**
+    Access to monsters pages
+    **/
+
     function monsters()
     {
         global $page;
@@ -68,6 +94,65 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/monsters.php';
     }
+
+    function monstersSpec()
+    {
+        $_SESSION['script'] = 'Js/monstersSpec.js';
+        monsters();
+    }
+
+    function specieSpec(){
+        $_SESSION['script'] = 'JS/specieSpec.js';
+        global $page;
+        $page['title'] = 'Species';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/specie.php';
+    }         
+
+
+    function subSpecieSpec(){
+        $_SESSION['script'] = 'JS/subSpecieSpec.js';
+        global $page;
+        $page['title'] = 'Sub Species';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/subSpecie.php';
+    }   
+
+
+    function elementsSpec(){
+        $_SESSION['script'] = '';
+        global $page;
+        $page['title'] = '';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/.php';
+    }     
+
+
+    function regimeSpec(){
+        $_SESSION['script'] = '';
+        global $page;
+        $page['title'] = '';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/.php';
+    }         
+
+
+    function maturitySpec(){
+        $_SESSION['script'] = '';
+        global $page;
+        $page['title'] = '';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/.php';
+    }     
+
+    /**
+    Access to news pages
+    **/
 
     function news()
     {
@@ -78,6 +163,10 @@
         $page['arg'] = 'Html/news.php';
     }
 
+    /**
+    Access to item pages
+    **/
+
     function items()
     {
         global $page;
@@ -86,6 +175,12 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/items.php';
     }
+
+    /**
+
+    Login functions
+    
+    **/
 
     function logadmin()
     {
@@ -119,9 +214,9 @@
     {
         global $page;
         $_SESSION['model'] = 'MDBase_specialiste';
-        $page['script'] = 'Js/monstersSpec.js';
-        monsters();
+        monstersSpec();
     }
+
     /*
     function failLog()
     {
@@ -151,6 +246,14 @@
         news();
     }
     
+
+    /**
+
+    Error functions
+    
+    **/
+
+
     function failLog()
     {
         global $page;

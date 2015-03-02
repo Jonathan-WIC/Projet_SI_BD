@@ -3,12 +3,6 @@ $(document).ready(function(){
 	$('#btnLog').click(function(){
 		identificationSwich();
 	});
- 
-	$('#content').keypress(function(e){
-	    if( e.which == 13 ){	//Si on appui sur la touche entrée
-	       identificationSwich();
-	    }
-	});
 
 });
 
