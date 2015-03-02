@@ -4,18 +4,13 @@ $(document).ready(function(){
     /////////////////// fill dropdowns of modal ////////////////////
     ////////////////////////////////////////////////////////////////
 
-    fillMonsterTable();
+    fillMonsterTable(0);
     fillSelectSpecie();
     fillSelectSubSpecie();
     fillSelectMaturity();
     fillSelectRegime();
     fillSelectDanger();
     fillElementModalGrid();
-
-	/////////////////////////////////////////////////////////////////
-    /////////////// get infos from the current monster //////////////
-    /////////////////////////////////////////////////////////////////
-
 
 	/////////////////////////////////////////////////////////////////
     ////////////// update infos of the current monster //////////////
@@ -26,12 +21,25 @@ $(document).ready(function(){
 		updateMonsterInfos(dataID);
 	});
 
-});
 
-function fillMonsterTable(){
+
+	$('#UpdateMonsterModal').on('hide.bs.modal', function(){
+		$('#listElement').empty();
+		fillElementModalGrid();
+	});
+
+});//Ready
+
+function fillMonsterTable(page){
+
+	var url = "";
+	if (page != 0){
+		url = "?p=" + page;
+	}
+
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/monsterInfoSpc.hand.php",
+	    url:"Handler/monsterInfoSpc.hand.php"+url,
 	    data: {'role': "table" },
 	    dataType: 'json',
 	    success: function(response){
@@ -57,7 +65,7 @@ function fillMonsterTable(){
 													'<select id="elementMonster'+response.infos[i]['ID_MONSTER']+'" class="elementMonsterTable">'+
 													'</select></td>'+
 												'<td>'+
-													'<button class="altMonster" idMonster="'+response.infos[i]['ID_MONSTER']+'" onclick="fillMonsterInfos('+ response.infos[i]['ID_MONSTER'] +');" >Mofifier'+
+													'<button class="altMonster" idMonster="'+response.infos[i]['ID_MONSTER']+'" onclick="fillMonsterInfos('+ response.infos[i]['ID_MONSTER'] +');" >Modif'+
 													'</button>'+
 												'</td>'+
 				    				 			'</tr>');
@@ -71,6 +79,42 @@ function fillMonsterTable(){
             //On cherche les selects qui ne sont pas remplis (les mob qui n'ont pas d'éléments) et on met le 'N/A' par défaut
             $('.elementMonsterTable:empty').append('<option>N/A</option>');
 	    }
+	}).done(function(response){
+
+		var previousPage = parseInt(response.page - 1);
+		var nextPage = parseInt(response.page) + 1;
+
+		$('#pagination').empty();
+		$('#pagination').append('<li id="previousArrow" onclick="fillMonsterTable('+ previousPage +')">'+
+									'<a href="#" aria-label="Previous">'+
+										'<span aria-hidden="true">&laquo;</span>'+
+									'</a>'+
+								'</li>');
+
+		if (response.page == 1){
+			$('#previousArrow').attr('class', 'disabled');
+			$('#previousArrow').removeAttr('onclick');
+		}
+		
+		for (var i = 1; i < response.nbPage; i++) {
+			$('#pagination').append('<li id="page'+i+'""><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
+			if (i == response.page) {
+				$('#page'+i).attr('class', 'active');
+			}
+		}
+
+
+		$('#pagination').append('<li id="nextArrow" onclick="fillMonsterTable('+nextPage+')">'+
+									'<a href="#" aria-label="Next">'+
+										'<span aria-hidden="true">&raquo;</span>'+
+									'</a>'+
+								'</li>')
+
+		if (response.page == response.nbPage -1){
+			$('#nextArrow').attr('class', 'disabled');
+			$('#nextArrow').removeAttr('onclick');
+		}
+		
 	});
 };
 
@@ -144,7 +188,7 @@ function fillElementModalGrid(){
 	    success: function(response){
 	    	for(i in response.element){
 	        	$('#listElement').append('<li>'+
-	        							 '<input id="Elem_'+response.element[i]['LIB_ELEMENT']+'" type="checkbox" name="'+response.element[i]['LIB_ELEMENT']+'" value="'+response.element[i]['ID_ELEMENT']+'" />'+
+	        							 '<input id="Elem_'+response.element[i]['LIB_ELEMENT']+'" type="checkbox" name="elementMob" value="'+response.element[i]['ID_ELEMENT']+'" />'+
 	        							 '<label for="'+response.element[i]['LIB_ELEMENT']+'">'+response.element[i]['LIB_ELEMENT']+'</label>'+
 	        							 '</li>');
 	        }
@@ -183,29 +227,55 @@ function fillMonsterInfos(id){
 
 function updateMonsterInfos(id){
 
-	var json_option = {
-	    NAME : $('#alterNameMonster').val(),
-	    GENDER : $('#selectAlterGenderMonster').val(),
-	    AGE : $('#alterAgeMonster').val(),
-	    WEIGHT : $('#alterWeightMonster').val(),
-	    DANGER_SCALE : $('#selectAlterDangerMonster').val(),
-	    HEALTH_STATE : $('#alterHealthMonster').val(),
-	    HUNGER_STATE : $('#alterHungerMonster').val(),
-	    CLEAN_SCALE : $('#alterCleanMonster').val(),
-	    ID_SUB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
-	    ID_MATURITY : $('#selectAlterMaturityMonster').val(),
-	    ID_REGIME : $('#selectAlterRegimeMonster').val()
-	};
+	/*****************************
+	 ****** Update elements ******
+	 *****************************/
+
+	var elementChecked = new Array();
+	$("input:checked[name=elementMob]").each(function() { //get the ID of all elements selected
+		elementChecked.push($(this).val());
+	});
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/monsterInfoSpc.hand.php",
-	    data: {'id': id, 'data': json_option, 'role': "update" },
-	    success: function(response){
-	    	console.log("success!");
-	    }
+	    data: {'id': id, 'data': elementChecked, 'role': "updateElem" }
 	}).done(function(){
-		fillMonsterTable();
-		$('#UpdateMonsterModal').modal('hide');
+		var json_option = {
+		    NAME : $('#alterNameMonster').val(),
+		    GENDER : $('#selectAlterGenderMonster').val(),
+		    AGE : $('#alterAgeMonster').val(),
+		    WEIGHT : $('#alterWeightMonster').val(),
+		    DANGER_SCALE : $('#selectAlterDangerMonster').val(),
+		    HEALTH_STATE : $('#alterHealthMonster').val(),
+		    HUNGER_STATE : $('#alterHungerMonster').val(),
+		    CLEAN_SCALE : $('#alterCleanMonster').val(),
+		    ID_SUB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
+		    ID_MATURITY : $('#selectAlterMaturityMonster').val(),
+		    ID_REGIME : $('#selectAlterRegimeMonster').val()
+		};
+
+		$.ajax({
+		    type: "POST", //Sending method
+		    url:"Handler/monsterInfoSpc.hand.php",
+		    data: {'id': id, 'data': json_option, 'role': "update" }
+		}).done(function(){
+			fillMonsterTable();
+			$('#UpdateMonsterModal').modal('hide');
+		});
+
 	});
+
 };
+
+/*	/////////////////////////////////////////////////////////////////
+    ////////////////// Check/Uncheck all checkbox  //////////////////
+    /////////////////////////////////////////////////////////////////
+
+	$("#selectAll").click( function(){
+		if( $(this).is(':checked') )
+			$('.checkboxMstr').prop('checked', true);
+		else
+			$('.checkboxMstr').prop('checked', false);
+	});
+*/

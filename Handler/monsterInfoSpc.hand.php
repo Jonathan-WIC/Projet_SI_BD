@@ -2,10 +2,21 @@
     require('../Model/MDBase_specialiste.mod.php');
     $connect = new MDBase_specialiste();
     switch($_POST['role']){
-    	case "table": 
-	    	$monsters = $connect->getMonstersInfos();
+    	case "table":
+
+
+    		$total = $connect->countMonsters(); 			// Nombre total de résultat
+    		$perPage = 2;                   				// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_MOB'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$monsters = $connect->getMonstersInfos($currentPage, $perPage);
 	    	$monstersElements = $connect->getMonstersElementsInfos();
-	    	$jsonarray = array("infos" => $monsters, "element" => $monstersElements);
+	    	$jsonarray = array("infos" => $monsters, "element" => $monstersElements, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;
@@ -43,6 +54,15 @@
     	case "element": 
 	    	$elements = $connect->getAllElements();
 			$jsonarray = array("element" => $elements);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "updateElem":
+    		if (!isset($_POST['data'])) {
+    		    $_POST['data'] = 0;
+    		}
+	    	$result = $connect->updateElemMonster($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;

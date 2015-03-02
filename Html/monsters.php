@@ -49,7 +49,7 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Specie</th>
-				<th>Sub specie</th>
+				<th>Family</th>
 				<th>Gender</th>
 				<th>Age</th>
 				<th>Maturity</th>
@@ -70,18 +70,15 @@
 		<tbody id="bodyTableMonsters">
 		</tbody>
 	</table>
-
-
-
+	<nav>
+		<ul id="pagination" class="pagination">
+		</ul>
+	</nav>
 
 
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
 	<!-- ------------------------------------------------  Modals elements -------------------------------------------------- -->
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
-
-
-
-
 
 	
 	<div id="UpdateMonsterModal" class="modal fade">
@@ -205,26 +202,3 @@
 	</div><!-- /.modal -->
 
 </div>
-
-
-<!--
-
-	<div class="col-md-10">
-		<label class="control-label" for="inputChildAddEvent">Child ? </label>
-		<div class="controls">
-			<input type="checkbox" id="inputINSEEUpEvent" checked />
-		</div>
-		<label class="control-label" for="inputChildAddEvent">Child ? </label>
-		<div class="controls">
-			<input type="checkbox" id="inputINSEEUpEvent" checked />
-		</div>
-		<label class="control-label" for="inputChildAddEvent">Child ? </label>
-		<div class="controls">
-			<input type="checkbox" id="inputINSEEUpEvent" checked />
-		</div>
-		<label class="control-label" for="inputChildAddEvent">Child ? </label>
-		<div class="controls">
-			<input type="checkbox" id="inputINSEEUpEvent" checked />
-		</div>
-	</div>
--->

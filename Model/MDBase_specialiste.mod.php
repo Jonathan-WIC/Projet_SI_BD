@@ -39,19 +39,41 @@
         get informations about all monsters and their elements
         **/
 
-        public static function getMonstersInfos()
+        public static function countMonsters()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT COUNT(M.ID_MONSTER) AS NB_MOB
+                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
+                      WHERE M.ID_MATURITY = MA.ID_MATURITY
+                      AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
+                      AND M.ID_REGIME = R.ID_REGIME
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE"; 
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getMonstersInfos($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
                       FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND M.ID_REGIME = R.ID_REGIME
-                      AND SSP.ID_SPECIE = SP.ID_SPECIE";
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE
+                      LIMIT :STARTPAGE, :PERPAGE";
             $qq = $pdo->prepare($query);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            
             return $data;
         }
 
@@ -179,7 +201,6 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            var_dump($infos);
             $query = "  UPDATE MONSTER
                         SET  NAME = :NAME,
                              GENDER = :GENDER,
@@ -209,6 +230,33 @@
             $qq->bindValue('ID_MATURITY', $infos['ID_MATURITY'], PDO::PARAM_INT);
             $qq->bindValue('ID_REGIME', $infos['ID_REGIME'], PDO::PARAM_INT);
             $result = $qq->execute();
+            return $result;
+        }
+
+        public static function updateElemMonster($id, $infos)
+        {
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "DELETE FROM ASSOC_MONSTER_ELEMENT WHERE ID_MONSTER = :ID;";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            if($infos != 0){
+                $query = "INSERT INTO ASSOC_MONSTER_ELEMENT (ID_MONSTER, ID_ELEMENT) VALUES (:ID, :ELEMENTID);";
+                
+                $qq = $pdo->prepare($query);
+                $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+                for($i = 0 ; $i < count($infos) ; ++$i)
+                {
+                    $qq->bindValue('ELEMENTID', $infos[$i], PDO::PARAM_INT);
+                    $result = $qq->execute();
+                }
+            }
+
             return $result;
         }
 

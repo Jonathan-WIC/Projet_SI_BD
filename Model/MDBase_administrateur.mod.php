@@ -297,5 +297,25 @@
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
+
+        /**
+        Delete monsters
+        **/
+
+        public static function deleteMonster($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  DELETE FROM ASSOC_MONSTER_ELEMENT
+                        WHERE ID_MONSTER = :ID;
+                        DELETE FROM MONSTER
+                        WHERE ID_MONSTER = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
     }
 ?>
