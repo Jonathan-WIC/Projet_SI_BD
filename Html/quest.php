@@ -1,43 +1,65 @@
-<h3>Administrer les quêtes du jeu</h3>
-<div>
-	<table id="tableQuest" class="table table-bordered">
+<h3>Consulter les Quêtes du jeu</h3>
+
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+	<!-- ------------------------------------------------ Main Page Part -------------------------------------------------- -->
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+
+
+	<!-- ------------------------------------ Search fields ------------------------------------ -->
+
+<div class="col-md-3 search">
+	<div id="leftSearch">
+		<legend>Search</legend>
+		<fieldset id="searchFields">
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchDateQuest">Date :</label>
+				<div class="controls">
+					<input type="datetime" id="searchDateQuest" name="searchDateQuest">
+				</div>
+			</div>
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchDurationQuest">Duration :</label>
+				<div class="controls">
+					<input type="number" id="searchDurationQuest" name="searchDurationQuest">
+				</div>
+			</div>
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchMinFeeQuest">Minimal Fee :</label>
+				<div class="controls">
+					<input type="number" id="searchMinFeeQuest" name="searchMinFeeQuest">
+				</div>
+			</div>
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchMaxFeeQuest">Date :</label>
+				<div class="controls">
+					<input type="number" id="searchMaxFeeQuest" name="searchMaxFeeQuest">
+				</div>
+			</div>
+			<div>
+				<button class="btn" id="btnQuestSearch">Search</button>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+	<!-- ------------------------------------ Table result ------------------------------------ -->
+
+<div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
+	<table id="tableQuests" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>Id</th>
+				<th>Starting date</th>
+				<th>Duration</th>
 				<th>Fee</th>
-				<th>Starting Date</th>
-				<th>Durée</th>
 			</tr>
 		</thead>
-		<tbody>
-		<?php
-			global $page;
-
-			/**
-				get monsters informations
-			**/
-			$connect = new $_SESSION['model']();
-			$quests = $connect->getAllQuests();
-
-			//On boucle sur quests pour remplir le tableau
-			$infosQuests = "";
-			for($i = 0 ; $i < count($quests) ; ++$i){
-				/*if($quests[$i]['IS_COMPLETED'] == 1)
-					$quests[$i]['IS_COMPLETED'] = "Yes";
-				else
-					$quests[$i]['IS_COMPLETED'] = "No";*/
-
-			    $infosQuests.=  '<tr>'.
-			    				'<td>'.$quests[$i]['ID_QUEST'].'</td>'.
-			    				'<td>'.$quests[$i]['FEE'].' G</td>'.
-			    				'<td>'.$quests[$i]['DATE_DEB'].'</td>'.
-			    				'<td>'.$quests[$i]['DURATION'].' jours</td>'.
-			    				'</tr>';
-			}
-
-			//On affiche enfin nos infosMonsters remplies comme il faut.
-			echo $infosQuests;
-		?>
+		<tbody id="bodyTableQuests">
 		</tbody>
 	</table>
+	<nav>
+		<ul id="pagination" class="pagination">
+		</ul>
+	</nav>
+
 </div>

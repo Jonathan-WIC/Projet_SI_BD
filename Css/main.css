@@ -31,11 +31,6 @@ table>tbody{
 	text-align: center;
 }
 
-#divNews{
-	border-style: dashed;
-	border-radius: 5%;
-}
-
 #loginForm{
 	text-align: left;
 	margin: auto;
@@ -78,4 +73,20 @@ table>tbody{
 
 #elementalInfos b {
     margin-left: 5%;
+}
+
+.divNewspaper {
+    background: #FFE6C2;
+    border-radius: 10px;
+    margin-bottom: 2%;
+}
+
+.divNewspaper:hover {
+    background: #5E420D;
+    color: #FFF;
+}
+
+.dateDivNewspaper {
+    text-align: right;
+    margin-left: 65%;
 }

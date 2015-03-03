@@ -9,7 +9,8 @@
 
 
 Modfication de la BDD :
-- Supprimer la colonne maturity_level
+- Supprimer la colonne maturity_level pour MATURITY
+- Ajouter   la colonne RESUME         pour NEWSPAPER
 
 
 Les differents users:

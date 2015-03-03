@@ -14,8 +14,8 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="navbar-header">
 			<ul class="nav navbar-nav">
-				<li><a class="linkHeader" href="index.php?EX=quest">Quêtes</a></li>
-				<li><a class="linkHeader" href="index.php?EX=news">News</a></li>
+				<li><a class="linkHeader" href="index.php?EX=newsClient">News</a></li>
+				<li><a class="linkHeader" href="index.php?EX=questClient">Quêtes</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a class="linkHeader" href="index.php?EX=home">Se déconnecter</a></li>

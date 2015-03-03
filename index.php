@@ -11,6 +11,7 @@
     {
         case 'home':            home();         break;
         case 'quest':           quest();        break;
+        case 'questClient':     questClient();  break;
         case 'parks':           parks();        break;
         case 'monsters':        monsters();     break;
         case 'monstersSpec':    monstersSpec(); break;
@@ -20,6 +21,7 @@
         case 'regimeSpec':      regimeSpec();   break;
         case 'maturitySpec':    maturitySpec(); break;
         case 'news':            news();         break;
+        case 'newsClient':      newsClient();   break;
         case 'items':           items();        break;
         case 'logadmin':        logadmin();     break;
         /*case 'failLog':       failLog();      break;
@@ -66,6 +68,12 @@
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/quest.php';
+    }
+
+    function questClient()
+    {
+        $_SESSION['script'] = 'Js/questClient.js';
+        quest();
     }
 
     /**
@@ -163,6 +171,12 @@
         $page['arg'] = 'Html/news.php';
     }
 
+    function newsClient()
+    {
+        $_SESSION['script'] = 'Js/newsClient.js';
+        news();
+    }
+
     /**
     Access to item pages
     **/
@@ -243,7 +257,7 @@
     function logclient()
     {
         $_SESSION['model'] = 'MDBase_client';
-        news();
+        newsClient();
     }
     
 

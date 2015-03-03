@@ -11,7 +11,7 @@
 
     	case "tableMonster":
     		$total = $connect->countMonsters(); 			// Nombre total de résultat
-    		$perPage = 20;                   				// Nombre de resultat par page
+    		$perPage = 10;                   				// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_MOB'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
     		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
