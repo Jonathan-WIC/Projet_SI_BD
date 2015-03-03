@@ -223,8 +223,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM SPECIE
-                      LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM SPECIE LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -239,8 +238,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM SPECIE
-                      WHERE ID_SPECIE = :ID";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE = :ID";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
@@ -254,9 +252,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "  UPDATE SPECIE
-                        SET  LIB_SPECIE = :NAME
-                        WHERE ID_SPECIE = :ID";
+            $query = "  UPDATE SPECIE SET LIB_SPECIE = :NAME WHERE ID_SPECIE = :ID";
 
             $qq = $pdo->prepare($query);
 
@@ -342,7 +338,190 @@
 
         /**
 
-            getAll functions (used to fill dropdown on alteration's modal)
+                                                REQUEST ABOUT ELEMENTS
+    
+        **/
+            
+        public static function countElement()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_ELEMENT) AS NB_ELEMENT FROM ELEMENT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillElementTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ELEMENT LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+   
+        public static function getElementInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ELEMENT WHERE ID_ELEMENT = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateElement($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE ELEMENT SET LIB_ELEMENT = :NAME WHERE ID_ELEMENT = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID',    $id,             PDO::PARAM_INT);
+            $qq->bindValue('NAME',  $infos['NAME'],  PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                                                REQUEST ABOUT REGIME
+    
+        **/
+            
+        public static function countRegime()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillRegimeTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM REGIME LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+   
+        public static function getRegimeInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateRegime($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE REGIME SET LIB_REGIME = :NAME WHERE ID_REGIME = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID',    $id,            PDO::PARAM_INT);
+            $qq->bindValue('NAME',  $infos['NAME'], PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                                                REQUEST ABOUT MATURITY
+    
+        **/
+            
+        public static function countMaturity()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+   
+        public static function fillMaturityTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM MATURITY LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function getMaturityInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateMaturity($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE MATURITY SET LIB_MATURITY = :NAME WHERE ID_MATURITY = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID',    $id,            PDO::PARAM_INT);
+            $qq->bindValue('NAME',  $infos['NAME'], PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                            getAll functions (used to fill dropdown on alteration's modal)
 
         **/
             

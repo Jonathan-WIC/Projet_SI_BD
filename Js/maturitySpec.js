@@ -4,21 +4,21 @@ $(document).ready(function(){
     ////////////////////// fill Table of page //////////////////////
     ////////////////////////////////////////////////////////////////
 
-    fillSpecieTable(0);
-    fillSelectSpecie();
+    fillMaturityTable(0);
+    fillSelectMaturity();
 
 	/////////////////////////////////////////////////////////////////
-    ////////////// update infos of the current Specie ///////////////
+    ////////////// update infos of the current Maturity //////////////
     /////////////////////////////////////////////////////////////////
 
-	$('#btnSaveChangesSpecie').click(function(){
-		var dataID = $(this).attr('idSpecie'); // get the current monster's ID
-		updateSpecieInfos(dataID);
+	$('#btnSaveChangesMaturity').click(function(){
+		var dataID = $(this).attr('idMaturity'); // get the current monster's ID
+		updateMaturityInfos(dataID);
 	});
 
 });//Ready
 
-function fillSpecieTable(page){
+function fillMaturityTable(page){
 
 	var url = "";
 	if (page != 0){
@@ -28,18 +28,18 @@ function fillSpecieTable(page){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableSpecie" },
+	    data: {'role': "tableMaturity" },
 	    dataType: 'json',
 	    success: function(response){
 
-			$('#bodyTableSpecies').empty();
+			$('#bodyTableMaturitys').empty();
 			//On boucle sur monsters pour remplir le tableau des carac
-			for(i in response.specie){
-			    $('#bodyTableSpecies').append( '<tr>'+
-												'<td>'+response.specie[i]['ID_SPECIE']+'</td>'+
-												'<td>'+response.specie[i]['LIB_SPECIE']+'</td>'+
+			for(i in response.maturity){
+			    $('#bodyTableMaturitys').append( '<tr>'+
+												'<td>'+response.maturity[i]['ID_MATURITY']+'</td>'+
+												'<td>'+response.maturity[i]['LIB_MATURITY']+'</td>'+
 												'<td>'+
-													'<button class="altSpecie" idSpecie="'+response.specie[i]['ID_SPECIE']+'" onclick="fillSpecieInfos('+response.specie[i]['ID_SPECIE']+');" >Modif'+
+													'<button class="altMaturity" idMaturity="'+response.maturity[i]['ID_MATURITY']+'" onclick="fillMaturityInfos('+response.maturity[i]['ID_MATURITY']+');" >Modif'+
 													'</button>'+
 												'</td>'+
 				    				 			'</tr>');
@@ -51,7 +51,7 @@ function fillSpecieTable(page){
 		var nextPage = parseInt(response.page) + 1;
 
 		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillSpecieTable('+ previousPage +')">'+
+		$('#pagination').append('<li id="previousArrow" onclick="fillMaturityTable('+ previousPage +')">'+
 									'<a href="#" aria-label="Previous">'+
 										'<span aria-hidden="true">&laquo;</span>'+
 									'</a>'+
@@ -63,14 +63,14 @@ function fillSpecieTable(page){
 		}
 		
 		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillSpecieTable('+i+')">'+i+'</a></li>');
+			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillMaturityTable('+i+')">'+i+'</a></li>');
 			if (i == response.page) {
 				$('#page'+i).attr('class', 'active');
 			}
 		}
 
 
-		$('#pagination').append('<li id="nextArrow" onclick="fillSpecieTable('+nextPage+')">'+
+		$('#pagination').append('<li id="nextArrow" onclick="fillMaturityTable('+nextPage+')">'+
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
 									'</a>'+
@@ -84,48 +84,49 @@ function fillSpecieTable(page){
 	});
 };
 
-function fillSpecieInfos(id){
+function fillMaturityInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'id': id, 'role': "infosSpecies" },
+	    data: {'id': id, 'role': "infosMaturitys" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#alterNameSpecie').val(response.specieInfos[0]['LIB_SPECIE']);
+	         $('#alterNameMaturity').val(response.maturityInfos[0]['LIB_MATURITY']);
 	    }
 	});
-	$('#btnSaveChangesSpecie').attr('idSpecie', id); //get the ID for the Updtae fonction
-	$('#UpdateSpecieModal').modal('show');
+	$('#btnSaveChangesMaturity').attr('idMaturity', id); //get the ID for the Updtae fonction
+	$('#UpdateMaturityModal').modal('show');
 };
 
-function updateSpecieInfos(id){
+function updateMaturityInfos(id){
 
 	var json_option = {
-	    NAME : $('#alterNameSpecie').val()
+	    NAME : $('#alterNameMaturity').val()
 	};
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'id': id, 'data': json_option, 'role': "updateSpecie" }
+	    data: {'id': id, 'data': json_option, 'role': "updateMaturity" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
-		fillSpecieTable(currentPage);
-		$('#UpdateSpecieModal').modal('hide');
+		fillMaturityTable(currentPage);
+		$('#UpdateMaturityModal').modal('hide');
 	});
 
 };
 
-function fillSelectSpecie(){
+function fillSelectMaturity(){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'role': "specie" },
+	    data: {'role': "maturity"},
 	    dataType: 'json',
 	    success: function(response){
-	    	for(i in response.specie)
-	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
+	    	for(i in response.maturity){
+	    		$('.selectMaturitys').append('<option value='+ response.maturity[i]['ID_MATURITY'] +'>'+ response.maturity[i]['LIB_MATURITY'] +'</option>');
+	        }
 	    }
 	});
 };

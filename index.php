@@ -122,32 +122,32 @@
 
 
     function elementsSpec(){
-        $_SESSION['script'] = '';
+        $_SESSION['script'] = 'JS/elementSpec.js';
         global $page;
-        $page['title'] = '';
+        $page['title'] = 'Elements';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/.php';
+        $page['arg'] = 'Html/element.php';
     }     
 
 
     function regimeSpec(){
-        $_SESSION['script'] = '';
+        $_SESSION['script'] = 'JS/regimeSpec.js';
         global $page;
-        $page['title'] = '';
+        $page['title'] = 'Regimes';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/.php';
+        $page['arg'] = 'Html/regime.php';
     }         
 
 
     function maturitySpec(){
-        $_SESSION['script'] = '';
+        $_SESSION['script'] = 'JS/maturitySpec.js';
         global $page;
-        $page['title'] = '';
+        $page['title'] = 'Maturity';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/.php';
+        $page['arg'] = 'Html/maturity.php';
     }     
 
     /**

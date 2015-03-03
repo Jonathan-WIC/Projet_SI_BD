@@ -124,6 +124,117 @@
 
 		/**
 
+		Element Handler
+
+		**/
+
+    	case "tableElement":
+
+    		$total = $connect->countElement(); 						// Nombre total de résultat
+    		$perPage = 20;                   						// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_ELEMENT'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    						// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
+
+	    	$elements = $connect->fillElementTable($currentPage, $perPage);
+			$jsonarray = array("element" => $elements, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosElements":
+    		$elementsInfos = $connect->getElementInfos($_POST['id']);
+			$jsonarray = array("elementInfos" => $elementsInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateElement":
+    		$result = $connect->updateElement($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		Regime Handler
+
+		**/
+
+    	case "tableRegime":
+
+    		$total = $connect->countRegime(); 						// Nombre total de résultat
+    		$perPage = 20;                   						// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_REGIME'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    						// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
+
+	    	$regimes = $connect->fillRegimeTable($currentPage, $perPage);
+			$jsonarray = array("regime" => $regimes, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosRegimes":
+    		$regimesInfos = $connect->getRegimeInfos($_POST['id']);
+			$jsonarray = array("regimeInfos" => $regimesInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateRegime":
+    		$result = $connect->updateRegime($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		Maturity Handler
+
+		**/
+
+    	case "tableMaturity":
+
+    		$total = $connect->countMaturity(); 				// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_MATURITY'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    						// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
+
+	    	$maturity = $connect->fillMaturityTable($currentPage, $perPage);
+			$jsonarray = array("maturity" => $maturity, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosMaturitys":
+    		$maturityInfos = $connect->getMaturityInfos($_POST['id']);
+			$jsonarray = array("maturityInfos" => $maturityInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateMaturity":
+    		$result = $connect->updateMaturity($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
 		getAll() Handler
     	
     	**/

@@ -9,7 +9,7 @@
 
 
 Modfication de la BDD :
-
+- Supprimer la colonne maturity_level
 
 
 Les differents users:

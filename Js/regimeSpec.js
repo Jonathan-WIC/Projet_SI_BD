@@ -4,21 +4,21 @@ $(document).ready(function(){
     ////////////////////// fill Table of page //////////////////////
     ////////////////////////////////////////////////////////////////
 
-    fillSpecieTable(0);
-    fillSelectSpecie();
+    fillRegimeTable(0);
+    fillSelectRegime();
 
 	/////////////////////////////////////////////////////////////////
-    ////////////// update infos of the current Specie ///////////////
+    ////////////// update infos of the current Regime //////////////
     /////////////////////////////////////////////////////////////////
 
-	$('#btnSaveChangesSpecie').click(function(){
-		var dataID = $(this).attr('idSpecie'); // get the current monster's ID
-		updateSpecieInfos(dataID);
+	$('#btnSaveChangesRegime').click(function(){
+		var dataID = $(this).attr('idRegime'); // get the current monster's ID
+		updateRegimeInfos(dataID);
 	});
 
 });//Ready
 
-function fillSpecieTable(page){
+function fillRegimeTable(page){
 
 	var url = "";
 	if (page != 0){
@@ -28,18 +28,18 @@ function fillSpecieTable(page){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableSpecie" },
+	    data: {'role': "tableRegime" },
 	    dataType: 'json',
 	    success: function(response){
 
-			$('#bodyTableSpecies').empty();
+			$('#bodyTableRegimes').empty();
 			//On boucle sur monsters pour remplir le tableau des carac
-			for(i in response.specie){
-			    $('#bodyTableSpecies').append( '<tr>'+
-												'<td>'+response.specie[i]['ID_SPECIE']+'</td>'+
-												'<td>'+response.specie[i]['LIB_SPECIE']+'</td>'+
+			for(i in response.regime){
+			    $('#bodyTableRegimes').append( '<tr>'+
+												'<td>'+response.regime[i]['ID_REGIME']+'</td>'+
+												'<td>'+response.regime[i]['LIB_REGIME']+'</td>'+
 												'<td>'+
-													'<button class="altSpecie" idSpecie="'+response.specie[i]['ID_SPECIE']+'" onclick="fillSpecieInfos('+response.specie[i]['ID_SPECIE']+');" >Modif'+
+													'<button class="altRegime" idRegime="'+response.regime[i]['ID_REGIME']+'" onclick="fillRegimeInfos('+response.regime[i]['ID_REGIME']+');" >Modif'+
 													'</button>'+
 												'</td>'+
 				    				 			'</tr>');
@@ -51,7 +51,7 @@ function fillSpecieTable(page){
 		var nextPage = parseInt(response.page) + 1;
 
 		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillSpecieTable('+ previousPage +')">'+
+		$('#pagination').append('<li id="previousArrow" onclick="fillRegimeTable('+ previousPage +')">'+
 									'<a href="#" aria-label="Previous">'+
 										'<span aria-hidden="true">&laquo;</span>'+
 									'</a>'+
@@ -63,14 +63,14 @@ function fillSpecieTable(page){
 		}
 		
 		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillSpecieTable('+i+')">'+i+'</a></li>');
+			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillRegimeTable('+i+')">'+i+'</a></li>');
 			if (i == response.page) {
 				$('#page'+i).attr('class', 'active');
 			}
 		}
 
 
-		$('#pagination').append('<li id="nextArrow" onclick="fillSpecieTable('+nextPage+')">'+
+		$('#pagination').append('<li id="nextArrow" onclick="fillRegimeTable('+nextPage+')">'+
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
 									'</a>'+
@@ -84,48 +84,49 @@ function fillSpecieTable(page){
 	});
 };
 
-function fillSpecieInfos(id){
+function fillRegimeInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'id': id, 'role': "infosSpecies" },
+	    data: {'id': id, 'role': "infosRegimes" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#alterNameSpecie').val(response.specieInfos[0]['LIB_SPECIE']);
+	         $('#alterNameRegime').val(response.regimeInfos[0]['LIB_REGIME']);
 	    }
 	});
-	$('#btnSaveChangesSpecie').attr('idSpecie', id); //get the ID for the Updtae fonction
-	$('#UpdateSpecieModal').modal('show');
+	$('#btnSaveChangesRegime').attr('idRegime', id); //get the ID for the Updtae fonction
+	$('#UpdateRegimeModal').modal('show');
 };
 
-function updateSpecieInfos(id){
+function updateRegimeInfos(id){
 
 	var json_option = {
-	    NAME : $('#alterNameSpecie').val()
+	    NAME : $('#alterNameRegime').val()
 	};
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'id': id, 'data': json_option, 'role': "updateSpecie" }
+	    data: {'id': id, 'data': json_option, 'role': "updateRegime" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
-		fillSpecieTable(currentPage);
-		$('#UpdateSpecieModal').modal('hide');
+		fillRegimeTable(currentPage);
+		$('#UpdateRegimeModal').modal('hide');
 	});
 
 };
 
-function fillSelectSpecie(){
+function fillSelectRegime(){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php",
-	    data: {'role': "specie" },
+	    data: {'role': "regime"},
 	    dataType: 'json',
 	    success: function(response){
-	    	for(i in response.specie)
-	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
+	    	for(i in response.regime){
+	    		$('.selectRegimes').append('<option value='+ response.regime[i]['ID_REGIME'] +'>'+ response.regime[i]['LIB_REGIME'] +'</option>');
+	        }
 	    }
 	});
 };
