@@ -268,15 +268,3 @@ function fillSelectDanger(){
 		'<option value="MORTAL">MORTAL</option>'
 	);
 };
-
-/*	/////////////////////////////////////////////////////////////////
-    ////////////////// Check/Uncheck all checkbox  //////////////////
-    /////////////////////////////////////////////////////////////////
-
-	$("#selectAll").click( function(){
-		if( $(this).is(':checked') )
-			$('.checkboxMstr').prop('checked', true);
-		else
-			$('.checkboxMstr').prop('checked', false);
-	});
-*/

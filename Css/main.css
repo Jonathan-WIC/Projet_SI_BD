@@ -79,6 +79,8 @@ table>tbody{
     background: #FFE6C2;
     border-radius: 10px;
     margin-bottom: 2%;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .divNewspaper:hover {
@@ -89,4 +91,9 @@ table>tbody{
 .dateDivNewspaper {
     text-align: right;
     margin-left: 65%;
+}
+
+.contentNews {
+    background: #5E420D;
+    border-radius: 10px;
 }

@@ -22,13 +22,14 @@
         case 'maturitySpec':    maturitySpec(); break;
         case 'news':            news();         break;
         case 'newsClient':      newsClient();   break;
+        case 'newsEdit':        newsEdit();     break;
         case 'items':           items();        break;
         case 'logadmin':        logadmin();     break;
         /*case 'failLog':       failLog();      break;
         case 'failLog':         failLog();      break;*/
         case 'logspec':         logspec();      break;
-        /*case 'failLog':       failLog();      break;
-        case 'failLog':         failLog();      break;*/
+        /*case 'failLog':       failLog();      break;*/
+        case 'logedit':         logedit();      break;
         case 'logclient':       logclient();    break;
         case 'failLog':         failLog();      break;
         default :               error();
@@ -177,6 +178,12 @@
         news();
     }
 
+    function newsEdit()
+    {
+        $_SESSION['script'] = 'Js/newsEdit.js';
+        news();
+    }
+
     /**
     Access to item pages
     **/
@@ -241,18 +248,13 @@
         $page['arg'] = 'Html/home.php';
         $page['errorMethod'] = 'showErrorLogin';
         $page['script'] = 'Js/showErrorLogin.js';
-    }
-    
-    function failLog()
-    {
-        global $page;
-        $page['title'] = 'Home';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/home.php';
-        $page['errorMethod'] = 'showErrorLogin';
-        $page['script'] = 'Js/showErrorLogin.js';
     }*/
+    
+    function logedit()
+    {
+        $_SESSION['model'] = 'MDBase_editorialiste';
+        newsEdit();
+    }
 
     function logclient()
     {

@@ -8,6 +8,12 @@
 
 	<div id="goBack" >
 	</div>
+	
+	<div id="optionNews">
+		<input type="checkbox" name="selectAll" id="selectAll">
+		<label for="selectAll">SelectAll</label>
+	</div>
+
 
 	<div id="divNewspapers" >
 	</div>
