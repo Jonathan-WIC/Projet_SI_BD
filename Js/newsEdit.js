@@ -22,14 +22,29 @@ $(document).ready(function(){
 		updateNewspaper(dataID);
 	});
 
+	$('#btnCreateNewspaper').click(function(){
+		insertNewspaper();
+	});
+
 });//Ready
 
 
+function showAddModal(){
+	$('#addNewspaperModal').modal('show');
+};
+
+
 								/****************************************************/
-								/****************Newspaper's functions***************/
+								/*************** Newspaper's functions **************/
 								/****************************************************/
 
 function fillNewsPage(page){
+
+	$("#optionNews").empty();
+	$("#optionNews").append('<input type="checkbox" name="selectAll" id="selectAll">'+
+							 '<label for="selectAll">SelectAll</label>'+
+							 '<button id="addNewspaper" onclick="showAddModal()">Add Newspaper</button>'+
+							 '<button id="deleteSelected" onclick="deleteMultipleNewspaper()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
@@ -38,7 +53,7 @@ function fillNewsPage(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/client.hand.php"+url,
+	    url:"Handler/editorialiste.hand.php"+url,
 	    data: {'role': "newspaper" },
 	    dataType: 'json',
 	    success: function(response){
@@ -48,11 +63,16 @@ function fillNewsPage(page){
 			//On boucle sur news pour remplir la page
 			for(i in response.newspaper){
 			    $('#divNewspapers').append(	 '<div class="contentNews">'+
-					    						 '<div class="actnsNewspapers">'+
-						    						 '<input type="checkbox" class="checkboxNewsPaper">'+
+					    						 '<div id="actnsNewspapers'+response.newspaper[i]['ID_NEWSPAPER']+'" class="actnsNewspapers">'+
+						    						 '<input type="checkbox" name="selectedNewsPaper"value="'+response.newspaper[i]['ID_NEWSPAPER']+'" class="checkboxNewsPaper">'+
 						    						 '<button class="altNewspaper" onclick="fillNewspaperInfos('+response.newspaper[i]['ID_NEWSPAPER']+');">Update</button>'+
-						    						 '<button class="suprNewspaper" onclick="deleteNewspaper('+response.newspaper[i]['ID_NEWSPAPER']+');">Delete</button>'+
-					    						 '</div>'+
+						    						 '<button class="suprNewspaper" onclick="deleteNewspaper('+response.newspaper[i]['ID_NEWSPAPER']+');">Delete</button>');
+
+			    if(response.newspaper[i]['STATUS'] == 0){
+					$('#actnsNewspapers'+response.newspaper[i]['ID_NEWSPAPER']).append('<button class="publishNewspaper" onclick="publishNewspaper('+response.newspaper[i]['ID_NEWSPAPER']+');">Publish</button>');
+				}
+
+				$('#divNewspapers').append(	 	'</div>'+
 					    						 '<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="afficheArticle('+response.newspaper[i]['ID_NEWSPAPER']+', 0);">'+
 						    						 '<div class="headerDivNewspaper">'+
 								    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION']+'</span></h3>'+
@@ -114,7 +134,7 @@ function fillNewspaperInfos(id){
 	    }
 	});
 	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
-	$('#UpdateNewspaperModal').modal('show');
+	$('#updateNewspaperModal').modal('show');
 };
 
 function updateNewspaper(id){
@@ -130,7 +150,19 @@ function updateNewspaper(id){
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
 		fillNewsPage(currentPage);
-		$('#UpdateNewspaperModal').modal('hide');
+		$('#updateNewspaperModal').modal('hide');
+	});
+};
+
+function publishNewspaper(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "publishNewspaper" }
+	}).done(function(){
+		fillNewsPage(0);
+		alert('Newspaper published!');
 	});
 };
 
@@ -141,33 +173,72 @@ function deleteNewspaper(id){
 	    url:"Handler/editorialiste.hand.php",
 	    data: {'id': id, 'role': "deleteNewspaper" }
 	}).done(function(){
-		alert("Newspaper erased!")
 		fillNewsPage(0);
+		alert("Newspaper erased!")
+	});
+};
+
+function deleteMultipleNewspaper(){
+
+	var newspaperChecked = new Array();
+	$("input:checked[name=selectedNewsPaper]").each(function() { //get the ID of all elements selected
+		newspaperChecked.push($(this).val());
+	});
+
+	if (newspaperChecked.length < 1) {
+		alert("You must select at least 1 newspaper");
+		return false;
+	}
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'data': newspaperChecked, 'role': "deleteMultipleNewspaper" }
+	}).done(function(){
+		fillNewsPage(0);
+		
+	});
+};
+
+function insertNewspaper(){
+
+	var json_option = {
+	    QUICK_RESUME : $('#insertResume').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'data': json_option, 'role': "insertNewspaper" }
+	}).done(function(){
+		$('#addNewspaperModal').modal('hide');
+		fillNewsPage(0);
+		alert("Newspaper inserted!")
 	});
 };
 
 
-
-
 								/****************************************************/
-								/****************Newspaper's functions***************/
+								/*************** Newspaper's functions **************/
 								/****************************************************/
+
 
 function afficheArticle(id, page){
-
 
 	var url = "";
 	if (page != 0){
 		url = "?p=" + page;
 	}
 
+	$("#optionNews").empty();
+	$("#optionNews").append('<button class="suprNews" onclick="insertNews();">Create Article</button>');
 	$('#goBack').empty();
 	$('#goBack').append('<button onclick="fillNewsPage(0)">Go back</button>');
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/client.hand.php"+url,
-	    data: {'id': id, 'role': "news" },
+	    url: "Handler/editorialiste.hand.php"+url,
+	    data: {'id': id, 'role': "news"},
 	    dataType: 'json',
 	    success: function(response){
 
@@ -175,6 +246,9 @@ function afficheArticle(id, page){
 			$('#divNewspapers').attr('idNewspaper', response.newspaper[0]);
 			//On boucle sur news pour remplir la page
 			for(i in response.news){
+				$("#optionNews").append('<button class="altNews" onclick="fillNewsInfos('+response.news[i]['ID_NEWS']+');">Update</button>'+
+						    		    '<button class="suprNews" onclick="deleteNews('+response.news[i]['ID_NEWS']+');">Delete</button>');
+			    
 			    $('#divNewspapers').append('<div class="headerDivNewspaper">'+
 						    				 '<h3>'+response.news[i]['TITLE']+'</h3>'+
 						    			   '</div>'+
@@ -219,5 +293,48 @@ function afficheArticle(id, page){
 			$('#nextArrow').attr('class', 'disabled');
 			$('#nextArrow').removeAttr('onclick');
 		}		
+	});
+};
+
+/*function fillNewsInfos(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "infosNews" },
+	    dataType: 'json',
+	    success: function(response){
+	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	    }
+	});
+	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
+	$('#updateNewspaperModal').modal('show');
+};
+
+function updateNewspaper(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "infosNewspapers" },
+	    dataType: 'json',
+	    success: function(response){
+	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	    }
+	});
+	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
+	$('#updateNewspaperModal').modal('show');
+};*/
+
+function deleteNews(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "deleteNews" },
+	    dataType: 'json',
+	}).done(function(){
+		afficheArticle($('#divNewspapers').attr('idNewspaper'), 0);
+		alert("News deleted!")
 	});
 };
