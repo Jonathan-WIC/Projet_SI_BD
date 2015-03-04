@@ -6,7 +6,6 @@ $(document).ready(function(){
 
     fillNewsPage(0);
 
-
 	/////////////////////////////////////////////////////////////////
     ////////////////// Check/Uncheck all checkbox  //////////////////
     /////////////////////////////////////////////////////////////////
@@ -18,8 +17,17 @@ $(document).ready(function(){
 			$('.checkboxNewsPaper').prop('checked', false);
 	});
 
+	$('#btnSaveChangesNewspaper').click(function(){
+		var dataID = $(this).attr('idNewspaper'); // get the current monster's ID
+		updateNewspaper(dataID);
+	});
 
 });//Ready
+
+
+								/****************************************************/
+								/****************Newspaper's functions***************/
+								/****************************************************/
 
 function fillNewsPage(page){
 
@@ -40,9 +48,11 @@ function fillNewsPage(page){
 			//On boucle sur news pour remplir la page
 			for(i in response.newspaper){
 			    $('#divNewspapers').append(	 '<div class="contentNews">'+
-					    						 '<input type="checkbox" class="checkboxNewsPaper">'+
-					    						 '<button class="altNewspaper">Update</button>'+
-					    						 '<button class="suprNewspaper">Delete</button>'+
+					    						 '<div class="actnsNewspapers">'+
+						    						 '<input type="checkbox" class="checkboxNewsPaper">'+
+						    						 '<button class="altNewspaper" onclick="fillNewspaperInfos('+response.newspaper[i]['ID_NEWSPAPER']+');">Update</button>'+
+						    						 '<button class="suprNewspaper" onclick="deleteNewspaper('+response.newspaper[i]['ID_NEWSPAPER']+');">Delete</button>'+
+					    						 '</div>'+
 					    						 '<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="afficheArticle('+response.newspaper[i]['ID_NEWSPAPER']+', 0);">'+
 						    						 '<div class="headerDivNewspaper">'+
 								    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION']+'</span></h3>'+
@@ -79,7 +89,6 @@ function fillNewsPage(page){
 			}
 		}
 
-
 		$('#pagination').append('<li id="nextArrow" onclick="fillMaturityTable('+nextPage+')">'+
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
@@ -92,6 +101,57 @@ function fillNewsPage(page){
 		}		
 	});
 };
+
+function fillNewspaperInfos(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "infosNewspapers" },
+	    dataType: 'json',
+	    success: function(response){
+	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	    }
+	});
+	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
+	$('#UpdateNewspaperModal').modal('show');
+};
+
+function updateNewspaper(id){
+
+	var json_option = {
+	    QUICK_RESUME : $('#alterResume').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'data': json_option, 'role': "updateNewspaper" }
+	}).done(function(){
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillNewsPage(currentPage);
+		$('#UpdateNewspaperModal').modal('hide');
+	});
+};
+
+function deleteNewspaper(id){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/editorialiste.hand.php",
+	    data: {'id': id, 'role': "deleteNewspaper" }
+	}).done(function(){
+		alert("Newspaper erased!")
+		fillNewsPage(0);
+	});
+};
+
+
+
+
+								/****************************************************/
+								/****************Newspaper's functions***************/
+								/****************************************************/
 
 function afficheArticle(id, page){
 
@@ -153,7 +213,7 @@ function afficheArticle(id, page){
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
 									'</a>'+
-								'</li>')
+								'</li>');
 
 		if (nextPage > response.nbPage){
 			$('#nextArrow').attr('class', 'disabled');
@@ -161,6 +221,3 @@ function afficheArticle(id, page){
 		}		
 	});
 };
-
-
-//'<img style="float:left" alt="news picture" src="'+response.news[i]['PICTURE']+'"/>'+

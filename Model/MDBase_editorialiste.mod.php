@@ -1,7 +1,6 @@
 <?php
     class MDBase_client extends PDO {
 
-
         private static $engine = 'mysql';
 
         private static $dbName = 'DB_MONSTER_PARK' ;
@@ -37,7 +36,7 @@
 
         /**
 
-                                                NEWS REQUESTS
+                                                NEWSPAPER REQUESTS
 
         **/
 
@@ -65,6 +64,56 @@
             return $data;
         }
 
+        public static function getNewspaperInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT QUICK_RESUME FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updateNewspaper($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE NEWSPAPER
+                        SET  QUICK_RESUME = :QUICK_RESUME
+                        WHERE ID_NEWSPAPER  = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID',            $id,                    PDO::PARAM_INT);
+            $qq->bindValue('QUICK_RESUME',  $infos['QUICK_RESUME'], PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteNewspaper($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "DELETE FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                                                        NEWS REQUESTS
+
+        **/
+
+
         public static function countNewsFromNewspaper($id)
         {
             $pdo = self::connect();
@@ -90,5 +139,19 @@
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
+
+        public static function deleteNews($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "DELETE FROM NEWS WHERE ID_NEWSPAPER = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
     }
 ?>

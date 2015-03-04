@@ -37,13 +37,11 @@
 
     require('./View/layout.view.php');
 
-
     /**
 
     Pages functions
     
     **/
-
 
     function home()
     {
@@ -260,15 +258,13 @@
     {
         $_SESSION['model'] = 'MDBase_client';
         newsClient();
-    }
-    
+    } 
 
     /**
 
     Error functions
     
     **/
-
 
     function failLog()
     {
