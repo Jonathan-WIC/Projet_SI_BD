@@ -79,14 +79,30 @@ table>tbody{
     background: #FFE6C2;
     border-radius: 10px;
     margin-bottom: 2%;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .divNewspaper:hover {
-    background: #5E420D;
+    background: #AE925D;
     color: #FFF;
 }
 
 .dateDivNewspaper {
     text-align: right;
     margin-left: 65%;
+}
+
+.contentNews {
+    background: #5E420D;
+    border-radius: 10px;
+}
+
+#optionNews {
+    text-align: right;
+}
+
+.actnsNewspapers {
+    text-align: right;
+    margin-right: 1%;
 }

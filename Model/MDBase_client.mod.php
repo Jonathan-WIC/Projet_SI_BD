@@ -37,7 +37,7 @@
 
         /**
 
-                                                NEWS QUESTS
+                                                NEWS FUNCTIONS
 
         **/
 

@@ -52,14 +52,14 @@ UTILISATEURS MySQL:
 
 LOGIN          - PASS   => FUNCTION   <3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3
 
-administrateur - admin  => tout les droits sur DB_MONSTER_PARK
+administrateur - admin  => tous les droits sur DB_MONSTER_PARK
 developpeur    - dev    => inserer, modifier, supprimer données DB_M..._P...
 moderateur     - mod    => modifier, supprimer données PLAYER
-specialiste    - spec   => visualiser, modifier données MONSTER
 adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
 editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
 
 //---------------------------- FINISH ----------------------------//
+specialiste    - spec   => visualiser, modifier données MONSTER
 client         - client => visualiser données QUEST, NEWSPAPER
 
 //don't mess with these:
