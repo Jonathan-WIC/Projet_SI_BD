@@ -387,7 +387,7 @@ function afficheArticle(id, page){
 		if (nextPage > response.nbPage){
 			$('#nextArrow').attr('class', 'disabled');
 			$('#nextArrow').removeAttr('onclick');
-		}		
+		}
 	});
 };
 

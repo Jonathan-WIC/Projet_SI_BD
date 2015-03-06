@@ -97,6 +97,11 @@ function afficheArticle(id, page){
 			$('#divNewspapers').attr('idNewspaper', response.newspaper[0]);
 			//On boucle sur news pour remplir la page
 			for(i in response.news){
+
+				if(response.news[i]['PICTURE'][0] == '.'){ 
+					response.news[i]['PICTURE'] = response.news[i]['PICTURE'].substr(3);
+				}
+
 			    $('#divNewspapers').append('<div class="headerDivNewspaper">'+
 						    				 '<h3>'+response.news[i]['TITLE']+'</h3>'+
 						    			   '</div>'+
@@ -135,12 +140,12 @@ function afficheArticle(id, page){
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
 									'</a>'+
-								'</li>')
+								'</li>');
 
 		if (nextPage > response.nbPage){
 			$('#nextArrow').attr('class', 'disabled');
 			$('#nextArrow').removeAttr('onclick');
-		}		
+		}	
 	});
 };
 

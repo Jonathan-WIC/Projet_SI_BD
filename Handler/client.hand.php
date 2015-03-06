@@ -11,7 +11,7 @@
 
     	case "tableQuest":
     		$total = $connect->countQuests(); 					// Nombre total de résultat
-    		$perPage = 2;                   						// Nombre de resultat par page
+    		$perPage = 20;                   						// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_QUESTS'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
     		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
