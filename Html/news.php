@@ -31,7 +31,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modifier une sous-éspèce</h4>
+					<h4 class="modal-title">Modifier un journal</h4>
 				</div>
 
 				<div class="modal-body">
@@ -66,15 +66,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modifier une sous-éspèce</h4>
+					<h4 class="modal-title">Ajouter un journal</h4>
 				</div>
 
 				<div class="modal-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="formCreateNewspaper">
 						<div class="control-group">
-							<label class="control-label" for="insertResume">Résumé :</label>
+							<label class="control-label" for="insertResume">quick description :</label>
 							<div class="controls">
-								<textarea type="datetime" name="insertResume" id="insertResume" rows="10" cols="70">
+								<textarea name="insertResume" id="insertResume" rows="10" cols="70">
 								</textarea>
 							</div>
 						</div>
@@ -90,5 +90,102 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
-	
+
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+	<!-- ----------------------------------------------  Modals Update News  ------------------------------------------------ -->
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+
+
+	<div id="updateNewsModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modifier un Article</h4>
+				</div>
+
+				<div class="modal-body">
+                    <form class="form-horizontal" id="formUpdateNews" method="post" action="Handler/editorialiste.hand.php" enctype="multipart/form-data">
+						<div class="control-group">
+							<input type="hidden" id="roleUpdateNews" name="role" value="updateNews">
+							<input type="hidden" id="recupNewsId" name="recupNewsId">
+							<label class="control-label" for="updateTitle">Title :</label>
+							<div class="controls">
+								<input type="text" id="updateTitle" name="updateTitle">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="updateContent">Contenu :</label>
+							<div class="controls">
+								<textarea name="updateContent" id="updateContent" rows="10" cols="70">
+								</textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="updateImage">Image :</label>
+							<div class="controls">
+								<input type="file" name="updateImage" id="updateImage" accept="image/*">
+							</div>
+						</div>
+					</form>
+				</div><!-- /.modal-body --> 
+				
+				<div class="modal-footer">
+					<span class="pull-left">* Required Fields</span>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="btnSaveChangesNews">Saves changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+	<!-- ------------------------------------------------------------------------------------------------------------------ -->
+	<!-- --------------------------------------------  Modals Insert News  ------------------------------------------------ -->
+	<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+	<div id="addNewsModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Ajouter un article</h4>
+				</div>
+
+				<div class="modal-body">
+                    <form class="form-horizontal" id="formCreateNews" method="post" action="Handler/editorialiste.hand.php" enctype="multipart/form-data">
+						<div class="control-group">
+							<input type="hidden" id="roleCreateNews" name="role" value="createNews">
+							<input type="hidden" id="recupNewspaperId" name="recupNewspaperId">
+							<label class="control-label" for="addTitle">Title :</label>
+							<div class="controls">
+								<input type="text" id="addTitle" name="addTitle">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="addContent">Contenu :</label>
+							<div class="controls">
+								<textarea name="addContent" id="addContent" rows="10" cols="70">
+								</textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="addImage">Image :</label>
+							<div class="controls">
+								<input type="file" name="addImage" id="addImage" accept="image/*">
+							</div>
+						</div>
+					</form>
+				</div><!-- /.modal-body --> 
+
+				<div class="modal-footer">
+					<span class="pull-left">* Required Fields</span>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="btnCreateNews">Create Newspaper</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
 </div>

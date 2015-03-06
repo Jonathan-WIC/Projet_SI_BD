@@ -103,11 +103,13 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "  UPDATE NEWSPAPER
-                           SET STATUS = 1
+                           SET STATUS = 1,
+                               PUBLICATION = :PUBLICATION
                          WHERE ID_NEWSPAPER  = :ID";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('PUBLICATION', date("Y-m-d"), PDO::PARAM_STR);
 
             $result = $qq->execute();
             return $result;
@@ -192,25 +194,65 @@
             return $data;
         }
 
-        /*public static function getNewsInfo($id)
+        public static function getNewsInfo($id)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM NEWS WHERE ID_NEWSPAPER = :ID LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM NEWS WHERE ID_NEWS = :ID";
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
-            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
-            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
-        }*/
+        }
+
+        public static function updateNews($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE NEWS
+                        SET TITLE = :TITLE,
+                            CONTENT = :CONTENT ";
+
+            if(strlen($data['image']) != 0){
+                $query .= ", PICTURE = :PICTURE ";
+            }
+                            
+            $query .= "WHERE ID_NEWS  = :ID;";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',      $data['id'],      PDO::PARAM_INT);
+            $qq->bindValue('TITLE',   $data['title'],   PDO::PARAM_STR);
+            $qq->bindValue('CONTENT', $data['content'], PDO::PARAM_STR);
+
+            if(strlen($data['image']) != 0){
+                $qq->bindValue('PICTURE', $data['image'],   PDO::PARAM_STR);
+            }
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function insertNews($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " INSERT INTO NEWS (TITLE, CONTENT, PICTURE, ID_NEWSPAPER) VALUES (:TITLE, :CONTENT, :PICTURE, :ID)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',   $data['id'],   PDO::PARAM_STR);
+            $qq->bindValue('TITLE',   $data['title'],   PDO::PARAM_STR);
+            $qq->bindValue('CONTENT', $data['content'], PDO::PARAM_STR);
+            $qq->bindValue('PICTURE', $data['image'],   PDO::PARAM_STR);
+
+            $result = $qq->execute();
+            return $result;
+        }
 
         public static function deleteNews($id)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "DELETE FROM NEWS WHERE ID_NEWSPAPER = :ID";
+            $query = "DELETE FROM NEWS WHERE ID_NEWS = :ID";
 
             $qq = $pdo->prepare($query);
 

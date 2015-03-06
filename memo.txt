@@ -11,6 +11,7 @@
 Modfication de la BDD :
 - renommer  la colonne RESUME en QUICK_RESUME 	pour NEWSPAPER
 - Ajouter   la colonne STATUS         			pour NEWSPAPER
+- Modifier  la colonne PICTURE en varchar 255   pour NEWS
 
 
 Les differents users:
@@ -20,7 +21,7 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 
 RAF :	- Verification du login côté serveur. (switch case style biatch!)
 		- faire un MDBase PAR UTILISATEUR!!!! (3/7)
-		- Virer l'heure des datetimes dans les journaux
+		- Virer l'heure des datetimes dans les journaux - le formattage de l'affichage doit se faire via le JS
 	    - faire des catégories dans l'header que l'on mettra dans des dropdown
 	    - mettre à jour l'index
 	    - creer/modifier les pages HTML qui vont bien

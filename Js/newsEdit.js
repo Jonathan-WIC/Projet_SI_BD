@@ -6,6 +6,7 @@ $(document).ready(function(){
 
     fillNewsPage(0);
 
+
 	/////////////////////////////////////////////////////////////////
     ////////////////// Check/Uncheck all checkbox  //////////////////
     /////////////////////////////////////////////////////////////////
@@ -17,8 +18,13 @@ $(document).ready(function(){
 			$('.checkboxNewsPaper').prop('checked', false);
 	});
 
+
+	/////////////////////////////////////////////////////////////////
+    ///////////////////  Bind actions on buttons  ///////////////////
+    /////////////////////////////////////////////////////////////////
+
 	$('#btnSaveChangesNewspaper').click(function(){
-		var dataID = $(this).attr('idNewspaper'); // get the current monster's ID
+		var dataID = $(this).attr('idNewspaper'); // get the current Newspaper's ID
 		updateNewspaper(dataID);
 	});
 
@@ -26,11 +32,95 @@ $(document).ready(function(){
 		insertNewspaper();
 	});
 
+	$("#btnSaveChangesNews").click(function(e) {
+		e.preventDefault();
+		$("#formUpdateNews").submit();
+	});
+
+	$("#btnCreateNews").click(function(e) {
+		e.preventDefault();
+		$("#formCreateNews").submit();
+	});
+
+
+	/////////////////////////////////////////////////////////////////
+    /////////////  form's handler (ajax + upload file)  /////////////
+    /////////////////////////////////////////////////////////////////
+
+    //Update News
+	$('#formUpdateNews').on('submit', function (e) {
+        // On empêche le navigateur de soumettre le formulaire
+        e.preventDefault();
+
+        var $form = $(this);
+        var formdata = (window.FormData) ? new FormData($form[0]) : null;
+        var data = (formdata !== null) ? formdata : $form.serialize();
+ 
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            contentType: false, // obligatoire pour de l'upload
+            processData: false, // obligatoire pour de l'upload
+            dataType: 'json', 	// selon le retour attendu
+            data: data,
+        }).done(function(){
+			var currentPage = $('.active').attr('id').replace("page", "");
+			idNewspaper = $('#divNewspapers').attr('idNewspaper');
+			afficheArticle(idNewspaper, currentPage);
+			$('#updateNewsModal').modal('hide');
+		});
+    });
+
+    //Create News
+	$('#formCreateNews').on('submit', function (e) {
+        // On empêche le navigateur de soumettre le formulaire
+        e.preventDefault();
+
+        var $form = $(this);
+        var formdata = (window.FormData) ? new FormData($form[0]) : null;
+        var data = (formdata !== null) ? formdata : $form.serialize();
+ 
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            contentType: false, // obligatoire pour de l'upload
+            processData: false, // obligatoire pour de l'upload
+            dataType: 'json', 	// selon le retour attendu
+            data: data,
+        }).done(function(){
+			idNewspaper = $('#divNewspapers').attr('idNewspaper');
+			afficheArticle(idNewspaper, 0);
+			$('#addNewsModal').modal('hide');
+		});
+    });
+
+
+	/////////////////////////////////////////////////////////////////
+    /////////////////////  reset modal's forms  /////////////////////
+    /////////////////////////////////////////////////////////////////
+
+    $('#addNewsModal').on('hide.bs.modal', function(){
+		$("#formCreateNews")[0].reset();
+	});
+
+    $('#addNewspaperModal').on('hide.bs.modal', function(){
+		$("#formCreateNewspaper")[0].reset();
+	});
+
+
 });//Ready
 
 
-function showAddModal(){
+	/////////////////////////////////////////////////////////////////
+    //////////////  functions made for opening modals  //////////////
+    /////////////////////////////////////////////////////////////////
+
+function showAddNewspaperModal(){
 	$('#addNewspaperModal').modal('show');
+};
+
+function showAddNewsModal(){
+	$('#addNewsModal').modal('show');
 };
 
 
@@ -43,7 +133,7 @@ function fillNewsPage(page){
 	$("#optionNews").empty();
 	$("#optionNews").append('<input type="checkbox" name="selectAll" id="selectAll">'+
 							 '<label for="selectAll">SelectAll</label>'+
-							 '<button id="addNewspaper" onclick="showAddModal()">Add Newspaper</button>'+
+							 '<button id="addNewspaper" onclick="showAddNewspaperModal()">Add Newspaper</button>'+
 							 '<button id="deleteSelected" onclick="deleteMultipleNewspaper()">Delete Selected</button>');
 
 	var url = "";
@@ -218,9 +308,9 @@ function insertNewspaper(){
 };
 
 
-								/****************************************************/
-								/*************** Newspaper's functions **************/
-								/****************************************************/
+								/**************************************************/
+								/************* Newspaper's functions **************/
+								/**************************************************/
 
 
 function afficheArticle(id, page){
@@ -231,7 +321,7 @@ function afficheArticle(id, page){
 	}
 
 	$("#optionNews").empty();
-	$("#optionNews").append('<button class="suprNews" onclick="insertNews();">Create Article</button>');
+	$("#optionNews").append('<button onclick="showAddNewsModal();">Create Article</button>');
 	$('#goBack').empty();
 	$('#goBack').append('<button onclick="fillNewsPage(0)">Go back</button>');
 
@@ -243,9 +333,15 @@ function afficheArticle(id, page){
 	    success: function(response){
 
 			$('#divNewspapers').empty();
-			$('#divNewspapers').attr('idNewspaper', response.newspaper[0]);
+			$('#divNewspapers').attr('idNewspaper', id);
+			$('#recupNewspaperId').val(id);
 			//On boucle sur news pour remplir la page
 			for(i in response.news){
+
+				if(response.news[i]['PICTURE'][0] == '.'){ 
+					response.news[i]['PICTURE'] = response.news[i]['PICTURE'].substr(3);
+				}
+
 				$("#optionNews").append('<button class="altNews" onclick="fillNewsInfos('+response.news[i]['ID_NEWS']+');">Update</button>'+
 						    		    '<button class="suprNews" onclick="deleteNews('+response.news[i]['ID_NEWS']+');">Delete</button>');
 			    
@@ -259,7 +355,6 @@ function afficheArticle(id, page){
 			}
 	    }
 	}).done(function(response){
-
 		var previousPage = parseInt(response.page - 1);
 		var nextPage = parseInt(response.page) + 1;
 
@@ -296,7 +391,7 @@ function afficheArticle(id, page){
 	});
 };
 
-/*function fillNewsInfos(id){
+function fillNewsInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
@@ -304,27 +399,13 @@ function afficheArticle(id, page){
 	    data: {'id': id, 'role': "infosNews" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	         $('#updateTitle').val(response.news[0]['TITLE']);
+	         $('#updateContent').val(response.news[0]['CONTENT']);
 	    }
 	});
-	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
-	$('#updateNewspaperModal').modal('show');
+	$('#recupNewsId').val(id); //get the ID for the Update fonction
+	$('#updateNewsModal').modal('show');
 };
-
-function updateNewspaper(id){
-
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
-	    data: {'id': id, 'role': "infosNewspapers" },
-	    dataType: 'json',
-	    success: function(response){
-	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
-	    }
-	});
-	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
-	$('#updateNewspaperModal').modal('show');
-};*/
 
 function deleteNews(id){
 
