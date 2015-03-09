@@ -28,7 +28,7 @@ function fillNewsPage(page){
 			for(i in response.newspaper){
 			    $('#divNewspapers').append('<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="afficheArticle('+response.newspaper[i]['ID_NEWSPAPER']+', 0);">'  +
 				    						 '<div class="headerDivNewspaper">'+
-						    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION']+'</span></h3>'+
+						    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION'].substring(0, 10)+'</span></h3>'+
 						    				 '</div>'+
 						    				 '<hr style="border-color: #000; border-style: solid;">'+
 						    				 '<div class="col-md-12">'+

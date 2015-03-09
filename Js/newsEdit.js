@@ -8,18 +8,6 @@ $(document).ready(function(){
 
 
 	/////////////////////////////////////////////////////////////////
-    ////////////////// Check/Uncheck all checkbox  //////////////////
-    /////////////////////////////////////////////////////////////////
-
-	$("#selectAll").click( function(){
-		if( $(this).is(':checked') )
-			$('.checkboxNewsPaper').prop('checked', true);
-		else
-			$('.checkboxNewsPaper').prop('checked', false);
-	});
-
-
-	/////////////////////////////////////////////////////////////////
     ///////////////////  Bind actions on buttons  ///////////////////
     /////////////////////////////////////////////////////////////////
 
@@ -124,6 +112,17 @@ function showAddNewsModal(){
 };
 
 
+	/////////////////////////////////////////////////////////////////
+    ////////////////// Check/Uncheck all checkbox  //////////////////
+    /////////////////////////////////////////////////////////////////
+
+function selectAll(){
+	if( $("#selectAll").is(':checked') )
+		$('.checkboxNewsPaper').prop('checked', true);
+	else
+		$('.checkboxNewsPaper').prop('checked', false);
+};
+
 								/****************************************************/
 								/*************** Newspaper's functions **************/
 								/****************************************************/
@@ -131,7 +130,7 @@ function showAddNewsModal(){
 function fillNewsPage(page){
 
 	$("#optionNews").empty();
-	$("#optionNews").append('<input type="checkbox" name="selectAll" id="selectAll">'+
+	$("#optionNews").append('<input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll()">'+
 							 '<label for="selectAll">SelectAll</label>'+
 							 '<button id="addNewspaper" onclick="showAddNewspaperModal()">Add Newspaper</button>'+
 							 '<button id="deleteSelected" onclick="deleteMultipleNewspaper()">Delete Selected</button>');
@@ -165,7 +164,7 @@ function fillNewsPage(page){
 				$('#divNewspapers').append(	 	'</div>'+
 					    						 '<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="afficheArticle('+response.newspaper[i]['ID_NEWSPAPER']+', 0);">'+
 						    						 '<div class="headerDivNewspaper">'+
-								    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION']+'</span></h3>'+
+								    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION'].substring(0, 10)+'</span></h3>'+
 								    				 '</div>'+
 								    				 '<hr style="border-color: #000; border-style: solid;">'+
 								    				 '<div class="col-md-11">'+
@@ -336,6 +335,14 @@ function afficheArticle(id, page){
 			$('#divNewspapers').attr('idNewspaper', id);
 			$('#recupNewspaperId').val(id);
 			//On boucle sur news pour remplir la page
+
+			console.log(response.news);
+			console.log(response.news.length);
+			if(response.news.length == 0){
+				$('#divNewspapers').append('<div class="headerDivNewspaper">'+
+											"Aucun article n'a encore été inséré dans ce journal.");
+			}
+
 			for(i in response.news){
 
 				if(response.news[i]['PICTURE'][0] == '.'){ 

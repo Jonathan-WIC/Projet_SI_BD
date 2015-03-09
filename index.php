@@ -1,7 +1,7 @@
 <?php
 
-    require('Inc/require.inc.php');
-    require('Inc/globals.inc.php');
+    require 'Inc/require.inc.php';
+    require 'Inc/globals.inc.php';
 
     session_start();
 
@@ -12,7 +12,10 @@
         case 'home':            home();         break;
         case 'quest':           quest();        break;
         case 'questClient':     questClient();  break;
+        case 'questAdminQ':     questAdminQ();  break;
         case 'parks':           parks();        break;
+        case 'player':          player();       break;
+        case 'playerModo':      playerModo();   break;
         case 'monsters':        monsters();     break;
         case 'monstersSpec':    monstersSpec(); break;
         case 'specieSpec':      specieSpec();   break;
@@ -25,17 +28,17 @@
         case 'newsEdit':        newsEdit();     break;
         case 'items':           items();        break;
         case 'logadmin':        logadmin();     break;
-        /*case 'failLog':       failLog();      break;
-        case 'failLog':         failLog();      break;*/
-        case 'logspec':         logspec();      break;
         /*case 'failLog':       failLog();      break;*/
+        case 'logmod':          logmod();       break;
+        case 'logspec':         logspec();      break;
+        case 'logquest':        logquest();     break;
         case 'logedit':         logedit();      break;
         case 'logclient':       logclient();    break;
         case 'failLog':         failLog();      break;
         default :               error();
     }
 
-    require('./View/layout.view.php');
+    require './View/layout.view.php';
 
     /**
 
@@ -75,6 +78,12 @@
         quest();
     }
 
+    function questAdminQ()
+    {
+        $_SESSION['script'] = 'Js/questAdminQ.js';
+        quest();
+    }
+
     /**
     Access to park pages
     **/
@@ -87,6 +96,26 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/parks.php';
 
+    }
+
+    /**
+    Access to Player pages
+    **/
+
+    function player()
+    {
+        global $page;
+        $page['title'] = 'player';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/player.php';
+
+    }
+
+    function playerModo()
+    {
+        $_SESSION['script'] = 'Js/playerModo.js';
+        player();
     }
 
     /**
@@ -216,37 +245,25 @@
         $page['arg'] = 'Html/home.php';
         $page['errorMethod'] = 'showErrorLogin';
         $page['script'] = 'Js/showErrorLogin.js';
-    }
-    
-    function failLog()
-    {
-        global $page;
-        $page['title'] = 'Home';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/home.php';
-        $page['errorMethod'] = 'showErrorLogin';
-        $page['script'] = 'Js/showErrorLogin.js';
     }*/
+    
+    function logmod()
+    {
+        $_SESSION['model'] = 'MDBase_moderateur';
+        playerModo();
+    }
     
     function logspec()
     {
-        global $page;
         $_SESSION['model'] = 'MDBase_specialiste';
         monstersSpec();
     }
 
-    /*
-    function failLog()
+    function logquest()
     {
-        global $page;
-        $page['title'] = 'Home';
-        $page['class'] = 'VHtml';
-        $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/home.php';
-        $page['errorMethod'] = 'showErrorLogin';
-        $page['script'] = 'Js/showErrorLogin.js';
-    }*/
+        $_SESSION['model'] = 'MDBase_adminquest';
+        questAdminQ();
+    }
     
     function logedit()
     {

@@ -12,6 +12,7 @@ Modfication de la BDD :
 - renommer  la colonne RESUME en QUICK_RESUME 	pour NEWSPAPER
 - Ajouter   la colonne STATUS         			pour NEWSPAPER
 - Modifier  la colonne PICTURE en varchar 255   pour NEWS
+- Ajouter   la colonne NAME						pour QUEST
 
 
 Les differents users:
@@ -22,8 +23,7 @@ gros switch case. le formulaire de co du début on stocke les données dont on a
 RAF :	- Verification du login côté serveur. (switch case style biatch!)
 		- faire un MDBase PAR UTILISATEUR!!!! (3/7)
 		- Virer l'heure des datetimes dans les journaux - le formattage de l'affichage doit se faire via le JS
-	    - faire des catégories dans l'header que l'on mettra dans des dropdown
-	    - mettre à jour l'index
+	    - faire des catégories dans l'header que l'on mettra dans des dropdown quand c'est necessaire
 	    - creer/modifier les pages HTML qui vont bien
 	    - Voir pour le tri dans les tables.
 	    - Formulaire de recherche pour affiner les requêtes.
@@ -57,10 +57,10 @@ LOGIN          - PASS   => FUNCTION   <3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3
 administrateur - admin  => tous les droits sur DB_MONSTER_PARK
 developpeur    - dev    => inserer, modifier, supprimer données DB_M..._P...
 moderateur     - mod    => modifier, supprimer données PLAYER
-adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
-editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
 
 //---------------------------- FINISH ----------------------------//
+adminquest     - quest  => visualiser, inserer, modifier, supprimer données QUEST
+editorialiste  - edit   => visualiser, inserer, modifier, supprimer données NEWSPAPER
 specialiste    - spec   => visualiser, modifier données MONSTER
 client         - client => visualiser données QUEST, NEWSPAPER
 

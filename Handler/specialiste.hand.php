@@ -1,5 +1,5 @@
 <?php 
-    require('../Model/MDBase_specialiste.mod.php');
+    require '../Model/MDBase_specialiste.mod.php';
     $connect = new MDBase_specialiste();
     switch($_POST['role']){
 
