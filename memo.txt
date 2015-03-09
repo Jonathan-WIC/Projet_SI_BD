@@ -7,12 +7,10 @@
 
 
 
-
 Modfication de la BDD :
-- renommer  la colonne RESUME en QUICK_RESUME 	pour NEWSPAPER
-- Ajouter   la colonne STATUS         			pour NEWSPAPER
-- Modifier  la colonne PICTURE en varchar 255   pour NEWS
-- Ajouter   la colonne NAME						pour QUEST
+- Ajouter la colonne NAME pour QUEST
+
+
 
 
 Les differents users:
@@ -28,6 +26,8 @@ RAF :	- Verification du login côté serveur. (switch case style biatch!)
 	    - Voir pour le tri dans les tables.
 	    - Formulaire de recherche pour affiner les requêtes.
 	    - un petit peu de CSS quand même
+
+		- renommer  la colonne QUICK_RESUME en SUMMARY	pour NEWSPAPER	[???]
 
 
 VERIFICATIONS
