@@ -9,9 +9,9 @@
 
 
 Modfication de la BDD :
-- renommer  la colonne RESUME en QUICK_RESUME 	pour NEWSPAPER
-- Ajouter   la colonne STATUS         			pour NEWSPAPER
-- Modifier  la colonne PICTURE en varchar 255   pour NEWS
+- renommer  la colonne RESUME en QUICK_RESUME 	pour NEWSPAPER	[???]
+- Ajouter   la colonne STATUS         		pour NEWSPAPER	[ALREADY DONE]
+- Modifier  la colonne PICTURE en varchar 255   pour NEWS	[DONE]
 
 
 Les differents users:
