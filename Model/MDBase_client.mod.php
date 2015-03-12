@@ -110,14 +110,14 @@
         }
 
         //get all quest's Items
-        public static function getAllQuestsItems()
+        public static function getAllQuestsItem()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT Q.ID_QUEST, I.LIB_ITEM
                         FROM QUEST Q, QUEST_REWARD_ITEM QRI, ITEM I
                        WHERE Q.ID_QUEST = QRI.ID_QUEST
-                         AND QRI.ID_ITEM = E.ID_ITEM";
+                         AND QRI.ID_ITEM = I.ID_ITEM";
 
             $qq = $pdo->prepare($query);
             $qq->execute();

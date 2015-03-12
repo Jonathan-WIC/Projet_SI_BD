@@ -168,7 +168,7 @@ function fillNewsPage(page){
 								    				 '</div>'+
 								    				 '<hr style="border-color: #000; border-style: solid;">'+
 								    				 '<div class="col-md-11">'+
-								    				 	'<p>'+response.newspaper[i]['QUICK_RESUME']+'</p>'+
+								    				 	'<p>'+response.newspaper[i]['SUMMARY']+'</p>'+
 								    				 '</div>'+
 						    				 	 '</div>'+
 					    				 	 '</div>');
@@ -219,7 +219,7 @@ function fillNewspaperInfos(id){
 	    data: {'id': id, 'role': "infosNewspapers" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	         $('#alterResume').val(response.newspaper[0]['SUMMARY']);
 	    }
 	});
 	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
@@ -229,7 +229,7 @@ function fillNewspaperInfos(id){
 function updateNewspaper(id){
 
 	var json_option = {
-	    QUICK_RESUME : $('#alterResume').val()
+	    SUMMARY : $('#alterResume').val()
 	};
 
 	$.ajax({
@@ -292,7 +292,7 @@ function deleteMultipleNewspaper(){
 function insertNewspaper(){
 
 	var json_option = {
-	    QUICK_RESUME : $('#insertResume').val()
+	    SUMMARY : $('#insertResume').val()
 	};
 
 	$.ajax({

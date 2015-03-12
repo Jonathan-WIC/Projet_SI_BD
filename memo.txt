@@ -11,23 +11,19 @@ Modfication de la BDD :
 - Ajouter la colonne NAME pour QUEST
 
 
-
-
 Les differents users:
 gros switch case. le formulaire de co du début on stocke les données dont on a besoin pour les requetes, on voit qui est co et puis on se débrouille quoi.
 
 
 
 RAF :	- Verification du login côté serveur. (switch case style biatch!)
-		- faire un MDBase PAR UTILISATEUR!!!! (3/7)
-		- Virer l'heure des datetimes dans les journaux - le formattage de l'affichage doit se faire via le JS
+		- faire un MDBase PAR UTILISATEUR!!!! (5/7)
 	    - faire des catégories dans l'header que l'on mettra dans des dropdown quand c'est necessaire
 	    - creer/modifier les pages HTML qui vont bien
-	    - Voir pour le tri dans les tables.
+	    - Voir pour le tri dans les tableaux.
 	    - Formulaire de recherche pour affiner les requêtes.
 	    - un petit peu de CSS quand même
 
-		- renommer  la colonne QUICK_RESUME en SUMMARY	pour NEWSPAPER	[???]
 
 
 VERIFICATIONS

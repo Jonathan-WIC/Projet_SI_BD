@@ -1,6 +1,7 @@
 <?php 
     require '../Model/MDBase_client.mod.php';
     $connect = new MDBase_client();
+
     switch($_POST['role']){
 
     	/**
@@ -21,7 +22,7 @@
 
             $resultItems = $connect->getAllQuestsItem();
             $result = $connect->getAllQuests($currentPage, $perPage);
-	    	$jsonarray = array("quest" => $result, "item" => $resultItem, "page" => $currentPage, "nbPage" => $nbPage);
+	    	$jsonarray = array("quest" => $result, "item" => $resultItems, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;
@@ -60,19 +61,6 @@
 
 	    	$result = $connect->getNewsFromGame($_POST['id'], $currentPage, $perPage);
 	    	$jsonarray = array("news" => $result, "newspaper"=>$_POST['id'], "page" => $currentPage, "nbPage" => $nbPage);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-
-		/**
-
-		getAll() Handler
-    	
-    	**/
-
-    	case "quest": 
-	    	$result = $connect->getAllQuests();
-			$jsonarray = array("quest" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;

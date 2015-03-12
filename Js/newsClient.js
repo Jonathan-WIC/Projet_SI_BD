@@ -32,7 +32,7 @@ function fillNewsPage(page){
 						    				 '</div>'+
 						    				 '<hr style="border-color: #000; border-style: solid;">'+
 						    				 '<div class="col-md-12">'+
-						    				 	'<p>'+response.newspaper[i]['QUICK_RESUME']+'</p>'+
+						    				 	'<p>'+response.newspaper[i]['SUMMARY']+'</p>'+
 						    				 '</div>'+
 					    				 '</div>');
 			}

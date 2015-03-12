@@ -215,8 +215,6 @@ ALTER TABLE MONSTER ADD CONSTRAINT FK_MONSTER_ID_JOUEUR FOREIGN KEY (ID_PERSO) R
 ALTER TABLE SUB_SPECIE ADD CONSTRAINT FK_SUB_SPECIE_ID_SPECIE FOREIGN KEY (ID_SPECIE) REFERENCES SPECIE (ID_SPECIE);
 ALTER TABLE ENCLOSURE ADD CONSTRAINT FK_ENCLOSURE_ID_SUB_SPECIE FOREIGN KEY (ID_SUB_SPECIE) REFERENCES SUB_SPECIE (ID_SUB_SPECIE);
 ALTER TABLE ENCLOSURE ADD CONSTRAINT FK_ENCLOSURE_ID_PARK FOREIGN KEY (ID_PARK) REFERENCES PARK (ID_PARK);
-ALTER TABLE ITEM ADD CONSTRAINT FK_ITEM_ID_JOUEUR FOREIGN KEY (ID_PERSO) REFERENCES PERSO (ID_PERSO);
-ALTER TABLE ITEM ADD CONSTRAINT FK_ITEM_ID_QUEST FOREIGN KEY (ID_QUEST) REFERENCES QUEST (ID_QUEST);
 ALTER TABLE PTRANSACTION ADD CONSTRAINT FK_PTRANSACTION_ID_JOUEUR FOREIGN KEY (ID_PERSO) REFERENCES PERSO (ID_PERSO);
 ALTER TABLE NEWS ADD CONSTRAINT FK_NEWS_ID_NEWSPAPER FOREIGN KEY (ID_NEWSPAPER) REFERENCES NEWSPAPER (ID_NEWSPAPER);
 ALTER TABLE PARK ADD CONSTRAINT FK_PARK_ID_PERSO FOREIGN KEY (ID_PERSO) REFERENCES PERSO (ID_PERSO);
@@ -282,3 +280,19 @@ INSERT INTO `MONSTER` (`ID_MONSTER`, `NAME`, `GENDER`, `AGE`, `WEIGHT`, `DANGER_
 INSERT INTO `ASSOC_MONSTER_ELEMENT` (`ID_ELEMENT`, `ID_MONSTER`) VALUES
 (2, 1),
 (4, 1);
+
+INSERT INTO `NEWSPAPER` (`ID_NEWSPAPER`, `PUBLICATION`, `SUMMARY`, `STATUS`) VALUES
+(6, '2015-03-05 00:00:00', 'Que s''est il passe sur votre jeu cette semaine? pour avoir la reponse, consultez vite votre journal!', 1),
+(15, '2015-03-04 14:03:35', 'ffzefzfvz\r\nhuguyzef\r\nzefiuzfiuzef\r\nzefzuegfzef\r\nzefzehfz_ef_zehfzehfiozefoizehf', 1),
+(19, '2015-03-06 00:00:00', 'lol', 1),
+(20, '2015-03-09 13:59:49', 'lol', 0);
+
+INSERT INTO `NEWS` (`ID_NEWS`, `TITLE`, `PICTURE`, `CONTENT`, `ID_NEWSPAPER`) VALUES
+(7, 'dazazad', '', 'erzfziejfizuhivebyfivuez fz86fe865ze4f4zef\r\nfzfzfzv e54fzfohfeivoiuee\r\ngergiuhzefyuzeiufiuzejhffzef\r\nfzehfuhyzefghdiyuzcuyoz efzjfziuegfytzfieubcohnzgrfesgf zezefizuhefuyzgefizei fg\r\nzefhzeufyuozaehu nicbauev bfnz vz74  zkebchgefze4c f zeyf z8fze', 6),
+(8, 'Titre X', '../Img/Jerome 41 ans protege sa virginite avec une armure 32 bits.jpg', 'erzfziej86fe865ze4f4zef\r\nfzfzfzv e54fzfohfeivoiuee\r\ngergiuhzefyuzeiufiuzejhffzef\r\nfzehfuhyzefghdiyuzcuyoz efzjfziuegfytzfieubcohnzgrfesgf zezefizuhefuyzgefizei fg\r\nzefhzeufyuozaehu nicbauev bfnz vz74  zkebchgefze4c f zeyf z8fze', 6),
+(9, 'azerty', '', 'erzfziejfizuhivebyfivuez fz86\r\nfzehfuhyzefghdiyuzcuyoz efzjfziuegfytzfieubcohnzgrfesgf zezefizuhefuyzgefizei fg\r\nzefhzeufyuozaehu nicbauev bfnz vz74  zkebchgefze4c f zeyf z8fze', 6),
+(10, 'Le bÃ©bÃ© phoque le plus mignon du monde ', '../Img/Bebe_phoque.jpeg', 'Il est trop choupi! regardez comme il est tout mignon quand il est sur le dos :3', 15),
+(16, 'Les poneys', '../Img/Les poney c_est pour les tapettes.jpg', ' Les poney Ã§a sert Ã  rien!', 19),
+(17, 'koujoukoujoukou', '../Img/koujoukoujoukou.jpg', 'koukou								', 6),
+(19, 'koujoukoujoukou', '../Img/koujoukoujoukou.jpg', 'une image vaut mieux que des mots....', 19),
+(20, 'OWI', '', 'OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI OWI ', 20);

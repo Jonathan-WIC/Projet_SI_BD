@@ -40,7 +40,7 @@ function fillQuestTable(page){
 
 			//On remplit les selects liés aux items des quests
 			for(i in response.item){
-            	$('#questItem'+response.item[i]['ID_ITEM']).append('<option>'+response.item[i]['LIB_ITEM']+'</option>');
+            	$('#questItem'+response.item[i]['ID_QUEST']).append('<option>'+response.item[i]['LIB_ITEM']+'</option>');
             }
 
             //On cherche les selects qui ne sont pas remplis (les quest qui n'ont pas d'item) et on met le 'N/A' par défaut
