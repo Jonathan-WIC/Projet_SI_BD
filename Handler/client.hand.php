@@ -19,8 +19,9 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$result = $connect->getAllQuests($currentPage, $perPage);
-	    	$jsonarray = array("quest" => $result, "page" => $currentPage, "nbPage" => $nbPage);
+            $resultItems = $connect->getAllQuestsItem();
+            $result = $connect->getAllQuests($currentPage, $perPage);
+	    	$jsonarray = array("quest" => $result, "item" => $resultItem, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;

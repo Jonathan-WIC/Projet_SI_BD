@@ -66,7 +66,8 @@
 				<th>Starting date</th>
 				<th>Duration</th>
 				<th>Fee</th>
-				<?php 
+				<th>Reward</th>
+				<?php
 					if($_SESSION['model'] != 'MDBase_client'){
 						echo '<th>Actions</th>';
 						echo '<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>';

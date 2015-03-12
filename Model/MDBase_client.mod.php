@@ -109,6 +109,22 @@
             return $data;
         }
 
+        //get all quest's Items
+        public static function getAllQuestsItems()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT Q.ID_QUEST, I.LIB_ITEM
+                        FROM QUEST Q, QUEST_REWARD_ITEM QRI, ITEM I
+                       WHERE Q.ID_QUEST = QRI.ID_QUEST
+                         AND QRI.ID_ITEM = E.ID_ITEM";
+
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
         //get all quest
         public static function getAllQuests($currentPage, $perPage)
         {
