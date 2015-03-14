@@ -26,12 +26,10 @@ $(document).ready(function(){
 	});
 
 	$('#UpdateMonsterModal').on('hide.bs.modal', function(){
-		$('#listUpdateElement').empty();
 		fillElementModalGrid();
 	});
 
 	$('#AddMonsterModal').on('hide.bs.modal', function(){
-		$('#listUpdateElement').empty();
 		fillElementModalGrid();
 	});
 
@@ -53,7 +51,6 @@ function selectAll(){
 function showAddMonsterModal(){
 	$('#AddMonsterModal').modal('show');
 };
-
 
 
 function fillMonsterTable(page){
@@ -79,7 +76,7 @@ function fillMonsterTable(page){
 			//On boucle sur monsters pour remplir le tableau des carac
 			for(i in response.infos){
 
-				if (response.infos[i]['ID_PERSO'] == '') response.infos[i]['ID_PERSO'] == 'N/A';
+				if (response.infos[i]['ID_PERSO'] == null) response.infos[i]['ID_PERSO'] = 'N/A';
 
 			    $('#bodyTableMonsters').append( '<tr>'+
 													'<td>'+response.infos[i]['ID_MONSTER']+'</td>'+
@@ -158,6 +155,10 @@ function fillMonsterTable(page){
 };
 
 function fillElementModalGrid(){
+
+	$('#listAddElement').empty();
+	$('#listUpdateElement').empty();
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php",
@@ -315,8 +316,70 @@ function deleteMultipleMonster(){
 	});
 };
 
+function addMonster(){
 
+	/*****************************
+	 ******* verify fields *******
+	 *****************************/
 
+	if ($('#addNameMonster').val().trim() == ""){
+		alert("You must fill correctly fill the Name's field");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addAgeMonster').val())) || $('#addAgeMonster').val().trim() < 0 || $('#addAgeMonster').val().trim() > 9999){
+		alert("The age's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addWeightMonster').val())) || $('#addWeightMonster').val().trim() < 0 || $('#addWeightMonster').val().trim() > 9999){
+		alert("The weigth's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addHealthMonster').val())) || $('#addHealthMonster').val().trim() < 0 || $('#addHealthMonster').val().trim() > 9999){
+		alert("The health's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addHungerMonster').val())) || $('#addHungerMonster').val().trim() < 0 || $('#addHungerMonster').val().trim() > 9999){
+		alert("The hunger's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addCleanMonster').val())) || $('#addCleanMonster').val().trim() < 0 || $('#addCleanMonster').val().trim() > 9999){
+		alert("The clean's value must be beetween 0 and 9999");
+		return false;
+	}
+
+	/*****************************
+	 ******** add elements *******
+	 *****************************/
+
+	var elementChecked = new Array();
+	$("input:checked[name=elementMob]").each(function() { //get the ID of all elements selected
+		elementChecked.push($(this).val());
+	});
+
+	var json_option = {
+	    NAME : $('#addNameMonster').val(),
+	    GENDER : $('#selectAddGenderMonster').val(),
+	    AGE : $('#addAgeMonster').val(),
+	    WEIGHT : $('#addWeightMonster').val(),
+	    DANGER_SCALE : $('#selectAddDangerMonster').val(),
+	    HEALTH_STATE : $('#addHealthMonster').val(),
+	    HUNGER_STATE : $('#addHungerMonster').val(),
+	    CLEAN_SCALE : $('#addCleanMonster').val(),
+	    ID_SUB_SPECIE : $('#selectAddSubSpecieMonster').val(),
+	    ID_MATURITY : $('#selectAddMaturityMonster').val(),
+	    ID_REGIME : $('#selectAddRegimeMonster').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': json_option, 'elem': elementChecked, 'role': "addMonster" }
+	}).done(function(){
+		fillMonsterTable(0);
+		$('#AddMonsterModal').modal('hide');
+	});
+
+};
 
 
 function fillSelectSpecie(){

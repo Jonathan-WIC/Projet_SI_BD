@@ -72,6 +72,7 @@
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND M.ID_REGIME = R.ID_REGIME
                       AND SSP.ID_SPECIE = SP.ID_SPECIE
+                      ORDER BY ID_MONSTER
                       LIMIT :STARTPAGE, :PERPAGE";
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -188,24 +189,59 @@
             return $result;
         }
 
-        /*public static function deleteMultipleMonster($id)
+        public static function addMonster($infos)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "DELETE FROM MONSTER WHERE ID_MONSTER IN (";
-            for($i = 0 ; $i < count($data) ; ++$i) {
-                $query .= $data[$i].",";    // boucle les ID des newspaper que l'on veux supprimer
-            }
-            $query = substr($query, 0, -1); // Suppression de la derniere virgule
-            $query .= ");"; // ferme la parenthese du IN
+            $query = "  INSERT INTO MONSTER (
+                                        NAME,
+                                        GENDER,
+                                        AGE,
+                                        WEIGHT,
+                                        DANGER_SCALE,
+                                        HEALTH_STATE,
+                                        HUNGER_STATE,
+                                        CLEAN_SCALE,
+                                        ID_SUB_SPECIE,
+                                        ID_MATURITY,
+                                        ID_REGIME
+                                    )
+                             VALUES (
+                                        :NAME,
+                                        :GENDER,
+                                        :AGE,
+                                        :WEIGHT,
+                                        :DANGER_SCALE,
+                                        :HEALTH_STATE,
+                                        :HUNGER_STATE,
+                                        :CLEAN_SCALE,
+                                        :ID_SUB_SPECIE,
+                                        :ID_MATURITY,
+                                        :ID_REGIME
+                                    )";
 
             $qq = $pdo->prepare($query);
 
-            //$qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('NAME', $infos['NAME'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('AGE', $infos['AGE'], PDO::PARAM_INT);
+            $qq->bindValue('WEIGHT', $infos['WEIGHT'], PDO::PARAM_INT);
+            $qq->bindValue('DANGER_SCALE', $infos['DANGER_SCALE'], PDO::PARAM_STR);
+            $qq->bindValue('HEALTH_STATE', $infos['HEALTH_STATE'], PDO::PARAM_INT);
+            $qq->bindValue('HUNGER_STATE', $infos['HUNGER_STATE'], PDO::PARAM_INT);
+            $qq->bindValue('CLEAN_SCALE', $infos['CLEAN_SCALE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_SUB_SPECIE', $infos['ID_SUB_SPECIE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_MATURITY', $infos['ID_MATURITY'], PDO::PARAM_INT);
+            $qq->bindValue('ID_REGIME', $infos['ID_REGIME'], PDO::PARAM_INT);
+
             $result = $qq->execute();
-            return $result;
-        }*/
+
+            //$temp return the ID of the last row inserted
+            $temp = $pdo->lastInsertId();
+
+            return $temp;
+        }
 
         public static function updateElemMonster($id, $infos)
         {

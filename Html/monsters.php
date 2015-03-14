@@ -157,7 +157,7 @@
 	                	    <div class="control-group">
 								<label class="control-label" for="alterAgeMonster">Age* :</label>
 								<div class="controls">
-									<input type="number" id="alterAgeMonster" readonly="true"/>
+									<input type="number" id="alterAgeMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
@@ -280,33 +280,33 @@
 
 	            		<div class="col-md-6">
 	                	    <div class="control-group">
-								<label class="control-label" for="AddAgeMonster">Age* :</label>
+								<label class="control-label" for="addAgeMonster">Age* :</label>
 								<div class="controls">
-									<input type="number" id="AddAgeMonster" readonly="true"/>
+									<input type="number" id="addAgeMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="AddWeightMonster">Weight* :</label>
+								<label class="control-label" for="addWeightMonster">Weight* :</label>
 								<div class="controls">
-									<input type="number" id="AddWeightMonster"/>
+									<input type="number" id="addWeightMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="AddHungerMonster">Hunger* :</label>
+								<label class="control-label" for="addHungerMonster">Hunger* :</label>
 								<div class="controls">
-									<input type="number" id="AddHungerMonster"/>
+									<input type="number" id="addHungerMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="AddHealthMonster">Health* :</label>
+								<label class="control-label" for="addHealthMonster">Health* :</label>
 								<div class="controls">
-									<input type="number" id="AddHealthMonster"/>
+									<input type="number" id="addHealthMonster"/>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="aAddCleanMonster">Clean* :</label>
+								<label class="control-label" for="addCleanMonster">Clean* :</label>
 								<div class="controls">
-									<input type="number" id="aAddCleanMonster"/>
+									<input type="number" id="addCleanMonster"/>
 								</div>
 							</div>
 	            		</div>

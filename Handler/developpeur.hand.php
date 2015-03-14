@@ -58,6 +58,14 @@
     		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
     			$result = $connect->deleteMonster($_POST['data'][$i]);
     		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "addMonster":
+    		$result = $connect->addMonster($_POST['data']);
+    		$result = $connect->updateElemMonster($result, $_POST['elem']);
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
