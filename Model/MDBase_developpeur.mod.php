@@ -491,6 +491,18 @@
             return $result;
         }
 
+        public static function addElement($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO ELEMENT (LIB_ELEMENT) VALUES (:LIB_ELEMENT)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_ELEMENT', $data['NAME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
 
         public static function deleteMonsterElem($id)
         {
@@ -505,18 +517,6 @@
             return $result;
         }
 
-        public static function addElement($data)
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $query  = "INSERT INTO ELEMENT (LIB_ELEMENT) VALUES (:LIB_ELEMENT)";
-            $qq = $pdo->prepare($query);
-            $qq->bindValue('LIB_ELEMENT', $data['NAME'], PDO::PARAM_INT);
-            $result = $qq->execute();
-
-            return $result;
-        }
 
         /**
 
@@ -629,7 +629,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "  UPDATE MATURITY SET LIB_MATURITY = :NAME WHERE ID_MATURITY = :ID";
+            $query = "UPDATE MATURITY SET LIB_MATURITY = :NAME WHERE ID_MATURITY = :ID";
 
             $qq = $pdo->prepare($query);
 
@@ -638,6 +638,49 @@
             $result = $qq->execute();
             return $result;
         }
+
+        public static function deleteMaturity($id)
+        {
+            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their maturity to NULL)
+            self::removeMaturityFromMonster($id); 
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM MATURITY WHERE ID_MATURITY = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addMaturity($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO MATURITY (LIB_MATURITY) VALUES (:LIB_MATURITY)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_MATURITY', $data['NAME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function removeMaturityFromMonster($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "UPDATE MONSTER SET ID_MATURITY = 0 WHERE ID_MATURITY = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
 
 
         /**

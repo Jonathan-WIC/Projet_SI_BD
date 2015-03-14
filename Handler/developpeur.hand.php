@@ -280,6 +280,32 @@
 			echo $jsonReturned;
 		break;
 
+
+    	case "deleteMaturity":
+    		$result = $connect->deleteMaturity($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleMaturity":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteMaturity($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addMaturity":
+    		$result = $connect->addMaturity($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+
 		/**
 
 		getAll() Cases
