@@ -109,15 +109,33 @@
             return $data;
         }
 
+        //get all quest's Items
+        public static function getAllQuestsItem()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT Q.ID_QUEST, I.LIB_ITEM
+                        FROM QUEST Q, QUEST_REWARD_ITEM QRI, ITEM I
+                       WHERE Q.ID_QUEST = QRI.ID_QUEST
+                         AND QRI.ID_ITEM = I.ID_ITEM";
+
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
         //get all quest
         public static function getAllQuests($currentPage, $perPage)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM QUEST LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM QUEST ORDER BY ID_QUEST DESC LIMIT :STARTPAGE, :PERPAGE";
+
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
             $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;

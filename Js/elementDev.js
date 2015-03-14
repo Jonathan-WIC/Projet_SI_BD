@@ -11,13 +11,33 @@ $(document).ready(function(){
     /////////////////////////////////////////////////////////////////
 
 	$('#btnSaveChangesElement').click(function(){
-		var dataID = $(this).attr('idElement'); // get the current monster's ID
+		var dataID = $(this).attr('idElement'); // get the current element's ID
 		updateElementInfos(dataID);
+	});
+
+	$('#btnAddElement').click(function(){
+		addElement();
 	});
 
 });//Ready
 
+
+function showAddElementModal(){
+	$('#AddElementModal').modal('show');
+};
+
+function selectAll(){
+	if( $("#selectAll").is(':checked') )
+		$('.checkboxElement').prop('checked', true);
+	else
+		$('.checkboxElement').prop('checked', false);
+};
+
 function fillElementTable(page){
+
+	$('#optionElement').empty();
+	$('#optionElement').append('<button id="addElement" onclick="showAddElementModal()">Add Element</button>'+
+							   '<button id="deleteElement" onclick="deleteMultipleElement()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
@@ -26,20 +46,23 @@ function fillElementTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php"+url,
+	    url:"Handler/developpeur.hand.php"+url,
 	    data: {'role': "tableElement" },
 	    dataType: 'json',
 	    success: function(response){
 
 			$('#bodyTableElements').empty();
-			//On boucle sur monsters pour remplir le tableau des carac
+			//On boucle sur elements pour remplir le tableau des carac
 			for(i in response.element){
 			    $('#bodyTableElements').append( '<tr>'+
 												'<td>'+response.element[i]['ID_ELEMENT']+'</td>'+
 												'<td>'+response.element[i]['LIB_ELEMENT']+'</td>'+
 												'<td>'+
-													'<button class="altElement" idElement="'+response.element[i]['ID_ELEMENT']+'" onclick="fillElementInfos('+response.element[i]['ID_ELEMENT']+');" >Modif'+
-													'</button>'+
+													'<button class="altElement" onclick="fillElementInfos('+response.element[i]['ID_ELEMENT']+');">Modif</button>'+
+													'<button class="deleteElement" onclick="deleteElement('+response.element[i]['ID_ELEMENT']+');">Delete</button>'+
+												'</td>'+
+												'<td>'+
+													'<input type="checkbox" name="selectedElement" value="'+response.element[i]['ID_ELEMENT']+'" class="checkboxElement">'+
 												'</td>'+
 				    				 			'</tr>');
 			}
@@ -87,7 +110,7 @@ function fillElementInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'role': "infosElements" },
 	    dataType: 'json',
 	    success: function(response){
@@ -101,8 +124,8 @@ function fillElementInfos(id){
 function updateElementInfos(id){
 
 	//verify fields
-	if ($('#alterNameElement').val().trim() == '') {	// trim is used to remove the white space at the begining 
-		alert("You must fill all required fields");		// and the end of a string
+	if ($('#alterNameElement').val().trim() == '') {// trim is used to remove the white space at the begining and the end
+		alert("you must fill corectly all required fields!");
 		return false;
 	}
 
@@ -112,12 +135,72 @@ function updateElementInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'data': json_option, 'role': "updateElement" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
 		fillElementTable(currentPage);
 		$('#UpdateElementModal').modal('hide');
+	});
+
+};
+
+function deleteElement(id){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'id': id, 'role': "deleteElement"},
+	    dataType: 'json'
+	}).done(function(){
+		alert("Element deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillElementTable(currentPage);
+	});
+};
+
+function deleteMultipleElement(){
+	
+	var elementChecked = new Array();
+	$("input:checked[name=selectedElement]").each(function() { //get the ID of all elements selected
+		elementChecked.push($(this).val());
+	});
+
+	if (elementChecked.length < 1) {
+		alert("You must select at least 1 element");
+		return false;
+	}
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': elementChecked, 'role': "deleteMultipleElement" }
+	}).done(function(){
+		alert("Elements deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillElementTable(currentPage);
+	});
+};
+
+function addElement(){
+	
+	//verify fields
+	if ($('#addNameElement').val().trim() == '') {// trim is used to remove the white space at the begining and the end
+		alert("you must fill corectly all required fields!");
+		return false;
+	}
+
+	var json_option = {
+	    NAME : $('#addNameElement').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': json_option, 'role': "addElement" }
+	}).done(function(){
+		$('#addElementModal').modal('hide');
+		alert("Element created!")
+		fillElementTable(0);
 	});
 
 };

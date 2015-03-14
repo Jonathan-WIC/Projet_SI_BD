@@ -40,6 +40,12 @@ $(document).ready(function(){
         // On empêche le navigateur de soumettre le formulaire
         e.preventDefault();
 
+        //verify fields
+        if ($.trim($('#updateTitle').val()) == '' || $.trim($('#updateContent').val()) == '') {
+        	alert("You must fill all required fields");
+        	return false;
+        }
+
         var $form = $(this);
         var formdata = (window.FormData) ? new FormData($form[0]) : null;
         var data = (formdata !== null) ? formdata : $form.serialize();
@@ -63,6 +69,12 @@ $(document).ready(function(){
 	$('#formCreateNews').on('submit', function (e) {
         // On empêche le navigateur de soumettre le formulaire
         e.preventDefault();
+
+        //verify fields
+        if ($.trim($('#addTitle').val()) == '' || $.trim($('#addContent').val()) == '') {
+        	alert("You must fill all required fields");
+        	return false;
+        }
 
         var $form = $(this);
         var formdata = (window.FormData) ? new FormData($form[0]) : null;
@@ -168,7 +180,7 @@ function fillNewsPage(page){
 								    				 '</div>'+
 								    				 '<hr style="border-color: #000; border-style: solid;">'+
 								    				 '<div class="col-md-11">'+
-								    				 	'<p>'+response.newspaper[i]['QUICK_RESUME']+'</p>'+
+								    				 	'<p>'+response.newspaper[i]['SUMMARY']+'</p>'+
 								    				 '</div>'+
 						    				 	 '</div>'+
 					    				 	 '</div>');
@@ -219,7 +231,7 @@ function fillNewspaperInfos(id){
 	    data: {'id': id, 'role': "infosNewspapers" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#alterResume').val(response.newspaper[0]['QUICK_RESUME']);
+	         $('#alterResume').val(response.newspaper[0]['SUMMARY']);
 	    }
 	});
 	$('#btnSaveChangesNewspaper').attr('idNewspaper', id); //get the ID for the Update fonction
@@ -228,8 +240,14 @@ function fillNewspaperInfos(id){
 
 function updateNewspaper(id){
 
+	//verify fields
+	if ($.trim($('#alterResume').val()) == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");	// and the end of a string
+		return false;
+	}
+
 	var json_option = {
-	    QUICK_RESUME : $('#alterResume').val()
+	    SUMMARY : $('#alterResume').val()
 	};
 
 	$.ajax({
@@ -291,8 +309,14 @@ function deleteMultipleNewspaper(){
 
 function insertNewspaper(){
 
+	//verify fields
+	if ($.trim($('#insertResume').val()) == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");		// and the end of a string
+		return false;
+	}
+
 	var json_option = {
-	    QUICK_RESUME : $('#insertResume').val()
+	    SUMMARY : $('#insertResume').val()
 	};
 
 	$.ajax({
@@ -308,7 +332,7 @@ function insertNewspaper(){
 
 
 								/**************************************************/
-								/************* Newspaper's functions **************/
+								/************* Article's functions **************/
 								/**************************************************/
 
 

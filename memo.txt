@@ -8,31 +8,24 @@
 
 
 Modfication de la BDD :
-- Ajouter la colonne NAME pour QUEST
-
-
-
+=> rien pour le moment
 
 Les differents users:
 gros switch case. le formulaire de co du début on stocke les données dont on a besoin pour les requetes, on voit qui est co et puis on se débrouille quoi.
 
 
 
-RAF :	- Verification du login côté serveur. (switch case style biatch!)
-		- faire un MDBase PAR UTILISATEUR!!!! (3/7)
-		- Virer l'heure des datetimes dans les journaux - le formattage de l'affichage doit se faire via le JS
+RAF :	- faire un MDBase PAR UTILISATEUR!!!! (Modo - Dev - Admin)
 	    - faire des catégories dans l'header que l'on mettra dans des dropdown quand c'est necessaire
-	    - creer/modifier les pages HTML qui vont bien
-	    - Voir pour le tri dans les tables.
+	    - Voir pour le tri dans les tableaux. (pas le temps :-/)
 	    - Formulaire de recherche pour affiner les requêtes.
 	    - un petit peu de CSS quand même
+	    - Les log_connexion et le ptransaction ne seront visible que par l'admin (on ne fais pas d'autre opération que la visualisation)
 
-		- renommer  la colonne QUICK_RESUME en SUMMARY	pour NEWSPAPER	[???]
 
 
-VERIFICATIONS
-	    - /!\ 			RE-VERIFIER LA PAGINATION DANS MONSTER 			/!\
-	    - /!\ VERIFIER LES VALUES AU NIVEAU DU JS POUR L'UPDATE MONSTER /!\
+VERIFICATIONS :
+=> rien pour le moment
 
 
 snippet à faire :
@@ -42,20 +35,12 @@ template Mod/View
 template de layout
 template getAll function
 
-- Pour les PLAYERS il nous faut : 	- L'ID;
-									- Toutes les caractéristique non clef étrangère;
-									- l'ID de ses monstres;
-									- l'ID de ses parks;
-									- l'ID de son compte;
-									- ses transactions
-
-
 UTILISATEURS MySQL:
 
-LOGIN          - PASS   => FUNCTION   <3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3
+LOGIN          - PASS   => FUNCTION
 
 administrateur - admin  => tous les droits sur DB_MONSTER_PARK
-developpeur    - dev    => inserer, modifier, supprimer données DB_M..._P...
+developpeur    - dev    => visualiser, inserer, modifier, supprimer données DB_M..._P...
 moderateur     - mod    => modifier, supprimer données PLAYER
 
 //---------------------------- FINISH ----------------------------//

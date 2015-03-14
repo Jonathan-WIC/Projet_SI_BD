@@ -15,9 +15,29 @@ $(document).ready(function(){
 		updateMaturityInfos(dataID);
 	});
 
+	$('#btnAddMaturity').click(function(){
+		addMaturity();
+	});
+
 });//Ready
 
+
+function showAddMaturityModal(){
+	$('#AddMaturityModal').modal('show');
+};
+
+function selectAll(){
+	if( $("#selectAll").is(':checked') )
+		$('.checkboxMaturity').prop('checked', true);
+	else
+		$('.checkboxMaturity').prop('checked', false);
+};
+
 function fillMaturityTable(page){
+
+	$('#optionMaturity').empty();
+	$('#optionMaturity').append('<button id="addMaturity" onclick="showAddMaturityModal()">Add Maturity</button>'+
+							   '<button id="deleteMaturity" onclick="deleteMultipleMaturity()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
@@ -26,7 +46,7 @@ function fillMaturityTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php"+url,
+	    url:"Handler/developpeur.hand.php"+url,
 	    data: {'role': "tableMaturity" },
 	    dataType: 'json',
 	    success: function(response){
@@ -38,8 +58,11 @@ function fillMaturityTable(page){
 												'<td>'+response.maturity[i]['ID_MATURITY']+'</td>'+
 												'<td>'+response.maturity[i]['LIB_MATURITY']+'</td>'+
 												'<td>'+
-													'<button class="altMaturity" idMaturity="'+response.maturity[i]['ID_MATURITY']+'" onclick="fillMaturityInfos('+response.maturity[i]['ID_MATURITY']+');" >Modif'+
-													'</button>'+
+													'<button class="altMaturity" onclick="fillMaturityInfos('+response.maturity[i]['ID_MATURITY']+');" >Modif</button>'+
+													'<button class="deleteMaturity" onclick="deleteMaturity('+response.maturity[i]['ID_MATURITY']+');">Delete</button>'+
+												'</td>'+
+												'<td>'+
+													'<input type="checkbox" name="selectedMaturity" value="'+response.maturity[i]['ID_MATURITY']+'" class="checkboxMaturity">'+
 												'</td>'+
 				    				 			'</tr>');
 			}
@@ -87,7 +110,7 @@ function fillMaturityInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'role': "infosMaturitys" },
 	    dataType: 'json',
 	    success: function(response){
@@ -111,12 +134,72 @@ function updateMaturityInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'data': json_option, 'role': "updateMaturity" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
 		fillMaturityTable(currentPage);
 		$('#UpdateMaturityModal').modal('hide');
+	});
+
+};
+
+function deleteMaturity(id){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'id': id, 'role': "deleteMaturity"},
+	    dataType: 'json'
+	}).done(function(){
+		alert("Maturity deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillMaturityTable(currentPage);
+	});
+};
+
+function deleteMultipleMaturity(){
+	
+	var maturityChecked = new Array();
+	$("input:checked[name=selectedMaturity]").each(function() { //get the ID of all maturitys selected
+		maturityChecked.push($(this).val());
+	});
+
+	if (maturityChecked.length < 1) {
+		alert("You must select at least 1 maturity");
+		return false;
+	}
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': maturityChecked, 'role': "deleteMultipleMaturity" }
+	}).done(function(){
+		alert("Maturitys deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillMaturityTable(currentPage);
+	});
+};
+
+function addMaturity(){
+	
+	//verify fields
+	if ($('#addNameMaturity').val().trim() == '') {// trim is used to remove the white space at the begining and the end
+		alert("you must fill corectly all required fields!");
+		return false;
+	}
+
+	var json_option = {
+	    NAME : $('#addNameMaturity').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': json_option, 'role': "addMaturity" }
+	}).done(function(){
+		$('#AddMaturityModal').modal('hide');
+		alert("Maturity created!")
+		fillMaturityTable(0);
 	});
 
 };

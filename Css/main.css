@@ -71,7 +71,11 @@ table>tbody{
     width: 20%;
 }
 
-#elementalInfos b {
+#addElementalInfos b {
+    margin-left: 5%;
+}
+
+#updateElementalInfos b {
     margin-left: 5%;
 }
 
@@ -103,6 +107,30 @@ table>tbody{
 }
 
 #optionQuest {
+    text-align: right;
+}
+
+#optionMonster {
+    text-align: right;
+}
+
+#optionElement {
+    text-align: right;
+}
+
+#optionMaturity {
+    text-align: right;
+}
+
+#optionRegime {
+    text-align: right;
+}
+
+#optionSpecie {
+    text-align: right;
+}
+
+#optionSubSpecie {
     text-align: right;
 }
 

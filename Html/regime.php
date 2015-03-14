@@ -28,6 +28,10 @@
 	<!-- ------------------------------------ Table result ------------------------------------ -->
 
 <div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
+
+	<div id="optionRegime">
+	</div>
+
 	<table id="tableRegimes" class="table table-bordered">
 		<thead>
 			<tr>

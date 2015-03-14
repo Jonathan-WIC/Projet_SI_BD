@@ -4,6 +4,7 @@ $(document).ready(function(){
     ///////////////////////// fill the page ////////////////////////
     ////////////////////////////////////////////////////////////////
 
+    fillSelectItems();
     fillQuestTable(0);
 
 	/////////////////////////////////////////////////////////////////
@@ -38,10 +39,6 @@ function showAddQuestModal(){
 	$('#addQuestModal').modal('show');
 };
 
-function showAddNewsModal(){
-	$('#addNewsModal').modal('show');
-};
-
 	/////////////////////////////////////////////////////////////////
     ////////////////// Check/Uncheck all checkbox  //////////////////
     /////////////////////////////////////////////////////////////////
@@ -54,6 +51,29 @@ function selectAll(){
 };
 
 
+	/////////////////////////////////////////////////////////////////
+    ////////////////////// fill Item's select  //////////////////////
+    /////////////////////////////////////////////////////////////////
+
+function fillSelectItems(){
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/adminquest.hand.php",
+	    data: {'role': "fillItems" },
+	    dataType: 'json',
+	    success: function(response){
+  
+	    	$(".selectItem").append('<option value="'+null+'">N/A</option>');
+
+			//On remplit les selects liés aux items dans les modales
+			for(i in response.item){
+            	$(".selectItem").append('<option value="'+response.item[i]['ID_ITEM']+'">'+response.item[i]['LIB_ITEM']+'</option>');
+            }
+
+	    }
+	});
+}
 
 
 								/****************************************************/
@@ -90,6 +110,10 @@ function fillQuestTable(page){
 												'<td>'+response.quest[i]['DURATION']+'</td>'+
 												'<td>'+response.quest[i]['FEE']+'</td>'+
 												'<td>'+
+													'<select id="questItem'+response.quest[i]['ID_QUEST']+'" class="questItemTable">'+
+													'</select>'+
+												'</td>'+
+												'<td>'+
 													'<button class="altQuest" onclick="fillQuestInfos('+response.quest[i]['ID_QUEST']+');">Update</button>'+
 													'<button class="suprQuest" onclick="deleteQuest('+response.quest[i]['ID_QUEST']+');">Delete</button>'+
 												'</td>'+
@@ -98,6 +122,16 @@ function fillQuestTable(page){
 												'</td>'+
 				    				 			'</tr>');
 			}
+
+
+			//On remplit les selects liés aux items des quests
+			for(i in response.item){
+            	$('#questItem'+response.item[i]['ID_QUEST']).append('<option>'+response.item[i]['LIB_ITEM']+'</option>');
+            }
+
+            //On cherche les selects qui ne sont pas remplis (les quest qui n'ont pas d'item) et on met le 'N/A' par défaut
+            $('.questItemTable:empty').append('<option>N/A</option>');
+
 	    }
 	}).done(function(response){
 
@@ -147,17 +181,55 @@ function fillQuestInfos(id){
 	    data: {'id': id, 'role': "infosQuests" },
 	    dataType: 'json',
 	    success: function(response){
-	         $('#updateName').val(response.quest[0]['NAME']);
-	         $('#updateStartingDate').val(response.quest[0]['DATE_DEB']);
-	         $('#updateDuration').val(response.quest[0]['DURATION']);
-	         $('#updateFee').val(response.quest[0]['FEE']);
+	        $('#updateName').val(response.quest[0]['NAME']);
+	        $('#updateStartingDate').val(response.quest[0]['DATE_DEB']);
+	        $('#updateDuration').val(response.quest[0]['DURATION']);
+	        $('#updateFee').val(response.quest[0]['FEE']);
+
+	        //fill the select item reward
+	        if(response.item.length > 0){
+	        	for (var i = 0; i < response.item.length; i++) {
+		        	//id of selects begin at 1, so we make i+1 to fill the good select :-)
+		        	$('#selectUpdateReward'+(i+1)+' option[value="'+response.item[i]['ID_ITEM']+'"]').prop('selected', true);
+		        };
+	        } else{
+	        	$('#selectUpdateReward1 option[value="null"]').prop('selected', true);
+	        	$('#selectUpdateReward2 option[value="null"]').prop('selected', true);
+	        }
+		         
 	    }
 	});
 	$('#btnSaveChangesQuest').attr('idQuest', id); //get the ID for the Update fonction
 	$('#updateQuestModal').modal('show');
 };
 
+
 function updateQuest(id){
+
+
+	/*****************************
+	 ******* verify fields *******
+	 *****************************/
+
+	 console.log(isNaN(parseFloat($('#updateDuration').val())));
+
+	if ($('#updateName').val().trim() == ""){
+		alert("You must fill correctly fill the Name fields");
+		return false;
+	}
+	if($('#updateStartingDate').val().trim() == "" && $('#updateStartingDate').val().trim().length != 10){
+		alert("You must fill correctly fill the Starting date field (format is 'YYYY-MM-DD'");
+		return false;
+	}
+	if(isNaN(parseFloat($('#updateDuration').val())) || $('#updateDuration').val().trim() < 0 || $('#updateDuration').val().trim() > 365){
+		alert("The duration's value must be beetween 0 and 365");
+		return false;
+	}
+	if(isNaN(parseFloat($('#updateFee').val())) || $('#updateFee').val().trim() < 0 || $('#updateFee').val().trim() > 1000000){
+		alert("The fee's value must be beetween 0 and 1 000 000");
+		return false;
+	}
+
 
 	var json_option = {
 	    NAME : $('#updateName').val(),
@@ -166,16 +238,22 @@ function updateQuest(id){
 	    FEE : $('#updateFee').val()
 	};
 
+	var json_reward = [
+		$('#selectUpdateReward1').val(),
+		$('#selectUpdateReward2').val()
+	];
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/adminquest.hand.php",
-	    data: {'id': id, 'data': json_option, 'role': "updateQuest" }
+	    data: {'id': id, 'data': json_option, 'reward': json_reward, 'role': "updateQuest" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
 		fillQuestTable(currentPage);
 		$('#updateQuestModal').modal('hide');
 	});
 };
+
 
 function deleteQuest(id){
 
@@ -189,15 +267,13 @@ function deleteQuest(id){
 	});
 };
 
+
 function deleteMultipleQuest(){
 
 	var questChecked = new Array();
 	$("input:checked[name=selectedQuest]").each(function() { //get the ID of all elements selected
-		console.log($(this).val());
 		questChecked.push($(this).val());
 	});
-
-	console.log(questChecked);
 
 	if (questChecked.length < 1) {
 		alert("You must select at least 1 quest");
@@ -214,7 +290,29 @@ function deleteMultipleQuest(){
 	});
 };
 
+
 function insertQuest(){
+
+	/*****************************
+	 ******* verify fields *******
+	 *****************************/
+
+	if ($('#addName').val().trim() == ""){
+		alert("You must fill correctly fill the Name fields");
+		return false;
+	}
+	if($('#addStartingDate').val().trim() == "" && $('#addStartingDate').val().trim().length != 10){
+		alert("You must fill correctly fill the Starting date field (format is 'YYYY-MM-DD'");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addDuration').val())) || $('#addDuration').val().trim() < 0 || $('#addDuration').val().trim() > 365){
+		alert("The duration's value must be beetween 0 and 365");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addFee').val())) || $('#addFee').val().trim() < 0 || $('#addFee').val().trim() > 1000000){
+		alert("The fee's value must be beetween 0 and 1 000 000");
+		return false;
+	}
 
 	var json_option = {
 	    NAME : $('#addName').val(),
@@ -223,10 +321,15 @@ function insertQuest(){
 	    FEE : $('#addFee').val()
 	};
 
+	var tab_reward = [
+		$('#selectInsertReward1').val(),
+		$('#selectInsertReward2').val()
+	];
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/adminquest.hand.php",
-	    data: {'data': json_option, 'role': "insertQuest" }
+	    data: {'data': json_option, 'data_reward': tab_reward, 'role': "insertQuest" }
 	}).done(function(){
 		$('#addQuestModal').modal('hide');
 		fillQuestTable(0);

@@ -26,13 +26,26 @@ function fillQuestTable(page){
 			//On boucle sur monsters pour remplir le tableau des carac
 			for(i in response.quest){
 			    $('#bodyTableQuests').append( '<tr>'+
-												'<td>'+response.quest[i]['ID_QUEST']+'</td>'+
-												'<td>'+response.quest[i]['NAME']+'</td>'+
-												'<td>'+response.quest[i]['DATE_DEB']+'</td>'+
-												'<td>'+response.quest[i]['DURATION']+'</td>'+
-												'<td>'+response.quest[i]['FEE']+'</td>'+
-				    				 			'</tr>');
+											  '<td>'+response.quest[i]['ID_QUEST']+'</td>'+
+											  '<td>'+response.quest[i]['NAME']+'</td>'+
+											  '<td>'+response.quest[i]['DATE_DEB']+'</td>'+
+											  '<td>'+response.quest[i]['DURATION']+'</td>'+
+											  '<td>'+response.quest[i]['FEE']+'</td>'+
+											  '<td>'+
+										  	      '<select id="questItem'+response.quest[i]['ID_QUEST']+'" class="questItemTable">'+
+										  	      '</select>'+
+											  '</td>'+
+				    				 		  '</tr>');
 			}
+
+			//On remplit les selects liés aux items des quests
+			for(i in response.item){
+            	$('#questItem'+response.item[i]['ID_QUEST']).append('<option>'+response.item[i]['LIB_ITEM']+'</option>');
+            }
+
+            //On cherche les selects qui ne sont pas remplis (les quest qui n'ont pas d'item) et on met le 'N/A' par défaut
+            $('.questItemTable:empty').append('<option>N/A</option>');
+
 	    }
 	}).done(function(response){
 

@@ -21,16 +21,44 @@ $(document).ready(function(){
 		updateMonsterInfos(dataID);
 	});
 
-
+	$('#btnAddMonster').click(function(){
+		addMonster();
+	});
 
 	$('#UpdateMonsterModal').on('hide.bs.modal', function(){
-		$('#listUpdateElement').empty();
+		fillElementModalGrid();
+	});
+
+	$('#AddMonsterModal').on('hide.bs.modal', function(){
 		fillElementModalGrid();
 	});
 
 });//Ready
 
+
+	/////////////////////////////////////////////////////////////////
+    ////////////////// Check/Uncheck all checkbox  //////////////////
+    /////////////////////////////////////////////////////////////////
+
+function selectAll(){
+	if( $("#selectAll").is(':checked') )
+		$('.checkboxMonster').prop('checked', true);
+	else
+		$('.checkboxMonster').prop('checked', false);
+};
+
+
+function showAddMonsterModal(){
+	$('#AddMonsterModal').modal('show');
+};
+
+
 function fillMonsterTable(page){
+
+
+	$('#optionMonster').empty();
+	$('#optionMonster').append('<button id="addMonster" onclick="showAddMonsterModal()">Add Monster</button>'+
+							 '<button id="deleteMonster" onclick="deleteMultipleMonster()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
@@ -39,7 +67,7 @@ function fillMonsterTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php"+url,
+	    url:"Handler/developpeur.hand.php"+url,
 	    data: {'role': "tableMonster" },
 	    dataType: 'json',
 	    success: function(response){
@@ -47,27 +75,35 @@ function fillMonsterTable(page){
 			$('#bodyTableMonsters').empty();
 			//On boucle sur monsters pour remplir le tableau des carac
 			for(i in response.infos){
+
+				if (response.infos[i]['ID_PERSO'] == null) response.infos[i]['ID_PERSO'] = 'N/A';
+
 			    $('#bodyTableMonsters').append( '<tr>'+
-												'<td>'+response.infos[i]['ID_MONSTER']+'</td>'+
-												'<td>'+response.infos[i]['NAME']+'</td>'+
-												'<td>'+response.infos[i]['LIB_SPECIE']+'</td>'+
-												'<td>'+response.infos[i]['LIB_SUB_SPECIE']+'</td>'+
-												'<td>'+response.infos[i]['GENDER']+'</td>'+
-												'<td>'+response.infos[i]['AGE']+'</td>'+
-												'<td>'+response.infos[i]['LIB_MATURITY']+'</td>'+
-												'<td>'+response.infos[i]['WEIGHT']+'</td>'+
-												'<td>'+response.infos[i]['DANGER_SCALE']+'</td>'+
-												'<td>'+response.infos[i]['HEALTH_STATE']+'</td>'+
-												'<td>'+response.infos[i]['HUNGER_STATE']+'</td>'+
-												'<td>'+response.infos[i]['CLEAN_SCALE']+'</td>'+
-												'<td>'+response.infos[i]['LIB_REGIME']+'</td>'+
-												'<td>'+
-													'<select id="elementMonster'+response.infos[i]['ID_MONSTER']+'" class="elementMonsterTable">'+
-													'</select></td>'+
-												'<td>'+
-													'<button class="altMonster" idMonster="'+response.infos[i]['ID_MONSTER']+'" onclick="fillMonsterInfos('+ response.infos[i]['ID_MONSTER'] +');" >Modif'+
-													'</button>'+
-												'</td>'+
+													'<td>'+response.infos[i]['ID_MONSTER']+'</td>'+
+													'<td>'+response.infos[i]['NAME']+'</td>'+
+													'<td>'+response.infos[i]['LIB_SPECIE']+'</td>'+
+													'<td>'+response.infos[i]['LIB_SUB_SPECIE']+'</td>'+
+													'<td>'+response.infos[i]['GENDER']+'</td>'+
+													'<td>'+response.infos[i]['AGE']+'</td>'+
+													'<td>'+response.infos[i]['LIB_MATURITY']+'</td>'+
+													'<td>'+response.infos[i]['WEIGHT']+'</td>'+
+													'<td>'+response.infos[i]['DANGER_SCALE']+'</td>'+
+													'<td>'+response.infos[i]['HEALTH_STATE']+'</td>'+
+													'<td>'+response.infos[i]['HUNGER_STATE']+'</td>'+
+													'<td>'+response.infos[i]['CLEAN_SCALE']+'</td>'+
+													'<td>'+response.infos[i]['LIB_REGIME']+'</td>'+
+													'<td>'+
+														'<select id="elementMonster'+response.infos[i]['ID_MONSTER']+'" class="elementMonsterTable">'+
+														'</select>'+
+													'</td>'+
+													'<td>'+response.infos[i]['ID_PERSO']+'</td>'+
+													'<td>'+
+														'<button class="altMonster" onclick="fillMonsterInfos('+ response.infos[i]['ID_MONSTER'] +');" >Modif</button>'+
+														'<button class="deleteMonster" onclick="deleteMonster('+ response.infos[i]['ID_MONSTER'] +');" >Supr</button>'+
+													'</td>'+
+													'<td>'+
+														'<input type="checkbox" name="selectedMonster" value="'+response.infos[i]['ID_MONSTER']+'" class="checkboxMonster">'+
+													'</td>'+
 				    				 			'</tr>');
 			}
 
@@ -119,17 +155,25 @@ function fillMonsterTable(page){
 };
 
 function fillElementModalGrid(){
+
+	$('#listAddElement').empty();
+	$('#listUpdateElement').empty();
+
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "element"},
 	    dataType: 'json',
 	    success: function(response){
 	    	for(i in response.element){
 	        	$('#listUpdateElement').append('<li>'+
-	        							 '<input id="Elem_'+response.element[i]['LIB_ELEMENT']+'" type="checkbox" name="elementMob" value="'+response.element[i]['ID_ELEMENT']+'" />'+
-	        							 '<label for="Elem_'+response.element[i]['LIB_ELEMENT']+'">'+response.element[i]['LIB_ELEMENT']+'</label>'+
-	        							 '</li>');
+			        						   '<input id="Elem_'+response.element[i]['LIB_ELEMENT']+'" type="checkbox" name="elementMob" value="'+response.element[i]['ID_ELEMENT']+'" />'+
+			        						   '<label for="Elem_'+response.element[i]['LIB_ELEMENT']+'">'+response.element[i]['LIB_ELEMENT']+'</label>'+
+			        						   '</li>');
+	        	$('#listAddElement').append('<li>'+
+			        						'<input id="addElem_'+response.element[i]['LIB_ELEMENT']+'" type="checkbox" name="elementMob" value="'+response.element[i]['ID_ELEMENT']+'" />'+
+			        						'<label for="addElem_'+response.element[i]['LIB_ELEMENT']+'">'+response.element[i]['LIB_ELEMENT']+'</label>'+
+			        						'</li>');
 	        }
 	    }
 	});
@@ -139,7 +183,7 @@ function fillMonsterInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'role': "infosMonster" },
 	    dataType: 'json',
 	    success: function(response){
@@ -206,7 +250,7 @@ function updateMonsterInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'data': elementChecked, 'role': "updateElemMonster" }
 	}).done(function(){
 		var json_option = {
@@ -225,7 +269,7 @@ function updateMonsterInfos(id){
 
 		$.ajax({
 		    type: "POST", //Sending method
-		    url:"Handler/specialiste.hand.php",
+		    url:"Handler/developpeur.hand.php",
 		    data: {'id': id, 'data': json_option, 'role': "updateMonster" }
 		}).done(function(){
 			var currentPage = $('.active').attr('id').replace("page", "");
@@ -237,10 +281,111 @@ function updateMonsterInfos(id){
 
 };
 
+function deleteMonster(id){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'id': id, 'role': "deleteMonster" },
+	    dataType: 'json'
+	}).done(function(){
+		alert("Monster Erased");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillMonsterTable(currentPage);
+	});
+};
+
+function deleteMultipleMonster(){
+
+	var monsterChecked = new Array();
+	$("input:checked[name=selectedMonster]").each(function() { //get the ID of all elements selected
+		monsterChecked.push($(this).val());
+	});
+
+	if (monsterChecked.length < 1) {
+		alert("You must select at least 1 monster");
+		return false;
+	}
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': monsterChecked, 'role': "deleteMultipleMonster" }
+	}).done(function(){
+		fillMonsterTable(0);
+		
+	});
+};
+
+function addMonster(){
+
+	/*****************************
+	 ******* verify fields *******
+	 *****************************/
+
+	if ($('#addNameMonster').val().trim() == ""){
+		alert("You must fill correctly fill the Name's field");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addAgeMonster').val())) || $('#addAgeMonster').val().trim() < 0 || $('#addAgeMonster').val().trim() > 9999){
+		alert("The age's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addWeightMonster').val())) || $('#addWeightMonster').val().trim() < 0 || $('#addWeightMonster').val().trim() > 9999){
+		alert("The weigth's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addHealthMonster').val())) || $('#addHealthMonster').val().trim() < 0 || $('#addHealthMonster').val().trim() > 9999){
+		alert("The health's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addHungerMonster').val())) || $('#addHungerMonster').val().trim() < 0 || $('#addHungerMonster').val().trim() > 9999){
+		alert("The hunger's value must be beetween 0 and 9999");
+		return false;
+	}
+	if(isNaN(parseFloat($('#addCleanMonster').val())) || $('#addCleanMonster').val().trim() < 0 || $('#addCleanMonster').val().trim() > 9999){
+		alert("The clean's value must be beetween 0 and 9999");
+		return false;
+	}
+
+	/*****************************
+	 ******** add elements *******
+	 *****************************/
+
+	var elementChecked = new Array();
+	$("input:checked[name=elementMob]").each(function() { //get the ID of all elements selected
+		elementChecked.push($(this).val());
+	});
+
+	var json_option = {
+	    NAME : $('#addNameMonster').val(),
+	    GENDER : $('#selectAddGenderMonster').val(),
+	    AGE : $('#addAgeMonster').val(),
+	    WEIGHT : $('#addWeightMonster').val(),
+	    DANGER_SCALE : $('#selectAddDangerMonster').val(),
+	    HEALTH_STATE : $('#addHealthMonster').val(),
+	    HUNGER_STATE : $('#addHungerMonster').val(),
+	    CLEAN_SCALE : $('#addCleanMonster').val(),
+	    ID_SUB_SPECIE : $('#selectAddSubSpecieMonster').val(),
+	    ID_MATURITY : $('#selectAddMaturityMonster').val(),
+	    ID_REGIME : $('#selectAddRegimeMonster').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': json_option, 'elem': elementChecked, 'role': "addMonster" }
+	}).done(function(){
+		fillMonsterTable(0);
+		$('#AddMonsterModal').modal('hide');
+	});
+
+};
+
+
 function fillSelectSpecie(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "specie" },
 	    dataType: 'json',
 	    success: function(response){
@@ -253,7 +398,7 @@ function fillSelectSpecie(){
 function fillSelectSubSpecie(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "subSpecie" },
 	    dataType: 'json',
 	    success: function(response){
@@ -266,7 +411,7 @@ function fillSelectSubSpecie(){
 function fillSelectMaturity(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "maturity" },
 	    dataType: 'json',
 	    success: function(response){
@@ -279,7 +424,7 @@ function fillSelectMaturity(){
 function fillSelectRegime(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "regime" },
 	    dataType: 'json',
 	    success: function(response){

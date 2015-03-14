@@ -37,7 +37,7 @@
 				<div class="modal-body">
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label class="control-label" for="alterResume">quick description :</label>
+							<label class="control-label" for="alterResume">quick description* :</label>
 							<div class="controls">
 								<textarea name="alterResume" id="alterResume" rows="10" cols="70">
 								</textarea>
@@ -72,7 +72,7 @@
 				<div class="modal-body">
                     <form class="form-horizontal" id="formCreateNewspaper">
 						<div class="control-group">
-							<label class="control-label" for="insertResume">quick description :</label>
+							<label class="control-label" for="insertResume">quick description* :</label>
 							<div class="controls">
 								<textarea name="insertResume" id="insertResume" rows="10" cols="70">
 								</textarea>
@@ -109,13 +109,13 @@
 						<div class="control-group">
 							<input type="hidden" id="roleUpdateNews" name="role" value="updateNews">
 							<input type="hidden" id="recupNewsId" name="recupNewsId">
-							<label class="control-label" for="updateTitle">Title :</label>
+							<label class="control-label" for="updateTitle">Title* :</label>
 							<div class="controls">
 								<input type="text" id="updateTitle" name="updateTitle">
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="updateContent">Contenu :</label>
+							<label class="control-label" for="updateContent">Contenu* :</label>
 							<div class="controls">
 								<textarea name="updateContent" id="updateContent" rows="10" cols="70">
 								</textarea>
@@ -158,13 +158,13 @@
 						<div class="control-group">
 							<input type="hidden" id="roleCreateNews" name="role" value="createNews">
 							<input type="hidden" id="recupNewspaperId" name="recupNewspaperId">
-							<label class="control-label" for="addTitle">Title :</label>
+							<label class="control-label" for="addTitle">Title* :</label>
 							<div class="controls">
 								<input type="text" id="addTitle" name="addTitle">
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="addContent">Contenu :</label>
+							<label class="control-label" for="addContent">Contenu* :</label>
 							<div class="controls">
 								<textarea name="addContent" id="addContent" rows="10" cols="70">
 								</textarea>

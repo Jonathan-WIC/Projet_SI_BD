@@ -72,7 +72,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT QUICK_RESUME, STATUS FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+            $query = "SELECT SUMMARY, STATUS FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
@@ -87,12 +87,12 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "  UPDATE NEWSPAPER
-                        SET  QUICK_RESUME = :QUICK_RESUME
+                        SET  SUMMARY = :SUMMARY
                         WHERE ID_NEWSPAPER  = :ID";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID',            $id,                    PDO::PARAM_INT);
-            $qq->bindValue('QUICK_RESUME',  $infos['QUICK_RESUME'], PDO::PARAM_STR);
+            $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
 
             $result = $qq->execute();
             return $result;
@@ -151,10 +151,10 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO NEWSPAPER (QUICK_RESUME) VALUES (:QUICK_RESUME)";
+            $query = "INSERT INTO NEWSPAPER (SUMMARY) VALUES (:SUMMARY)";
 
             $qq = $pdo->prepare($query);
-            $qq->bindValue('QUICK_RESUME',  $infos['QUICK_RESUME'], PDO::PARAM_STR);
+            $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
 
             $result = $qq->execute();
             return $result;

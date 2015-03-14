@@ -53,10 +53,11 @@
 
     <script type="text/javascript" src="./Lib/jquery.min.js"></script>
     <script type="text/javascript" src="./Lib/bootstrap.js"></script>
-    <script type="text/javascript" src="./Js/verifConnection.js"></script>
     <?php 
         if (isset($_SESSION['script'])) {
             echo '<script src="'.$_SESSION['script'].'" /></script>';
+        } else {
+            echo '<script src="./Js/verifConnection.js" /></script>';
         }
     ?>
 

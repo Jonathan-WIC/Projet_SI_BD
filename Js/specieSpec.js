@@ -101,6 +101,12 @@ function fillSpecieInfos(id){
 
 function updateSpecieInfos(id){
 
+	//verify fields
+	if ($('#alterNameSpecie').val().trim() == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");		// and the end of a string
+		return false;
+	}
+
 	var json_option = {
 	    NAME : $('#alterNameSpecie').val()
 	};
