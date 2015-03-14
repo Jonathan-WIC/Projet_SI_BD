@@ -438,7 +438,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ELEMENT LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM ELEMENT ORDER BY ID_ELEMENT LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -476,6 +476,47 @@
             return $result;
         }
 
+        public static function deleteElement($id)
+        {
+            self::deleteMonsterElem($id); // we need to delete all row in the ASSOC_MONSTER_ELEMENT before
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM ELEMENT WHERE ID_ELEMENT = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        public static function deleteMonsterElem($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "DELETE FROM ASSOC_MONSTER_ELEMENT WHERE ID_ELEMENT = :ID;";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function addElement($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO ELEMENT (LIB_ELEMENT) VALUES (:LIB_ELEMENT)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_ELEMENT', $data['NAME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
 
         /**
 

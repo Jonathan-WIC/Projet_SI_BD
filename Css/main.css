@@ -114,6 +114,26 @@ table>tbody{
     text-align: right;
 }
 
+#optionElement {
+    text-align: right;
+}
+
+#optionMaturity {
+    text-align: right;
+}
+
+#optionRegime {
+    text-align: right;
+}
+
+#optionSpecie {
+    text-align: right;
+}
+
+#optionSubSpecie {
+    text-align: right;
+}
+
 .actnsNewspapers {
     text-align: right;
     margin-right: 1%;

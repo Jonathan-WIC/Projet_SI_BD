@@ -5,7 +5,7 @@
 
     	/**
 
-    	Monster Handler
+    	Monster Cases
     	
     	**/
 
@@ -73,7 +73,7 @@
 
 		/**
 
-		Species Handler
+		Species Cases
 
 		**/
 
@@ -110,7 +110,7 @@
 
 		/**
 
-		Sub Specie Handler
+		Sub Specie Cases
 
 		**/
 
@@ -147,7 +147,7 @@
 
 		/**
 
-		Element Handler
+		Element Cases
 
 		**/
 
@@ -182,9 +182,33 @@
 			echo $jsonReturned;
 		break;
 
+    	case "deleteElement":
+    		$result = $connect->deleteElement($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleElement":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteElement($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addElement":
+    		$result = $connect->addElement($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
 		/**
 
-		Regime Handler
+		Regime Cases
 
 		**/
 
@@ -221,7 +245,7 @@
 
 		/**
 
-		Maturity Handler
+		Maturity Cases
 
 		**/
 
@@ -258,7 +282,7 @@
 
 		/**
 
-		getAll() Handler
+		getAll() Cases
     	
     	**/
 

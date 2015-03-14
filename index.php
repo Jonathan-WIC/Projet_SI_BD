@@ -24,14 +24,19 @@
         case 'monstersDev':     monstersDev();  break;
 
         case 'specieSpec':      specieSpec();   break;
+        case 'specieDev':       specieDev();    break;
 
         case 'subSpecieSpec':   subSpecieSpec();break;
+        case 'subSpecieDev':    subSpecieDev(); break;
 
         case 'elementsSpec':    elementsSpec(); break;
+        case 'elementsDev':     elementsDev();  break;
 
         case 'regimeSpec':      regimeSpec();   break;
+        case 'regimeDev':       regimeDev();    break;
 
         case 'maturitySpec':    maturitySpec(); break;
+        case 'maturityDev':     maturityDev();  break;
 
         case 'news':            news();         break;
         case 'newsClient':      newsClient();   break;
@@ -155,7 +160,16 @@
     **/
 
     function specieSpec(){
-        $_SESSION['script'] = 'JS/specieSpec.js';
+        $_SESSION['script'] = 'Js/specieSpec.js';
+        global $page;
+        $page['title'] = 'Species';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/specie.php';
+    }         
+
+    function specieDev(){
+        $_SESSION['script'] = 'Js/specieDev.js';
         global $page;
         $page['title'] = 'Species';
         $page['class'] = 'VHtml';
@@ -168,7 +182,16 @@
     **/
 
     function subSpecieSpec(){
-        $_SESSION['script'] = 'JS/subSpecieSpec.js';
+        $_SESSION['script'] = 'Js/subSpecieSpec.js';
+        global $page;
+        $page['title'] = 'Sub Species';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/subSpecie.php';
+    }   
+
+    function subSpecieDev(){
+        $_SESSION['script'] = 'Js/subSpecieDev.js';
         global $page;
         $page['title'] = 'Sub Species';
         $page['class'] = 'VHtml';
@@ -181,7 +204,16 @@
     **/
 
     function elementsSpec(){
-        $_SESSION['script'] = 'JS/elementSpec.js';
+        $_SESSION['script'] = 'Js/elementSpec.js';
+        global $page;
+        $page['title'] = 'Elements';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/element.php';
+    }     
+
+    function elementsDev(){
+        $_SESSION['script'] = 'Js/elementDev.js';
         global $page;
         $page['title'] = 'Elements';
         $page['class'] = 'VHtml';
@@ -194,7 +226,16 @@
     **/
 
     function regimeSpec(){
-        $_SESSION['script'] = 'JS/regimeSpec.js';
+        $_SESSION['script'] = 'Js/regimeSpec.js';
+        global $page;
+        $page['title'] = 'Regimes';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/regime.php';
+    }         
+
+    function regimeDev(){
+        $_SESSION['script'] = 'Js/regimeDev.js';
         global $page;
         $page['title'] = 'Regimes';
         $page['class'] = 'VHtml';
@@ -207,7 +248,16 @@
     **/
 
     function maturitySpec(){
-        $_SESSION['script'] = 'JS/maturitySpec.js';
+        $_SESSION['script'] = 'Js/maturitySpec.js';
+        global $page;
+        $page['title'] = 'Maturity';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/maturity.php';
+    } 
+
+    function maturityDev(){
+        $_SESSION['script'] = 'Js/maturityDev.js';
         global $page;
         $page['title'] = 'Maturity';
         $page['class'] = 'VHtml';
