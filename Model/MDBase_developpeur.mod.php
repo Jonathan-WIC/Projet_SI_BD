@@ -341,6 +341,47 @@
             $result = $qq->execute();
             return $result;
         }
+        public static function deleteSpecie($id)
+        {
+            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their Specie to NULL)
+            self::removeSpecieFromMonster($id); 
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM SPECIE WHERE ID_SPECIE = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addSpecie($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO SPECIE (LIB_SPECIE) VALUES (:LIB_SPECIE)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_SPECIE', $data['NAME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function removeSpecieFromMonster($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "UPDATE SUB_SPECIE SET ID_SUB_SPECIE = 0  WHERE ID_SPECIE = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
 
 
         /**
@@ -578,6 +619,48 @@
             return $result;
         }
 
+        public static function deleteRegime($id)
+        {
+            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their Regime to NULL)
+            self::removeRegimeFromMonster($id); 
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM REGIME WHERE ID_REGIME = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addRegime($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO REGIME (LIB_REGIME) VALUES (:LIB_REGIME)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_REGIME', $data['NAME'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function removeRegimeFromMonster($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "UPDATE MONSTER SET ID_REGIME = 0 WHERE ID_REGIME = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
 
         /**
 
@@ -680,7 +763,6 @@
 
             return $result;
         }
-
 
 
         /**

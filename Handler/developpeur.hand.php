@@ -108,6 +108,30 @@
 			echo $jsonReturned;
 		break;
 
+    	case "deleteSpecie":
+    		$result = $connect->deleteSpecie($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleSpecie":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteSpecie($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addSpecie":
+    		$result = $connect->addSpecie($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
 		/**
 
 		Sub Specie Cases
@@ -243,6 +267,30 @@
 			echo $jsonReturned;
 		break;
 
+    	case "deleteRegime":
+    		$result = $connect->deleteRegime($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleRegime":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteRegime($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addRegime":
+    		$result = $connect->addRegime($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
 		/**
 
 		Maturity Cases
@@ -280,7 +328,6 @@
 			echo $jsonReturned;
 		break;
 
-
     	case "deleteMaturity":
     		$result = $connect->deleteMaturity($_POST['id']);
 			$jsonarray = array("result" => $result);
@@ -304,7 +351,6 @@
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;
-
 
 		/**
 
