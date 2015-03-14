@@ -10,6 +10,13 @@
         
         **/
 
+        case "fillItems":
+            $result = $connect->fillItemSelect();
+            $jsonarray = array("item" => $result);
+            $jsonReturned = json_encode($jsonarray);
+            echo $jsonReturned;
+        break;
+
         case "tableQuest":
             $total = $connect->countQuests();                   // Nombre total de résultat
             $perPage = 20;                                      // Nombre de resultat par page
@@ -20,22 +27,25 @@
             else
                 $currentPage = 1;                           // Page courante initialiser à 1 par défaut
 
+            $resultItem = $connect->getAllQuestsItem();
             $result = $connect->getAllQuests($currentPage, $perPage);
-            $jsonarray = array("quest" => $result, "page" => $currentPage, "nbPage" => $nbPage);
+            $jsonarray = array("quest" => $result, "item" => $resultItem, "page" => $currentPage, "nbPage" => $nbPage);
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;
         break;
 
         case "infosQuests":
+            $resultItem = $connect->getQuestItemInfos($_POST['id']);
             $result = $connect->getQuestInfos($_POST['id']);
-            $jsonarray = array("quest" => $result);
+            $jsonarray = array("quest" => $result, "item" => $resultItem);
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;
         break;
 
         case "updateQuest":
+            $resultItem = $connect->updateQuestItem($_POST['id'], $_POST['reward']);
             $result = $connect->updateQuest($_POST['id'], $_POST['data']);
-            $jsonarray = array("result" => $result);
+            $jsonarray = array("result" => $result, "resultItem" => $resultItem);
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;
         break;
@@ -56,7 +66,8 @@
 
         case "insertQuest":
             $result = $connect->insertQuest($_POST['data']);
-            $jsonarray = array("result" => $result);
+            $resultItem = $connect->insertQuestItem($result, $_POST['data_reward']);
+            $jsonarray = array("result" => $result, "result" => $resultItem);
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;
         break;

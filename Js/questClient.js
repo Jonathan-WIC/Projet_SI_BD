@@ -26,16 +26,16 @@ function fillQuestTable(page){
 			//On boucle sur monsters pour remplir le tableau des carac
 			for(i in response.quest){
 			    $('#bodyTableQuests').append( '<tr>'+
-												'<td>'+response.quest[i]['ID_QUEST']+'</td>'+
-												'<td>'+response.quest[i]['NAME']+'</td>'+
-												'<td>'+response.quest[i]['DATE_DEB']+'</td>'+
-												'<td>'+response.quest[i]['DURATION']+'</td>'+
-												'<td>'+response.quest[i]['FEE']+'</td>'+
-												'<td>'+
-													'<select id="questItem'+response.quest[i]['ID_QUEST']+'" class="questItemTable">'+
-													'</select>'+
-												'</td>'+
-				    				 			'</tr>');
+											  '<td>'+response.quest[i]['ID_QUEST']+'</td>'+
+											  '<td>'+response.quest[i]['NAME']+'</td>'+
+											  '<td>'+response.quest[i]['DATE_DEB']+'</td>'+
+											  '<td>'+response.quest[i]['DURATION']+'</td>'+
+											  '<td>'+response.quest[i]['FEE']+'</td>'+
+											  '<td>'+
+										  	      '<select id="questItem'+response.quest[i]['ID_QUEST']+'" class="questItemTable">'+
+										  	      '</select>'+
+											  '</td>'+
+				    				 		  '</tr>');
 			}
 
 			//On remplit les selects liés aux items des quests

@@ -40,6 +40,12 @@ $(document).ready(function(){
         // On empêche le navigateur de soumettre le formulaire
         e.preventDefault();
 
+        //verify fields
+        if ($.trim($('#updateTitle').val()) == '' || $.trim($('#updateContent').val()) == '') {
+        	alert("You must fill all required fields");
+        	return false;
+        }
+
         var $form = $(this);
         var formdata = (window.FormData) ? new FormData($form[0]) : null;
         var data = (formdata !== null) ? formdata : $form.serialize();
@@ -63,6 +69,12 @@ $(document).ready(function(){
 	$('#formCreateNews').on('submit', function (e) {
         // On empêche le navigateur de soumettre le formulaire
         e.preventDefault();
+
+        //verify fields
+        if ($.trim($('#addTitle').val()) == '' || $.trim($('#addContent').val()) == '') {
+        	alert("You must fill all required fields");
+        	return false;
+        }
 
         var $form = $(this);
         var formdata = (window.FormData) ? new FormData($form[0]) : null;
@@ -228,6 +240,12 @@ function fillNewspaperInfos(id){
 
 function updateNewspaper(id){
 
+	//verify fields
+	if ($.trim($('#alterResume').val()) == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");	// and the end of a string
+		return false;
+	}
+
 	var json_option = {
 	    SUMMARY : $('#alterResume').val()
 	};
@@ -291,6 +309,12 @@ function deleteMultipleNewspaper(){
 
 function insertNewspaper(){
 
+	//verify fields
+	if ($.trim($('#insertResume').val()) == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");		// and the end of a string
+		return false;
+	}
+
 	var json_option = {
 	    SUMMARY : $('#insertResume').val()
 	};
@@ -308,7 +332,7 @@ function insertNewspaper(){
 
 
 								/**************************************************/
-								/************* Newspaper's functions **************/
+								/************* Article's functions **************/
 								/**************************************************/
 
 

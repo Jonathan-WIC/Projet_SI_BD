@@ -49,12 +49,8 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT COUNT(M.ID_MONSTER) AS NB_MOB
-                      FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
-                      WHERE M.ID_MATURITY = MA.ID_MATURITY
-                      AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
-                      AND M.ID_REGIME = R.ID_REGIME
-                      AND SSP.ID_SPECIE = SP.ID_SPECIE"; 
+            $query = "SELECT COUNT(ID_MONSTER) AS NB_MOB
+                      FROM MONSTER "; 
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

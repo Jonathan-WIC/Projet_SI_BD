@@ -101,6 +101,12 @@ function fillElementInfos(id){
 
 function updateElementInfos(id){
 
+	//verify fields
+	if ($('#alterNameElement').val().trim() == '') {	// trim is used to remove the white space at the begining 
+		alert("You must fill all required fields");		// and the end of a string
+		return false;
+	}
+
 	var json_option = {
 	    NAME : $('#alterNameElement').val()
 	};

@@ -101,6 +101,11 @@ function fillMaturityInfos(id){
 
 function updateMaturityInfos(id){
 
+	if ($('#alterNameMaturity').val().trim() == '') {
+		alert("You must fill all required fields");
+		return false;
+	}
+
 	var json_option = {
 	    NAME : $('#alterNameMaturity').val()
 	};

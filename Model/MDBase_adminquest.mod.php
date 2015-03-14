@@ -36,6 +36,100 @@
 
         /**
 
+                                                ITEMS REQUESTS
+
+        **/
+
+        public static function fillItemSelect()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT ID_ITEM, LIB_ITEM FROM ITEM ORDER BY TYPE_ITEM";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        //get all quest's Items
+        public static function getAllQuestsItem()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT Q.ID_QUEST, I.LIB_ITEM
+                        FROM QUEST Q, QUEST_REWARD_ITEM QRI, ITEM I
+                       WHERE Q.ID_QUEST = QRI.ID_QUEST
+                         AND QRI.ID_ITEM = I.ID_ITEM";
+
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getQuestItemInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM QUEST_REWARD_ITEM WHERE ID_QUEST = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateQuestItem($questId, $itemId)
+        {
+
+            //before insert, we delete all Item binding to the selected quest
+            self::deleteQuestItem($questId);
+
+            $result = self::insertQuestItem($questId, $itemId);
+
+            return $result;
+        }
+
+        public static function deleteQuestItem($questId)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "DELETE FROM QUEST_REWARD_ITEM WHERE ID_QUEST = :ID_QUEST";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID_QUEST', $questId, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function insertQuestItem($questId, $itemId)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "INSERT INTO QUEST_REWARD_ITEM (ID_QUEST, ID_ITEM) VALUES (:ID_QUEST, :ID_ITEM)";
+            $qq = $pdo->prepare($query);
+
+            $result = false;
+            $qq->bindValue('ID_QUEST', $questId, PDO::PARAM_INT);
+            for($i = 0 ; $i < count($itemId) ; ++$i)
+            {
+                if($itemId[$i] != 'null'){
+                    $qq->bindValue('ID_ITEM', $itemId[$i], PDO::PARAM_INT);
+                    $result = $qq->execute();
+                }
+            }
+
+            return $result;
+        }
+
+        /**
+
                                                 QUEST REQUESTS
 
         **/
@@ -106,6 +200,10 @@
 
         public static function deleteQuest($id)
         {
+
+            //before, we delete all Item binding to the selected quest
+            self::deleteQuestItem($id);
+
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "DELETE FROM QUEST WHERE ID_QUEST = :ID";
@@ -122,6 +220,18 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+            //Suppression des items associés aux quêtes
+            $query = "DELETE FROM QUEST_REWARD_ITEM WHERE ID_QUEST IN (";
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i].",";    // boucle les ID des quêtes que l'on veux supprimer
+            }
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
+            $qq = $pdo->prepare($query);
+            $result = $qq->execute();
+            
+            //Suppression des quêtes
             $query = "DELETE FROM QUEST WHERE ID_QUEST IN (";
             for($i = 0 ; $i < count($data) ; ++$i) {
                 $query .= $data[$i].",";    // boucle les ID des quêtes que l'on veux supprimer
@@ -148,7 +258,11 @@
             $qq->bindValue('FEE',       $infos['FEE'],      PDO::PARAM_INT);
 
             $result = $qq->execute();
-            return $result;
+            
+            //$temp return the ID of the last row inserted
+            $temp = $pdo->lastInsertId();
+
+            return $temp;
         }
     }
 

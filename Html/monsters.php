@@ -43,6 +43,10 @@
 	<!-- ------------------------------------ Table result ------------------------------------ -->
 
 <div class="col-md-10" style="margin-top:2%;">
+
+	<div id="optionMonster">
+	</div>
+
 	<table id="tableMonsters" class="table table-bordered">
 		<thead>
 			<tr>
@@ -50,7 +54,7 @@
 				<th>Name</th>
 				<th>Specie</th>
 				<th>Family</th>
-				<th>Gender</th>
+				<th>Gdr</th>
 				<th>Age</th>
 				<th>Maturity</th>
 				<th>Weight</th>
@@ -60,11 +64,15 @@
 				<th>Clean</th>
 				<th>Regime</th>
 				<th>Element(s)</th>
-				<?php 
-					if( $_SESSION['model'] == "MDBase_administrateur")
+				<?php
+					if( $_SESSION['model'] == "MDBase_developpeur" OR $_SESSION['model'] == "MDBase_administrateur" )
 				    	echo '<th>Owner</th>';
 				?>
 				<th>Action</th>
+				<?php
+					if( $_SESSION['model'] == "MDBase_developpeur" OR $_SESSION['model'] == "MDBase_administrateur" )
+				    	echo '<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>';
+				?>
 			</tr>
 		</thead>
 		<tbody id="bodyTableMonsters">
@@ -76,9 +84,9 @@
 	</nav>
 
 
-	<!-- -------------------------------------------------------------------------------------------------------------------- -->
-	<!-- ------------------------------------------------  Modals elements -------------------------------------------------- -->
-	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+	<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+	<!-- ------------------------------------------------ Modals update Monsters ------------------------------------------------ -->
+	<!-- ------------------------------------------------------------------------------------------------------------------------ -->
 
 	
 	<div id="UpdateMonsterModal" class="modal fade">
@@ -185,8 +193,8 @@
 					<!-- ------------------------------------ Infos on elements ------------------------------------ -->
 
 					<div id="elementalInfos" class="row">
-						<b>Elements* :</b>
-						<ul id="listElement" class="checkbox-grid">
+						<b>Elements :</b>
+						<ul id="listUpdateElement" class="checkbox-grid">
 						</ul>
 					</div>
 
@@ -196,6 +204,131 @@
 					<span class="pull-left">* Required Fields</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="btnSaveChangesMonster">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+	<!-- -------------------------------------------------- Modal add Monsters -------------------------------------------------- -->
+	<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+
+	
+	<div id="AddMonsterModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modifier un monstre</h4>
+				</div>
+
+
+				<div class="modal-body">
+					
+					<!-- ------------------------------------ Main informations col 1 ------------------------------------ -->
+
+					<div class="row"> <!-- Don't forget class="row" !!!! -->
+						<div class="col-md-6">
+	                        <form class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label" for="addNameMonster">Name* :</label>
+									<div class="controls">
+										<input type="text" id="addNameMonster" />
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="selectAddDangerMonster">Danger :</label>
+									<div class="controls">
+										<select id="selectAddDangerMonster" class="selectDanger">
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="selectAddSubSpecieMonster">Sub Specie :</label>
+									<div class="controls">
+										<select id="selectAddSubSpecieMonster" class="selectSubSpecies">
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="selectAddGenderMonster">Gender :</label>
+									<div class="controls">
+										<select id="selectAddGenderMonster">
+											<option value="M">M</option>
+											<option value="F">F</option>
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="selectAddMaturityMonster">Maturity :</label>
+									<div class="controls">
+										<select id="selectAddMaturityMonster" class="selectMaturity">
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="selectAddRegimeMonster">Regime :</label>
+									<div class="controls">
+										<select id="selectAddRegimeMonster" class="selectRegime">
+										</select>
+									</div>
+								</div>
+							</form>
+	            		</div>
+
+					<!-- ------------------------------------ Main informations col 2 ------------------------------------ -->
+
+	            		<div class="col-md-6">
+	                	    <div class="control-group">
+								<label class="control-label" for="AddAgeMonster">Age* :</label>
+								<div class="controls">
+									<input type="number" id="AddAgeMonster" readonly="true"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="AddWeightMonster">Weight* :</label>
+								<div class="controls">
+									<input type="number" id="AddWeightMonster"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="AddHungerMonster">Hunger* :</label>
+								<div class="controls">
+									<input type="number" id="AddHungerMonster"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="AddHealthMonster">Health* :</label>
+								<div class="controls">
+									<input type="number" id="AddHealthMonster"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="aAddCleanMonster">Clean* :</label>
+								<div class="controls">
+									<input type="number" id="aAddCleanMonster"/>
+								</div>
+							</div>
+	            		</div>
+					</div>
+
+			
+					<hr>	
+					
+					<!-- ------------------------------------ Infos on elements ------------------------------------ -->
+
+					<div id="addElementalInfos" class="row">
+						<b>Elements :</b>
+						<ul id="listAddElement" class="checkbox-grid">
+						</ul>
+					</div>
+
+
+				</div><!-- /.modal-body --> 
+				<div class="modal-footer">
+					<span class="pull-left">* Required Fields</span>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="btnAddMonster">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
