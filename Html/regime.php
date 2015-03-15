@@ -12,10 +12,9 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="selectNameRegime">Name :</label>
+				<label id="nameSearch" class="control-label" for="searchNameRegime">Name :</label>
 				<div class="controls">
-					<select id="selectNameRegime" name="selectNameRegime" class="selectRegimes">
-					</select>
+					<input id="searchNameRegime" name="searchNameRegime" />
 				</div>
 			</div>
 			<div>
@@ -38,6 +37,10 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Action</th>
+				<?php
+					if( $_SESSION['model'] == "MDBase_developpeur" OR $_SESSION['model'] == "MDBase_administrateur" )
+				    	echo '<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>';
+				?>
 			</tr>
 		</thead>
 		<tbody id="bodyTableRegimes">
@@ -50,7 +53,7 @@
 
 
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
-	<!-- ---------------------------------------------  Modals Update Regime ------------------------------------------------ -->
+	<!-- ---------------------------------------------- Modals Update Regime ------------------------------------------------ -->
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
 
 	
@@ -59,7 +62,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modifier un régime</h4>
+					<h4 class="modal-title">Modifier un type de régime</h4>
 				</div>
 
 
@@ -69,7 +72,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="alterNameRegime">Name :</label>
+							<label id="nameSearch" class="control-label" for="alterNameRegime">Name* :</label>
 							<div class="controls">
 								<input type="text" name="alterNameRegime" id="alterNameRegime" />
 							</div>
@@ -81,6 +84,43 @@
 					<span class="pull-left">* Required Fields</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="btnSaveChangesRegime">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+	<!-- ------------------------------------------------  Modals add Regime ------------------------------------------------ -->
+	<!-- -------------------------------------------------------------------------------------------------------------------- -->
+
+	
+	<div id="AddRegimeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Ajouter un type régime</h4>
+				</div>
+
+
+				<div class="modal-body">
+					
+					<!-- ------------------------------------ Main informations col 1 ------------------------------------ -->
+
+                    <form class="form-horizontal">
+						<div class="control-group">
+							<label id="nameSearch" class="control-label" for="addNameRegime">Name* :</label>
+							<div class="controls">
+								<input type="text" name="addNameRegime" id="addNameRegime" />
+							</div>
+						</div>
+					</form>
+
+				</div><!-- /.modal-body --> 
+				<div class="modal-footer">
+					<span class="pull-left">* Required Fields</span>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="btnAddRegime">Save changes</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->

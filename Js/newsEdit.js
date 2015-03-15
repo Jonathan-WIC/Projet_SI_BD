@@ -51,7 +51,7 @@ $(document).ready(function(){
         var data = (formdata !== null) ? formdata : $form.serialize();
  
         $.ajax({
-            url: $form.attr('action'),
+            url: "Handler/"+MDBase+".hand.php",
             type: $form.attr('method'),
             contentType: false, // obligatoire pour de l'upload
             processData: false, // obligatoire pour de l'upload
@@ -81,7 +81,7 @@ $(document).ready(function(){
         var data = (formdata !== null) ? formdata : $form.serialize();
  
         $.ajax({
-            url: $form.attr('action'),
+            url: "Handler/"+MDBase+".hand.php",
             type: $form.attr('method'),
             contentType: false, // obligatoire pour de l'upload
             processData: false, // obligatoire pour de l'upload
@@ -109,6 +109,14 @@ $(document).ready(function(){
 
 
 });//Ready
+
+
+
+var MDBase = "";
+if($('#valMD') == 0)
+	MDBase = "editorialiste";
+else
+	MDBase = "developpeur";
 
 
 	/////////////////////////////////////////////////////////////////
@@ -154,7 +162,7 @@ function fillNewsPage(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php"+url,
+	    url:"Handler/"+MDBase+".hand.php"+url,
 	    data: {'role': "newspaper" },
 	    dataType: 'json',
 	    success: function(response){
@@ -227,7 +235,7 @@ function fillNewspaperInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "infosNewspapers" },
 	    dataType: 'json',
 	    success: function(response){
@@ -252,7 +260,7 @@ function updateNewspaper(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'data': json_option, 'role': "updateNewspaper" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
@@ -265,7 +273,7 @@ function publishNewspaper(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "publishNewspaper" }
 	}).done(function(){
 		fillNewsPage(0);
@@ -277,7 +285,7 @@ function deleteNewspaper(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "deleteNewspaper" }
 	}).done(function(){
 		fillNewsPage(0);
@@ -299,7 +307,7 @@ function deleteMultipleNewspaper(){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'data': newspaperChecked, 'role': "deleteMultipleNewspaper" }
 	}).done(function(){
 		fillNewsPage(0);
@@ -321,7 +329,7 @@ function insertNewspaper(){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'data': json_option, 'role': "insertNewspaper" }
 	}).done(function(){
 		$('#addNewspaperModal').modal('hide');
@@ -350,7 +358,7 @@ function afficheArticle(id, page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url: "Handler/editorialiste.hand.php"+url,
+	    url: "Handler/"+MDBase+".hand.php"+url,
 	    data: {'id': id, 'role': "news"},
 	    dataType: 'json',
 	    success: function(response){
@@ -360,8 +368,6 @@ function afficheArticle(id, page){
 			$('#recupNewspaperId').val(id);
 			//On boucle sur news pour remplir la page
 
-			console.log(response.news);
-			console.log(response.news.length);
 			if(response.news.length == 0){
 				$('#divNewspapers').append('<div class="headerDivNewspaper">'+
 											"Aucun article n'a encore été inséré dans ce journal.");
@@ -426,7 +432,7 @@ function fillNewsInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "infosNews" },
 	    dataType: 'json',
 	    success: function(response){
@@ -442,7 +448,7 @@ function deleteNews(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/editorialiste.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "deleteNews" },
 	    dataType: 'json',
 	}).done(function(){

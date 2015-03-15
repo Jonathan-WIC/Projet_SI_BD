@@ -31,6 +31,12 @@ $(document).ready(function(){
 });//Ready
 
 
+var MDBase = "";
+if($('#valMD') == 0)
+	MDBase = "adminquest";
+else
+	MDBase = "developpeur";
+
 	/////////////////////////////////////////////////////////////////
     //////////////  functions made for opening modals  //////////////
     /////////////////////////////////////////////////////////////////
@@ -59,7 +65,7 @@ function fillSelectItems(){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'role': "fillItems" },
 	    dataType: 'json',
 	    success: function(response){
@@ -94,7 +100,7 @@ function fillQuestTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php"+url,
+	    url:"Handler/"+MDBase+".hand.php"+url,
 	    data: {'role': "tableQuest" },
 	    dataType: 'json',
 	    success: function(response){
@@ -177,7 +183,7 @@ function fillQuestInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "infosQuests" },
 	    dataType: 'json',
 	    success: function(response){
@@ -245,7 +251,7 @@ function updateQuest(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'data': json_option, 'reward': json_reward, 'role': "updateQuest" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
@@ -259,7 +265,7 @@ function deleteQuest(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'id': id, 'role': "deleteQuest" }
 	}).done(function(){
 		fillQuestTable(0);
@@ -282,7 +288,7 @@ function deleteMultipleQuest(){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'data': questChecked, 'role': "deleteMultipleQuest" }
 	}).done(function(){
 		fillQuestTable(0);
@@ -328,7 +334,7 @@ function insertQuest(){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/adminquest.hand.php",
+	    url:"Handler/"+MDBase+".hand.php",
 	    data: {'data': json_option, 'data_reward': tab_reward, 'role': "insertQuest" }
 	}).done(function(){
 		$('#addQuestModal').modal('hide');

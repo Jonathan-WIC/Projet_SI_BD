@@ -9,7 +9,7 @@ $(document).ready(function(){
     fillSelectHabitat();
 
 	/////////////////////////////////////////////////////////////////
-    //////////// update infos of the current Sub Specie /////////////
+    ////////////// update infos of the current SubSpecie //////////////
     /////////////////////////////////////////////////////////////////
 
 	$('#btnSaveChangesSubSpecie').click(function(){
@@ -17,9 +17,29 @@ $(document).ready(function(){
 		updateSubSpecieInfos(dataID);
 	});
 
+	$('#btnAddSubSpecie').click(function(){
+		addSubSpecie();
+	});
+
 });//Ready
 
+
+function showAddSubSpecieModal(){
+	$('#AddSubSpecieModal').modal('show');
+};
+
+function selectAll(){
+	if( $("#selectAll").is(':checked') )
+		$('.checkboxSubSpecie').prop('checked', true);
+	else
+		$('.checkboxSubSpecie').prop('checked', false);
+};
+
 function fillSubSpecieTable(page){
+
+	$('#optionSubSpecie').empty();
+	$('#optionSubSpecie').append('<button id="addSubSpecie" onclick="showAddSubSpecieModal()">Add SubSpecie</button>'+
+							   '<button id="deleteSubSpecie" onclick="deleteMultipleSubSpecie()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
@@ -28,7 +48,7 @@ function fillSubSpecieTable(page){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php"+url,
+	    url:"Handler/developpeur.hand.php"+url,
 	    data: {'role': "tableSubSpecie" },
 	    dataType: 'json',
 	    success: function(response){
@@ -42,8 +62,11 @@ function fillSubSpecieTable(page){
 												'<td>'+response.subSpecie[i]['LIB_SPECIE']+'</td>'+
 												'<td>'+response.subSpecie[i]['LIB_HABITAT']+'</td>'+
 												'<td>'+
-													'<button class="altSubSpecie" idSubSpecie="'+response.subSpecie[i]['ID_SUB_SPECIE']+'" onclick="fillSubSpecieInfos('+response.subSpecie[i]['ID_SUB_SPECIE']+');" >Modif'+
-													'</button>'+
+													'<button class="altSubSpecie" onclick="fillSubSpecieInfos('+response.subSpecie[i]['ID_SUB_SPECIE']+');" >Modif</button>'+
+													'<button class="deleteSubSpecie" onclick="deleteSubSpecie('+response.subSpecie[i]['ID_SUB_SPECIE']+');">Delete</button>'+
+												'</td>'+
+												'<td>'+
+													'<input type="checkbox" name="selectedSubSpecie" value="'+response.subSpecie[i]['ID_SUB_SPECIE']+'" class="checkboxSubSpecie">'+
 												'</td>'+
 				    				 			'</tr>');
 			}
@@ -91,7 +114,7 @@ function fillSubSpecieInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'role': "infosSubSpecies" },
 	    dataType: 'json',
 	    success: function(response){
@@ -106,9 +129,8 @@ function fillSubSpecieInfos(id){
 
 function updateSubSpecieInfos(id){
 
-	//verify fields
-	if ($('#alterNameSubSpecie').val().trim() == '') {	// trim is used to remove the white space at the begining 
-		alert("You must fill all required fields");		// and the end of a string
+	if ($('#alterNameSubSpecie').val().trim() == '') {
+		alert("You must fill all required fields");
 		return false;
 	}
 
@@ -120,7 +142,7 @@ function updateSubSpecieInfos(id){
 
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'id': id, 'data': json_option, 'role': "updateSubSpecie" }
 	}).done(function(){
 		var currentPage = $('.active').attr('id').replace("page", "");
@@ -129,6 +151,72 @@ function updateSubSpecieInfos(id){
 	});
 
 };
+
+function deleteSubSpecie(id){
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'id': id, 'role': "deleteSubSpecie"},
+	    dataType: 'json'
+	}).done(function(){
+		alert("SubSpecie deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillSubSpecieTable(currentPage);
+	});
+};
+
+function deleteMultipleSubSpecie(){
+	
+	var subSpecieChecked = new Array();
+	$("input:checked[name=selectedSubSpecie]").each(function() { //get the ID of all subSpecies selected
+		subSpecieChecked.push($(this).val());
+	});
+
+	if (subSpecieChecked.length < 1) {
+		alert("You must select at least 1 subSpecie");
+		return false;
+	}
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': subSpecieChecked, 'role': "deleteMultipleSubSpecie" }
+	}).done(function(){
+		alert("SubSpecies deleted");
+		var currentPage = $('.active').attr('id').replace("page", "");
+		fillSubSpecieTable(currentPage);
+	});
+};
+
+function addSubSpecie(){
+	
+	//verify fields
+	if ($('#addNameSubSpecie').val().trim() == '') { // trim is used to remove the white space at the begining and the end
+		alert("you must fill corectly all required fields!");
+		return false;
+	}
+
+	var json_option = {
+	    NAME : $('#addNameSubSpecie').val(),
+	    ID_SPECIE : $('#selectAddIdSpecie').val(),
+	    HABITAT : $('#selectAddHabitat').val()
+	};
+
+	$.ajax({
+	    type: "POST", //Sending method
+	    url:"Handler/developpeur.hand.php",
+	    data: {'data': json_option, 'role': "addSubSpecie" }
+	}).done(function(){
+		$('#AddSubSpecieModal').modal('hide');
+		alert("SubSpecie created!")
+		fillSubSpecieTable(0);
+	});
+
+};
+
+
+
+
 
 function fillSelectSpecie(){
 	$.ajax({

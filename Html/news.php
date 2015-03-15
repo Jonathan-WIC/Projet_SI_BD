@@ -105,7 +105,7 @@
 				</div>
 
 				<div class="modal-body">
-                    <form class="form-horizontal" id="formUpdateNews" method="post" action="Handler/editorialiste.hand.php" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="formUpdateNews" method="post" enctype="multipart/form-data">
 						<div class="control-group">
 							<input type="hidden" id="roleUpdateNews" name="role" value="updateNews">
 							<input type="hidden" id="recupNewsId" name="recupNewsId">
@@ -154,7 +154,7 @@
 				</div>
 
 				<div class="modal-body">
-                    <form class="form-horizontal" id="formCreateNews" method="post" action="Handler/editorialiste.hand.php" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="formCreateNews" method="post" enctype="multipart/form-data">
 						<div class="control-group">
 							<input type="hidden" id="roleCreateNews" name="role" value="createNews">
 							<input type="hidden" id="recupNewspaperId" name="recupNewspaperId">
@@ -187,5 +187,14 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+
+	<?php 
+		if($_SESSION['model'] != 'MDBase_editorialiste')
+			echo '<input type="hidden" value="0" />';
+		else
+			echo '<input type="hidden" id="valMD" value="1" />';
+	?>
+
 
 </div>

@@ -96,6 +96,7 @@
         quest();
     }
 
+    //Admin and dev can use this function to admin quest
     function questAdminQ()
     {
         $_SESSION['script'] = 'Js/questAdminQ.js';
