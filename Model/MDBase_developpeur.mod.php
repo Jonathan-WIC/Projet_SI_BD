@@ -40,10 +40,6 @@
 
         **/
 
-        /**
-        get informations about all monsters and their elements
-        **/
-
         public static function countMonsters()
         {
             $pdo = self::connect();
@@ -275,6 +271,279 @@
 
         /**
 
+                                                REQUEST ABOUT ACCOUNT
+    
+        **/
+            
+        public static function countAccount()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_ACCOUNT) AS NB_ACCOUNT FROM ACCOUNT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillAccountTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ACCOUNT LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getPersoAccount()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT A.ID_ACCOUNT, P.LAST_NAME, P.FIRST_NAME
+                      FROM ACCOUNT A, PERSO P
+                      WHERE A.ID_ACCOUNT = P.ID_ACCOUNT";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+    
+        public static function getAccountInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ACCOUNT WHERE ID_ACCOUNT = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updateAccount($id, $infos)
+        {
+             $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE ACCOUNT
+                        SET  PSEUDO = :PSEUDO,
+                             PASSWORD = :PASSWORD,
+                             GENDER = :GENDER,
+                             AGE = :AGE,
+                             PHONE_NUMBER = :PHONE_NUMBER,
+                             EMAIL = :EMAIL,
+                             WEBSITE = :WEBSITE,
+                             DESCRIPTION = :DESCRIPTION
+                       WHERE ID_ACCOUNT = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('PSEUDO', $infos['PSEUDO'], PDO::PARAM_STR);
+            $qq->bindValue('PASSWORD', $infos['PASSWORD'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('AGE', $infos['AGE'], PDO::PARAM_INT);
+            $qq->bindValue('PHONE_NUMBER', $infos['PHONE_NUMBER'], PDO::PARAM_STR);
+            $qq->bindValue('EMAIL', $infos['EMAIL'], PDO::PARAM_STR);
+            $qq->bindValue('WEBSITE', $infos['WEBSITE'], PDO::PARAM_STR);
+            $qq->bindValue('DESCRIPTION', $infos['DESCRIPTION'], PDO::PARAM_STR);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteAccount($id)
+        {
+            //before delete account, we need to delete perso
+            self::deletePerso($id); 
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM ACCOUNT WHERE ID_ACCOUNT = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addAccount($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO ACCOUNT (
+                                            PSEUDO,
+                                            PASSWORD,
+                                            GENDER,
+                                            AGE,
+                                            PHONE_NUMBER,
+                                            EMAIL,
+                                            WEBSITE,
+                                            DESCRIPTION
+                                            )
+                                    VALUES (
+                                            :PSEUDO,
+                                            :PASSWORD,
+                                            :GENDER,
+                                            :AGE,
+                                            :PHONE_NUMBER,
+                                            :EMAIL,
+                                            :WEBSITE,
+                                            :DESCRIPTION
+                                            )";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('PSEUDO', $infos['PSEUDO'], PDO::PARAM_STR);
+            $qq->bindValue('PASSWORD', $infos['PASSWORD'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('AGE', $infos['AGE'], PDO::PARAM_INT);
+            $qq->bindValue('PHONE_NUMBER', $infos['PHONE_NUMBER'], PDO::PARAM_STR);
+            $qq->bindValue('EMAIL', $infos['EMAIL'], PDO::PARAM_STR);
+            $qq->bindValue('WEBSITE', $infos['WEBSITE'], PDO::PARAM_STR);
+            $qq->bindValue('DESCRIPTION', $infos['DESCRIPTION'], PDO::PARAM_STR);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function deletePersoAccount($id)
+        {
+            /**
+            TO DO
+            **/
+        }
+
+        /**
+
+                                                REQUEST ABOUT ENCLOSURE
+    
+        **/
+            
+        public static function countEnclosure()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_ENCLOSURE) AS NB_ENCLOSURE FROM ENCLOSURE";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillEnclosureTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT E.*, SSP.LIB_SUB_SPECIE
+                      FROM ENCLOSURE E, SUB_SPECIE SSP
+                      WHERE E.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
+                      LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function getEnclosureInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updateEnclosure($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "UPDATE ENCLOSURE SET  ID_PARK = :ID_PARK,
+                                            TYPE_ENCLOS = :TYPE_ENCLOS,
+                                            CAPACITY_MONSTER = :CAPACITY_MONSTER,
+                                            PRICE = :PRICE,
+                                            CLIMATE = :CLIMATE,
+                                            ID_SUB_SPECIE = :ID_SUB_SPECIE
+                      WHERE ID_ENCLOSURE = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('ID_PARK', $infos['ID_PARK'], PDO::PARAM_INT);
+            $qq->bindValue('TYPE_ENCLOS', $infos['TYPE_ENCLOS'], PDO::PARAM_STR);
+            $qq->bindValue('CAPACITY_MONSTER', $infos['CAPACITY_MONSTER'], PDO::PARAM_INT);
+            $qq->bindValue('PRICE', $infos['PRICE'], PDO::PARAM_INT);
+            $qq->bindValue('CLIMATE', $infos['CLIMATE'], PDO::PARAM_STR);
+            $qq->bindValue('ID_SUB_SPECIE', $infos['ID_SUB_SPECIE'], PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteEnclosure($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addEnclosure($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO ENCLOSURE 
+                                  (ID_PARK,
+                                   TYPE_ENCLOS,
+                                   CAPACITY_MONSTER,
+                                   PRICE,
+                                   CLIMATE,
+                                   ID_SUB_SPECIE)
+
+                        VALUES    (:ID_PARK,
+                                   :TYPE_ENCLOS,
+                                   :CAPACITY_MONSTER,
+                                   :PRICE,
+                                   :CLIMATE,
+                                   :ID_SUB_SPECIE)";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID_PARK', $infos['ID_PARK'], PDO::PARAM_INT);
+            $qq->bindValue('TYPE_ENCLOS', $infos['TYPE_ENCLOS'], PDO::PARAM_STR);
+            $qq->bindValue('CAPACITY_MONSTER', $infos['CAPACITY_MONSTER'], PDO::PARAM_INT);
+            $qq->bindValue('PRICE', $infos['PRICE'], PDO::PARAM_INT);
+            $qq->bindValue('CLIMATE', $infos['CLIMATE'], PDO::PARAM_STR);
+            $qq->bindValue('ID_SUB_SPECIE', $infos['ID_SUB_SPECIE'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        /**
+
                                                 REQUEST ABOUT SPECIES
     
         **/
@@ -363,20 +632,6 @@
             return $result;
         }
 
-        public static function removeSpecieFromSubSpecie($id)
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $query  = "UPDATE SUB_SPECIE SET ID_SUB_SPECIE = 0  WHERE ID_SPECIE = :ID";
-            $qq = $pdo->prepare($query);
-            $qq->bindValue('ID', $id, PDO::PARAM_INT);
-            $result = $qq->execute();
-
-            return $result;
-        }
-
-
         /**
 
                                                 REQUEST ABOUT SUB_SPECIES
@@ -457,10 +712,9 @@
 
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = " DELETE FROM SUB_SPECIE WHERE ID_SUB_SPECIE = :ID";
-
+            $query = " DELETE FROM SUB_SPECIE WHERE ID_SUB_SPECIE = :ID;
+                       DELETE FROM ENCLOSURE WHERE ID_SUB_SPECIE = :ID;";
             $qq = $pdo->prepare($query);
-
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
             $result = $qq->execute();
             return $result;
@@ -1343,6 +1597,18 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+      
+        //get all regime of monster
+        public static function getAllPark()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT ID_PARK FROM PARK";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

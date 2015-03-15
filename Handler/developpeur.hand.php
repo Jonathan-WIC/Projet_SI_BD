@@ -486,6 +486,12 @@
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;
+    	case "park": 
+	    	$park = $connect->getAllPark();
+			$jsonarray = array("park" => $park);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
 
         /**
 
@@ -555,7 +561,7 @@
 
     	/**
 
-    	NewsHandler
+    	News Handler
     	
     	**/
 
@@ -672,6 +678,131 @@
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;
         break; 
+
+		/**
+
+		Account Cases
+
+		**/
+
+    	case "tableAccount":
+
+    		$total = $connect->countAccount(); 					// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_ACCOUNT'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$accounts = $connect->fillAccountTable($currentPage, $perPage);
+	    	$persos = $connect->getPersoAccount();
+
+			$jsonarray = array("account" => $accounts, "perso" => $persos, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosAccounts":
+    		$accountsInfos = $connect->getAccountInfos($_POST['id']);
+			$jsonarray = array("accountInfos" => $accountsInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateAccount":
+    		$result = $connect->updateAccount($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteAccount":
+    		$result = $connect->deleteAccount($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleAccount":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteAccount($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addAccount":
+    		$result = $connect->addAccount($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		Enclosure Cases
+
+		**/
+
+    	case "tableEnclosure":
+
+    		$total = $connect->countEnclosure(); 					// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_ENCLOSURE'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$enclosure = $connect->fillEnclosureTable($currentPage, $perPage);
+
+			$jsonarray = array("enclosure" => $enclosure, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosEnclosures":
+    		$enclosureInfos = $connect->getEnclosureInfos($_POST['id']);
+			$jsonarray = array("enclosureInfos" => $enclosureInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateEnclosure":
+    		$result = $connect->updateEnclosure($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteEnclosure":
+    		$result = $connect->deleteEnclosure($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleEnclosure":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteEnclosure($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addEnclosure":
+    		$result = $connect->addEnclosure($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
 
 
     } // Switch
