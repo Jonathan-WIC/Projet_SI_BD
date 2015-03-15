@@ -8,7 +8,8 @@
 
 
 Modfication de la BDD :
-=> rien pour le moment
+	- Mettre 0 en valeur par défaut au champ STATUS de la table NEWSPAPER
+	- Mettre La date courrante en valeur par défaut au champ PUBLICATION de la table NEWSPAPER
 
 Les differents users:
 gros switch case. le formulaire de co du début on stocke les données dont on a besoin pour les requetes, on voit qui est co et puis on se débrouille quoi.

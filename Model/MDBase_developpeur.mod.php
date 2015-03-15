@@ -97,10 +97,6 @@
             return $data;
         }
 
-         /**
-        get informations about 1 monster and his elements
-        **/
-
         public static function getMonsterInfos($id)
         {
             $pdo = self::connect();
@@ -133,10 +129,6 @@
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
-
-        /**
-        Update 1 monster
-        **/
 
         public static function updateMonster($id, $infos)
         {
@@ -291,7 +283,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE";
+            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -303,7 +295,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM SPECIE LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -395,7 +387,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE";
+            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -410,6 +402,7 @@
             $query = "SELECT SSP.*, SP.LIB_SPECIE
                       FROM SUB_SPECIE SSP, SPECIE SP
                       WHERE SSP.ID_SPECIE = SP.ID_SPECIE
+                        AND ID_SUB_SPECIE <> 0
                       LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
@@ -614,7 +607,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME";
+            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -626,7 +619,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM REGIME LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -717,7 +710,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY";
+            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -729,7 +722,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM MATURITY LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -812,7 +805,487 @@
 
         /**
 
-                            getAll functions (used to fill dropdown on alteration's modal)
+                                        REQUESTS ABOUT ITEM'S REWARDED IN QUEST 
+
+        **/
+
+
+        public static function fillItemSelect()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT ID_ITEM, LIB_ITEM FROM ITEM ORDER BY TYPE_ITEM";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        //get all quest's Items
+        public static function getAllQuestsItem()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT Q.ID_QUEST, I.LIB_ITEM
+                        FROM QUEST Q, QUEST_REWARD_ITEM QRI, ITEM I
+                       WHERE Q.ID_QUEST = QRI.ID_QUEST
+                         AND QRI.ID_ITEM = I.ID_ITEM";
+
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getQuestItemInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM QUEST_REWARD_ITEM WHERE ID_QUEST = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateQuestItem($questId, $itemId)
+        {
+
+            //before insert, we delete all Item binding to the selected quest
+            self::deleteQuestItem($questId);
+
+            $result = self::insertQuestItem($questId, $itemId);
+
+            return $result;
+        }
+
+        public static function deleteQuestItem($questId)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "DELETE FROM QUEST_REWARD_ITEM WHERE ID_QUEST = :ID_QUEST";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID_QUEST', $questId, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function insertQuestItem($questId, $itemId)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "INSERT INTO QUEST_REWARD_ITEM (ID_QUEST, ID_ITEM) VALUES (:ID_QUEST, :ID_ITEM)";
+            $qq = $pdo->prepare($query);
+
+            $result = false;
+            $qq->bindValue('ID_QUEST', $questId, PDO::PARAM_INT);
+            for($i = 0 ; $i < count($itemId) ; ++$i)
+            {
+                if($itemId[$i] != 'null'){
+                    $qq->bindValue('ID_ITEM', $itemId[$i], PDO::PARAM_INT);
+                    $result = $qq->execute();
+                }
+            }
+
+            return $result;
+        }
+
+        /**
+
+                                                REQUESTS ABOUT QUEST 
+
+        **/
+
+        public static function countQuests()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_QUEST) AS NB_QUESTS FROM QUEST";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllQuests($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM QUEST ORDER BY ID_QUEST DESC LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getQuestInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM QUEST WHERE ID_QUEST = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateQuest($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE QUEST
+                        SET  NAME = :NAME,
+                             DATE_DEB = :DATE_DEB,
+                             DURATION = :DURATION,
+                             FEE = :FEE
+                        WHERE ID_QUEST  = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',        $id,                PDO::PARAM_INT);
+            $qq->bindValue('NAME',      $infos['NAME'],     PDO::PARAM_STR);
+            $qq->bindValue('DATE_DEB',  $infos['DATE_DEB'], PDO::PARAM_STR);
+            $qq->bindValue('DURATION',  $infos['DURATION'], PDO::PARAM_INT);
+            $qq->bindValue('FEE',       $infos['FEE'],      PDO::PARAM_INT);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteQuest($id)
+        {
+
+            //before, we delete all Item binding to the selected quest
+            self::deleteQuestItem($id);
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "DELETE FROM QUEST WHERE ID_QUEST = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteMultipleQuest($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //Suppression des items associés aux quêtes
+            $query = "DELETE FROM QUEST_REWARD_ITEM WHERE ID_QUEST IN (";
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i].",";    // boucle les ID des quêtes que l'on veux supprimer
+            }
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
+            $qq = $pdo->prepare($query);
+            $result = $qq->execute();
+            
+            //Suppression des quêtes
+            $query = "DELETE FROM QUEST WHERE ID_QUEST IN (";
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i].",";    // boucle les ID des quêtes que l'on veux supprimer
+            }
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
+            $qq = $pdo->prepare($query);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function insertQuest($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "INSERT INTO QUEST (NAME, DATE_DEB, DURATION, FEE) VALUES (:NAME, :DATE_DEB, :DURATION, :FEE)";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('NAME',      $infos['NAME'],     PDO::PARAM_STR);
+            $qq->bindValue('DATE_DEB',  $infos['DATE_DEB'], PDO::PARAM_STR);
+            $qq->bindValue('DURATION',  $infos['DURATION'], PDO::PARAM_INT);
+            $qq->bindValue('FEE',       $infos['FEE'],      PDO::PARAM_INT);
+
+            $result = $qq->execute();
+            
+            //$temp return the ID of the last row inserted
+            $temp = $pdo->lastInsertId();
+
+            return $temp;
+        }
+
+
+        /**
+
+                                                REQUESTS ABOUT NEWSPAPER 
+
+        **/
+
+        public static function countNewspapers()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_NEWSPAPER) AS NB_NEWSPAPER FROM NEWSPAPER";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllNewspapers($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM NEWSPAPER ORDER BY ID_NEWSPAPER DESC LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getNewspaperInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT SUMMARY, STATUS FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateNewspaper($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE NEWSPAPER
+                        SET  SUMMARY = :SUMMARY
+                        WHERE ID_NEWSPAPER  = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',            $id,                    PDO::PARAM_INT);
+            $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function publishNewspaper($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE NEWSPAPER
+                           SET STATUS = 1,
+                               PUBLICATION = :PUBLICATION
+                         WHERE ID_NEWSPAPER  = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('PUBLICATION', date("Y-m-d"), PDO::PARAM_STR);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteNewspaper($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "DELETE FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteMultipleNewspaper($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "DELETE FROM NEWSPAPER WHERE ID_NEWSPAPER IN (";
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i].",";    // boucle les ID des newspaper que l'on veux supprimer
+            }
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
+            $qq = $pdo->prepare($query);
+
+            //$qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function insertNewspaper($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "INSERT INTO NEWSPAPER (SUMMARY) VALUES (:SUMMARY)";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                                                REQUESTS ABOUT NEWS
+
+        **/
+
+
+        public static function countNewsFromNewspaper($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_NEWS) AS NB_NEWS FROM NEWS WHERE ID_NEWSPAPER = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getNewsFromGame($id, $currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM NEWS WHERE ID_NEWSPAPER = :ID LIMIT :STARTPAGE, :PERPAGE";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getNewsInfo($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT * FROM NEWS WHERE ID_NEWS = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function updateNews($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE NEWS
+                        SET TITLE = :TITLE,
+                            CONTENT = :CONTENT ";
+
+            if(strlen($data['image']) != 0){
+                $query .= ", PICTURE = :PICTURE ";
+            }
+                            
+            $query .= "WHERE ID_NEWS  = :ID;";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',      $data['id'],      PDO::PARAM_INT);
+            $qq->bindValue('TITLE',   $data['title'],   PDO::PARAM_STR);
+            $qq->bindValue('CONTENT', $data['content'], PDO::PARAM_STR);
+
+            if(strlen($data['image']) != 0){
+                $qq->bindValue('PICTURE', $data['image'],   PDO::PARAM_STR);
+            }
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function insertNews($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " INSERT INTO NEWS (TITLE, CONTENT, PICTURE, ID_NEWSPAPER) VALUES (:TITLE, :CONTENT, :PICTURE, :ID)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID',   $data['id'],   PDO::PARAM_STR);
+            $qq->bindValue('TITLE',   $data['title'],   PDO::PARAM_STR);
+            $qq->bindValue('CONTENT', $data['content'], PDO::PARAM_STR);
+            $qq->bindValue('PICTURE', $data['image'],   PDO::PARAM_STR);
+
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteNews($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "DELETE FROM NEWS WHERE ID_NEWS = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteMultipleNews($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "DELETE FROM NEWS WHERE ID_NEWSPAPER IN (";
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i].",";    // boucle les ID des newspaper que l'on veux supprimer
+            }
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
+            $qq = $pdo->prepare($query);
+
+            //$qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+
+        /**
+
+                            getAll functions (used to fill select on alteration's modal)
 
         **/
             
@@ -834,7 +1307,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM MATURITY";
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -846,7 +1319,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SPECIE";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -857,7 +1330,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SUB_SPECIE";
+            $query = "SELECT * FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -869,7 +1342,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM REGIME";
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

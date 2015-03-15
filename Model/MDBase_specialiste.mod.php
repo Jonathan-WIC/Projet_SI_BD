@@ -207,7 +207,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE";
+            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE  <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -219,7 +219,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM SPECIE LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -269,7 +269,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE";
+            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -284,6 +284,7 @@
             $query = "SELECT SSP.*, SP.LIB_SPECIE
                       FROM SUB_SPECIE SSP, SPECIE SP
                       WHERE SSP.ID_SPECIE = SP.ID_SPECIE
+                        AND ID_SUB_SPECIE <> 0
                       LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
@@ -403,7 +404,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME";
+            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -415,7 +416,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM REGIME LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -464,7 +465,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY";
+            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -476,7 +477,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM MATURITY LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -539,7 +540,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM MATURITY";
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -551,7 +552,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SPECIE";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -562,7 +563,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SUB_SPECIE";
+            $query = "SELECT * FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -574,7 +575,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM REGIME";
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

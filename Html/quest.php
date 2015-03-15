@@ -59,6 +59,7 @@
 					if($_SESSION['model'] != 'MDBase_client'){
 						echo '<th>Actions</th>';
 						echo '<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>';
+
 					}
 				?>
 			</tr>
@@ -199,5 +200,11 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
+	<?php 
+		if($_SESSION['model'] != 'MDBase_adminquest')
+			echo '<input type="hidden" value="0" />';
+		else
+			echo '<input type="hidden" id="valMD" value="1" />';
+	?>
 
 </div>
