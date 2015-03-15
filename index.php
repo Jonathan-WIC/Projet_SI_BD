@@ -15,7 +15,11 @@
         case 'questClient':     questClient();  break;
         case 'questAdminQ':     questAdminQ();  break;
 
-        case 'parks':           parks();        break;
+        case 'park':            park();         break;
+        case 'parkDev':         parkDev();      break;
+
+        case 'enclosure':       enclosure();    break;
+        case 'enclosureDev':    enclosureDev(); break;
 
         case 'player':          player();       break;
         case 'playerDev':       playerDev();    break;
@@ -111,14 +115,40 @@
     Access to park pages
     **/
 
-    function parks()
+    function park()
     {
         global $page;
         $page['title'] = 'parks';
         $page['class'] = 'VHtml';
         $page['method'] = 'showHtml';
-        $page['arg'] = 'Html/parks.php';
+        $page['arg'] = 'Html/park.php';
 
+    }
+
+    function parkDev()
+    {
+        $_SESSION['script'] = 'Js/parkDev.js';
+        park();
+    }
+
+    /**
+    Access to enclosure pages
+    **/
+
+    function enclosure()
+    {
+        global $page;
+        $page['title'] = 'enclosure';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/enclosure.php';
+
+    }
+
+    function enclosureDev()
+    {
+        $_SESSION['script'] = 'Js/enclosureDev.js';
+        enclosure();
     }
 
     /**

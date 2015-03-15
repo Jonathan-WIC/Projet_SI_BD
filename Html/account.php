@@ -12,9 +12,24 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="searchNameAccount">Name :</label>
+				<label id="nameSearch" class="control-label" for="searchPseudoAccount">Pseudo :</label>
 				<div class="controls">
-					<input id="searchNameAccount" name="searchNameAccount" />
+					<input id="searchPseudoAccount" name="searchPseudoAccount" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchAgeAccount">Age :</label>
+				<div class="controls">
+					<input id="searchAgeAccount" name="searchAgeAccount" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label id="nameSearch" class="control-label" for="searchGenderAccount">Gender :</label>
+				<div class="controls">
+					<select id="searchGenderAccount" name="searchGenderAccount">
+						<option value="M">M</option>
+						<option value="F">F</option>
+					</select>
 				</div>
 			</div>
 			<div>
