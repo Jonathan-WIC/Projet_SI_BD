@@ -169,6 +169,30 @@
 			echo $jsonReturned;
 		break;
 
+    	case "deleteSubSpecie":
+    		$result = $connect->deleteSubSpecie($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleSubSpecie":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteSubSpecie($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addSubSpecie":
+    		$result = $connect->addSubSpecie($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
 		/**
 
 		Element Cases

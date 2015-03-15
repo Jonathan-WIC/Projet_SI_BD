@@ -341,10 +341,11 @@
             $result = $qq->execute();
             return $result;
         }
+
         public static function deleteSpecie($id)
         {
             // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their Specie to NULL)
-            self::removeSpecieFromMonster($id); 
+            self::removeSpecieFromSubSpecie($id); 
 
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -364,13 +365,13 @@
 
             $query  = "INSERT INTO SPECIE (LIB_SPECIE) VALUES (:LIB_SPECIE)";
             $qq = $pdo->prepare($query);
-            $qq->bindValue('LIB_SPECIE', $data['NAME'], PDO::PARAM_INT);
+            $qq->bindValue('LIB_SPECIE', $data['NAME'], PDO::PARAM_STR);
             $result = $qq->execute();
 
             return $result;
         }
 
-        public static function removeSpecieFromMonster($id)
+        public static function removeSpecieFromSubSpecie($id)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -453,6 +454,50 @@
             $qq->bindValue('ID_SPECIE', $infos['ID_SPECIE'], PDO::PARAM_INT);
             $qq->bindValue('HABITAT',   $infos['HABITAT'],   PDO::PARAM_STR);
             $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteSubSpecie($id)
+        {
+            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their SubSpecie to NULL)
+            self::removeSubSpecieFromMonster($id); 
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM SUB_SPECIE WHERE ID_SUB_SPECIE = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addSubSpecie($data)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO SUB_SPECIE (LIB_SUB_SPECIE, LIB_HABITAT, ID_SPECIE) VALUES (:LIB_SUB_SPECIE, :LIB_HABITAT, :ID_SPECIE)";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_SUB_SPECIE', $data['NAME'], PDO::PARAM_STR);
+            $qq->bindValue('LIB_HABITAT', $data['HABITAT'], PDO::PARAM_STR);
+            $qq->bindValue('ID_SPECIE', $data['ID_SPECIE'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        public static function removeSubSpecieFromMonster($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "UPDATE SUB_SPECIE SET ID_SUB_SPECIE = 0  WHERE ID_SPECIE = :ID";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
             return $result;
         }
 
@@ -539,7 +584,7 @@
 
             $query  = "INSERT INTO ELEMENT (LIB_ELEMENT) VALUES (:LIB_ELEMENT)";
             $qq = $pdo->prepare($query);
-            $qq->bindValue('LIB_ELEMENT', $data['NAME'], PDO::PARAM_INT);
+            $qq->bindValue('LIB_ELEMENT', $data['NAME'], PDO::PARAM_STR);
             $result = $qq->execute();
 
             return $result;
@@ -642,7 +687,7 @@
 
             $query  = "INSERT INTO REGIME (LIB_REGIME) VALUES (:LIB_REGIME)";
             $qq = $pdo->prepare($query);
-            $qq->bindValue('LIB_REGIME', $data['NAME'], PDO::PARAM_INT);
+            $qq->bindValue('LIB_REGIME', $data['NAME'], PDO::PARAM_STR);
             $result = $qq->execute();
 
             return $result;
@@ -745,7 +790,7 @@
 
             $query  = "INSERT INTO MATURITY (LIB_MATURITY) VALUES (:LIB_MATURITY)";
             $qq = $pdo->prepare($query);
-            $qq->bindValue('LIB_MATURITY', $data['NAME'], PDO::PARAM_INT);
+            $qq->bindValue('LIB_MATURITY', $data['NAME'], PDO::PARAM_STR);
             $result = $qq->execute();
 
             return $result;
