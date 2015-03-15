@@ -18,6 +18,10 @@
         case 'parks':           parks();        break;
 
         case 'player':          player();       break;
+        case 'playerDev':       playerDev();    break;
+
+        case 'account':         account();      break;
+        case 'accountDev':      accountDev();   break;
 
         case 'monsters':        monsters();     break;
         case 'monstersSpec':    monstersSpec(); break;
@@ -129,6 +133,32 @@
         $page['method'] = 'showHtml';
         $page['arg'] = 'Html/player.php';
 
+    }
+
+    function playerDev()
+    {
+        $_SESSION['script'] = 'Js/playerDev.js';
+        player();
+    }
+
+    /**
+    Access to Account pages
+    **/
+
+    function account()
+    {
+        global $page;
+        $page['title'] = 'Account';
+        $page['class'] = 'VHtml';
+        $page['method'] = 'showHtml';
+        $page['arg'] = 'Html/account.php';
+
+    }
+
+    function accountDev()
+    {
+        $_SESSION['script'] = 'Js/account.js';
+        account();
     }
 
     /**
