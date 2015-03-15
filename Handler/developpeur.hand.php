@@ -492,6 +492,12 @@
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;
+    	case "perso": 
+	    	$perso = $connect->getAllPerso();
+			$jsonarray = array("perso" => $perso);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
 
         /**
 
@@ -737,6 +743,69 @@
 
     	case "addAccount":
     		$result = $connect->addAccount($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		Park Cases
+
+		**/
+
+    	case "tablePark":
+
+    		$total = $connect->countPark(); 					// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_PARK'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$park = $connect->fillParkTable($currentPage, $perPage);
+	    	$enclosure = $connect->getEnclosurePark();
+
+			$jsonarray = array("park" => $park, "enclosure" => $enclosure, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosParks":
+    		$parkInfos = $connect->getParkInfos($_POST['id']);
+			$jsonarray = array("parkInfos" => $parkInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updatePark":
+    		$result = $connect->updatePark($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deletePark":
+    		$result = $connect->deletePark($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultiplePark":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deletePark($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addPark":
+    		$result = $connect->addPark($_POST['data']);
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;

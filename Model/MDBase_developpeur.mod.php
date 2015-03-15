@@ -424,6 +424,138 @@
 
         /**
 
+                                                REQUEST ABOUT PARK
+    
+        **/
+            
+        public static function countPark()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_PARK) AS NB_PARK FROM PARK";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillParkTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM PARK LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+   
+        public static function getEnclosurePark()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT ID_ENCLOSURE, ID_PARK FROM ENCLOSURE";
+
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function getParkInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM PARK WHERE ID_PARK = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updatePark($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "UPDATE PARK SET  NAME_PARK = :NAME_PARK,
+                                       CAPACITY_ENCLOSURE = :CAPACITY_ENCLOSURE,
+                                       ID_PERSO = :ID_PERSO
+                      WHERE ID_PARK = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('NAME_PARK', $infos['NAME_PARK'], PDO::PARAM_STR);
+            $qq->bindValue('CAPACITY_ENCLOSURE', $infos['CAPACITY_ENCLOSURE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_PERSO', $infos['ID_PERSO'], PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deletePark($id)
+        {
+            self::removeEnclosureWithPark($id);
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM PARK WHERE ID_PARK = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function removeEnclosureWithPark($id)
+        {
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM ENCLOSURE WHERE ID_PARK = :ID;
+                       UPDATE MONSTER SET ID_ENCLOSURE = NULL;";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addPark($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO PARK 
+                                  (NAME_PARK,
+                                   CAPACITY_ENCLOSURE,
+                                   ID_PERSO)
+
+                        VALUES    (:NAME_PARK,
+                                   :CAPACITY_ENCLOSURE,
+                                   :ID_PERSO)";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('NAME_PARK', $infos['NAME_PARK'], PDO::PARAM_STR);
+            $qq->bindValue('CAPACITY_ENCLOSURE', $infos['CAPACITY_ENCLOSURE'], PDO::PARAM_INT);
+            $qq->bindValue('ID_PERSO', $infos['ID_PERSO'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        /**
+
                                                 REQUEST ABOUT ENCLOSURE
     
         **/
@@ -501,7 +633,8 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = " DELETE FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID";
+            $query = " DELETE FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID;
+                       UPDATE MONSTER SET ID_ENCLOSURE = NULL;";
 
             $qq = $pdo->prepare($query);
 
@@ -1603,12 +1736,22 @@
             return $data;
         }
       
-        //get all regime of monster
         public static function getAllPark()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT ID_PARK FROM PARK";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+      
+        public static function getAllPerso()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT ID_PERSO FROM PERSO";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

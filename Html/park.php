@@ -1,4 +1,4 @@
-<h3>Administrer les régimes du jeu</h3>
+<h3>Administrer les parks du jeu</h3>
 
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
 	<!-- ------------------------------------------------ Main Page Part -------------------------------------------------- -->
@@ -7,15 +7,26 @@
 
 	<!-- ------------------------------------ Search fields ------------------------------------ -->
 
-<div class="col-md-3 search">
+<div class="col-md-2 search">
 	<div id="leftSearch">
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="searchNamePark">Name :</label>
+				<label class="control-label" for="searchNamePark">Name :</label>
 				<div class="controls">
 					<input id="searchNamePark" name="searchNamePark" />
 				</div>
+			</div>
+			<div>
+			<div class="control-group">
+				<label class="control-label" for="searchCapacityPark">Capacity :</label>
+				<div class="controls">
+					<input id="searchCapacityPark" name="searchCapacityPark" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="selectSearchPersoPark">Owner :</label><br>
+				<select id ="selectSearchPersoPark" class="search_bar selectPersos"></select>
 			</div>
 			<div>
 				<button class="btn" id="btnParkSearch">Search</button>
@@ -26,7 +37,7 @@
 
 	<!-- ------------------------------------ Table result ------------------------------------ -->
 
-<div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
+<div class="col-md-offset-1 col-md-7" style="margin-top:2%;">
 
 	<div id="optionPark">
 	</div>
@@ -34,10 +45,13 @@
 	<table id="tableParks" class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Id</th>
+				<th>Id Park</th>
 				<th>Name</th>
+				<th>Capacity</th>
+				<th>Owner ID</th>
+				<th>Enclosure</th>
 				<th>Action</th>
-				<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>';
+				<th><input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll();"></th>
 			</tr>
 		</thead>
 		<tbody id="bodyTableParks">
@@ -62,21 +76,30 @@
 					<h4 class="modal-title">Modifier un park</h4>
 				</div>
 
-
 				<div class="modal-body">
 					
 					<!-- ------------------------------------ Main informations col 1 ------------------------------------ -->
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="alterNamePark">Name* :</label>
+							<label class="control-label" for="alterNamePark">Name* :</label>
 							<div class="controls">
 								<input type="text" name="alterNamePark" id="alterNamePark" />
 							</div>
 						</div>
+						<div class="control-group">
+							<label class="control-label" for="alterCapacityPark">Capacity* :</label>
+							<div class="controls">
+								<input type="number" name="alterCapacityPark" id="alterCapacityPark" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="selectAlterPersoPark">Select a perso :</label><br>
+							<select id ="selectAlterPersoPark" class="search_bar selectPersos"></select>
+						</div>
 					</form>
+				</div><!-- /.modal-body -->
 
-				</div><!-- /.modal-body --> 
 				<div class="modal-footer">
 					<span class="pull-left">* Required Fields</span>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -99,17 +122,26 @@
 					<h4 class="modal-title">Ajouter un park</h4>
 				</div>
 
-
 				<div class="modal-body">
 					
 					<!-- ------------------------------------ Main informations col 1 ------------------------------------ -->
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="addNamePark">Name* :</label>
+							<label class="control-label" for="addNamePark">Name* :</label>
 							<div class="controls">
 								<input type="text" name="addNamePark" id="addNamePark" />
 							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="addCapacityPark">Capacity* :</label>
+							<div class="controls">
+								<input type="number" name="addCapacityPark" id="addCapacityPark" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="selectAddPersoPark">Select a perso :</label><br>
+							<select id ="selectAddPersoPark" class="search_bar selectPersos"></select>
 						</div>
 					</form>
 
