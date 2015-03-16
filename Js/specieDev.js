@@ -169,15 +169,9 @@ function deleteMultipleSpecie(){
 		return false;
 	}
 
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/developpeur.hand.php",
-	    data: {'data': specieChecked, 'role': "deleteMultipleSpecie" }
-	}).done(function(){
-		alert("Species deleted");
-		var currentPage = $('.active').attr('id').replace("page", "");
-		fillSpecieTable(currentPage);
-	});
+	for (var i = 0; i < specieChecked.length; i++) {
+		deleteSpecie(specieChecked[i]);
+	};
 };
 
 function addSpecie(){

@@ -205,7 +205,6 @@ function deleteAccount(id){
 	    data: {'id': id, 'role': "deleteAccount"},
 	    dataType: 'json'
 	}).done(function(){
-		alert("Account deleted");
 		var currentPage = $('.active').attr('id').replace("page", "");
 		fillAccountTable(currentPage);
 	});

@@ -115,16 +115,13 @@
 		break;
 
     	case "deleteSpecie":
-    		$result = $connect->deleteSpecie($_POST['id']);
-			$jsonarray = array("result" => $result);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-
-    	case "deleteMultipleSpecie":
-    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
-    			$result = $connect->deleteSpecie($_POST['data'][$i]);
+    		$subSpecie = $connect->selectSubSpecieFromSpecie($_POST['id']);
+    		for($i = 0 ; $i < count($subSpecie) ; ++$i)
+    		{
+    			$connect->deleteSubSpecie($subSpecie[$i]['ID_SUB_SPECIE']);
     		}
+    		$connect->deleteMonster(0);
+    		$result = $connect->deleteSpecie($_POST['id']);
 
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
@@ -177,6 +174,7 @@
 
     	case "deleteSubSpecie":
     		$result = $connect->deleteSubSpecie($_POST['id']);
+    		$connect->deleteMonster(0);
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -186,7 +184,7 @@
     		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
     			$result = $connect->deleteSubSpecie($_POST['data'][$i]);
     		}
-
+    		$connect->deleteMonster(0);
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -682,22 +680,6 @@
     			$connect->deletePlayer($perso[$i]['ID_PERSO']);
     		}
     		$result = $connect->deleteAccount($_POST['id']);	
-			$jsonarray = array("result" => $result);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-
-    	case "deleteMultipleAccount":
-    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
-    			$perso = $connect->selectPersoFromAccount($_POST['data'][$i]);
-    			for($j = 0 ; $i < count($perso) ; ++$j)
-    			{
-    				$connect->deletePlayer($perso[$j]['ID_PERSO']);
-    			}
-    			
-    			$result = $connect->deleteAccount($_POST['data'][$i]);
-    		}
-
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;

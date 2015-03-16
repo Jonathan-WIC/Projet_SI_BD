@@ -1027,9 +1027,6 @@
 
         public static function deleteSpecie($id)
         {
-            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their Specie to NULL)
-            self::removeSpecieFromSubSpecie($id); 
-
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = " DELETE FROM SPECIE WHERE ID_SPECIE = :ID";
@@ -1052,6 +1049,20 @@
             $result = $qq->execute();
 
             return $result;
+        }
+
+        public static function selectSubSpecieFromSpecie($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "SELECT ID_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SPECIE = :ID_SPECIE";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID_SPECIE', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
         }
 
         /**
@@ -1129,13 +1140,11 @@
 
         public static function deleteSubSpecie($id)
         {
-            // necessary, it's a foreign key constraint (but it's very dirty cause some monsters can have their SubSpecie to NULL)
-            self::removeSubSpecieFromMonster($id); 
-
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = " DELETE FROM SUB_SPECIE WHERE ID_SUB_SPECIE = :ID;
-                       DELETE FROM ENCLOSURE WHERE ID_SUB_SPECIE = :ID;";
+            $query = "UPDATE MONSTER SET  ID_SUB_SPECIE = 0;
+                      DELETE FROM ENCLOSURE WHERE ID_SUB_SPECIE = :ID;
+                      DELETE FROM SUB_SPECIE WHERE ID_SUB_SPECIE = :ID;";
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
             $result = $qq->execute();
@@ -1147,7 +1156,8 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query  = "INSERT INTO SUB_SPECIE (LIB_SUB_SPECIE, LIB_HABITAT, ID_SPECIE) VALUES (:LIB_SUB_SPECIE, :LIB_HABITAT, :ID_SPECIE)";
+            $query  = "INSERT INTO SUB_SPECIE (LIB_SUB_SPECIE, LIB_HABITAT, ID_SPECIE) 
+                            VALUES (:LIB_SUB_SPECIE, :LIB_HABITAT, :ID_SPECIE)";
             $qq = $pdo->prepare($query);
             $qq->bindValue('LIB_SUB_SPECIE', $data['NAME'], PDO::PARAM_STR);
             $qq->bindValue('LIB_HABITAT', $data['HABITAT'], PDO::PARAM_STR);
@@ -1156,20 +1166,6 @@
 
             return $result;
         }
-
-        public static function removeSubSpecieFromMonster($id)
-        {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $query  = "UPDATE SUB_SPECIE SET ID_SUB_SPECIE = 0  WHERE ID_SPECIE = :ID";
-            $qq = $pdo->prepare($query);
-            $qq->bindValue('ID', $id, PDO::PARAM_INT);
-            $result = $qq->execute();
-
-            return $result;
-        }
-
 
         /**
 
