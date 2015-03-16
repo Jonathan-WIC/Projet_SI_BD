@@ -9,7 +9,7 @@
 	<div id="goBack" >
 	</div>
 	
-	<div id="optionNews">
+	<div class="tableOption" id="optionNews">
 	</div>
 
 	<div id="divNewspapers" >

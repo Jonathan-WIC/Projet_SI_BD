@@ -28,7 +28,7 @@
 
 <div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
 
-	<div id="optionElement">
+	<div class="tableOption" id="optionElement">
 	</div>
 
 	<table id="tableElements" class="table table-bordered">

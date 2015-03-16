@@ -37,7 +37,7 @@
 
 <div class="col-md-offset-1 col-md-7" style="margin-top:2%;">
 
-	<div id="optionEnclosure">
+	<div class="tableOption" id="optionEnclosure">
 	</div>
 
 	<table id="tableEnclosures" class="table table-bordered">

@@ -51,10 +51,11 @@
         case 'newsEdit':        newsEdit();     break;
 
         case 'items':           items();        break;
+        case 'itemDev':         itemDev();      break;
 
-        //case 'logadmin':        logadmin();     break;
+        case 'logadmin':        logadmin();     break;
         case 'logdev':          logdev();       break;
-        //case 'logmod':          logmod();       break;
+        case 'logmod':          logmod();       break;
         case 'logspec':         logspec();      break;
         case 'logquest':        logquest();     break;
         case 'logedit':         logedit();      break;
@@ -364,17 +365,24 @@
         $page['arg'] = 'Html/items.php';
     }
 
+    function itemDev()
+    {
+        $_SESSION['script'] = 'Js/itemDev.js';
+        items();
+    }
+
+
     /**
 
     Login functions
     
     **/
 
-   /* function logadmin()
+    function logadmin()
     {
-        global $page;
-        $page['MDBase'] = 'administrateur';
-    }*/
+        $_SESSION['model'] = 'MDBase_developpeur'; //Manque de temps ==> BRUT FORCE!!!! 
+        monstersDev();
+    }
     
     function logdev()
     {

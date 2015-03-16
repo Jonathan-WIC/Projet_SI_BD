@@ -39,7 +39,7 @@
 
 <div class="col-md-offset-1 col-md-7" style="margin-top:2%;">
 
-	<div id="optionPark">
+	<div class="tableOption" id="optionPark">
 	</div>
 
 	<table id="tableParks" class="table table-bordered">

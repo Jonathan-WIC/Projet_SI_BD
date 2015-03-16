@@ -217,8 +217,6 @@ function updateQuest(id){
 	 ******* verify fields *******
 	 *****************************/
 
-	 console.log(isNaN(parseFloat($('#updateDuration').val())));
-
 	if ($('#updateName').val().trim() == ""){
 		alert("You must fill correctly fill the Name fields");
 		return false;

@@ -102,35 +102,7 @@ table>tbody{
     border-radius: 10px;
 }
 
-#optionNews {
-    text-align: right;
-}
-
-#optionQuest {
-    text-align: right;
-}
-
-#optionMonster {
-    text-align: right;
-}
-
-#optionElement {
-    text-align: right;
-}
-
-#optionMaturity {
-    text-align: right;
-}
-
-#optionRegime {
-    text-align: right;
-}
-
-#optionSpecie {
-    text-align: right;
-}
-
-#optionSubSpecie {
+.tableOption {
     text-align: right;
 }
 

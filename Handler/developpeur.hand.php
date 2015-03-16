@@ -450,55 +450,6 @@
             echo $jsonReturned;
         break;
 
-		/**
-
-		getAll() Cases
-    	
-    	**/
-
-    	case "specie": 
-	    	$species = $connect->getAllSpecies();
-			$jsonarray = array("specie" => $species);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "subSpecie": 
-	    	$subSpecies = $connect->getAllSubSpecies();
-			$jsonarray = array("subSpecie" => $subSpecies);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "maturity": 
-	    	$maturity = $connect->getAllMaturityLevels();
-			$jsonarray = array("maturity" => $maturity);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "regime": 
-	    	$regime = $connect->getAllRegimes();
-			$jsonarray = array("regime" => $regime);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "element": 
-	    	$elements = $connect->getAllElements();
-			$jsonarray = array("element" => $elements);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "park": 
-	    	$park = $connect->getAllPark();
-			$jsonarray = array("park" => $park);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-    	case "perso": 
-	    	$perso = $connect->getAllPerso();
-			$jsonarray = array("perso" => $perso);
-			$jsonReturned = json_encode($jsonarray);
-			echo $jsonReturned;
-		break;
-
         /**
 
         Newspaper Handler
@@ -725,7 +676,12 @@
 		break;
 
     	case "deleteAccount":
-    		$result = $connect->deleteAccount($_POST['id']);
+    		$perso = $connect->selectPersoFromAccount($_POST['id']);
+    		for($i = 0 ; $i < count($perso) ; ++$i)
+    		{
+    			$connect->deletePlayer($perso[$i]['ID_PERSO']);
+    		}
+    		$result = $connect->deleteAccount($_POST['id']);	
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -733,6 +689,12 @@
 
     	case "deleteMultipleAccount":
     		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$perso = $connect->selectPersoFromAccount($_POST['data'][$i]);
+    			for($j = 0 ; $i < count($perso) ; ++$j)
+    			{
+    				$connect->deletePlayer($perso[$j]['ID_PERSO']);
+    			}
+    			
     			$result = $connect->deleteAccount($_POST['data'][$i]);
     		}
 
@@ -743,6 +705,72 @@
 
     	case "addAccount":
     		$result = $connect->addAccount($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		PLAYER Cases
+
+		**/
+
+    	case "tablePlayer":
+
+    		$total = $connect->countPlayer(); 					// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_PERSO'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$player = $connect->fillPlayerTable($currentPage, $perPage);
+	    	$quest = $connect->getPlayerQuest();
+	    	$park = $connect->getPlayerpark();
+	    	$monster = $connect->getPlayerMonster();
+	    	$item = $connect->getPlayerItem();
+
+			$jsonarray = array("player" => $player, "quest" => $quest, "park" => $park, "monster" => $monster, "item" => $item, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosPlayers":
+    		$playerInfos = $connect->getPlayerInfos($_POST['id']);
+			$jsonarray = array("playerInfos" => $playerInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updatePlayer":
+    		$result = $connect->updatePlayer($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deletePlayer":
+    		$result = $connect->deletePlayer($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultiplePlayer":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deletePlayer($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addPlayer":
+    		$result = $connect->addPlayer($_POST['data']);
 			$jsonarray = array("result" => $result);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -869,6 +897,124 @@
     	case "addEnclosure":
     		$result = $connect->addEnclosure($_POST['data']);
 			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+		/**
+
+		Item Cases
+
+		**/
+
+    	case "tableItem":
+
+    		$total = $connect->countItem(); 					// Nombre total de résultat
+    		$perPage = 20;                   					// Nombre de resultat par page
+    		$nbPage = ceil($total[0]['NB_ITEM'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
+
+    		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
+    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		else
+    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+
+	    	$item = $connect->fillItemTable($currentPage, $perPage);
+
+			$jsonarray = array("item" => $item, "page" => $currentPage, "nbPage" => $nbPage);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "infosItems":
+    		$itemInfos = $connect->getItemInfos($_POST['id']);
+			$jsonarray = array("itemInfos" => $itemInfos);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "updateItem":
+    		$result = $connect->updateItem($_POST['id'], $_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteItem":
+    		$result = $connect->deleteItem($_POST['id']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "deleteMultipleItem":
+    		for($i = 0 ; $i < count($_POST['data']) ; ++$i) {
+    			$result = $connect->deleteItem($_POST['data'][$i]);
+    		}
+
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+    	case "addItem":
+    		$result = $connect->addItem($_POST['data']);
+			$jsonarray = array("result" => $result);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+
+
+		/**
+
+		getAll() Cases
+    	
+    	**/
+
+    	case "specie": 
+	    	$species = $connect->getAllSpecies();
+			$jsonarray = array("specie" => $species);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "subSpecie": 
+	    	$subSpecies = $connect->getAllSubSpecies();
+			$jsonarray = array("subSpecie" => $subSpecies);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "maturity": 
+	    	$maturity = $connect->getAllMaturityLevels();
+			$jsonarray = array("maturity" => $maturity);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "regime": 
+	    	$regime = $connect->getAllRegimes();
+			$jsonarray = array("regime" => $regime);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "element": 
+	    	$elements = $connect->getAllElements();
+			$jsonarray = array("element" => $elements);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "park": 
+	    	$park = $connect->getAllPark();
+			$jsonarray = array("park" => $park);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "account": 
+	    	$account = $connect->getAllAccount();
+			$jsonarray = array("account" => $account);
+			$jsonReturned = json_encode($jsonarray);
+			echo $jsonReturned;
+		break;
+    	case "perso": 
+	    	$perso = $connect->getAllPerso();
+			$jsonarray = array("perso" => $perso);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
 		break;

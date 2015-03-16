@@ -43,7 +43,7 @@
 
 <div class="col-md-offset-1 col-md-6" style="margin-top:2%;">
 
-	<div id="optionQuest">
+	<div class="tableOption" id="optionQuest">
 	</div>
 
 	<table id="tableQuests" class="table table-bordered">

@@ -279,7 +279,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ACCOUNT) AS NB_ACCOUNT FROM ACCOUNT";
+            $query = "SELECT COUNT(ID_ACCOUNT) AS NB_ACCOUNT FROM ACCOUNT WHERE ID_ACCOUNT <> 0";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -291,7 +291,7 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ACCOUNT LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM ACCOUNT WHERE ID_ACCOUNT <> 0 LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -362,9 +362,6 @@
 
         public static function deleteAccount($id)
         {
-            //before delete account, we need to delete perso
-            self::deletePerso($id); 
-
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = " DELETE FROM ACCOUNT WHERE ID_ACCOUNT = :ID";
@@ -415,12 +412,195 @@
             return $result;
         }
 
-        public static function deletePersoAccount($id)
+        public static function selectPersoFromAccount($id)
         {
-            /**
-            TO DO
-            **/
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT ID_PERSO FROM PERSO WHERE ID_ACCOUNT = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
         }
+
+        /**
+
+                                                REQUEST ABOUT PLAYER
+    
+        **/
+            
+        public static function countPlayer()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_PERSO) AS NB_PERSO FROM PERSO WHERE ID_PERSO <> 0";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillPlayerTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM PERSO WHERE ID_PERSO <> 0 LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getPlayerQuest()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT Q.NAME, P.ID_PERSO
+                      FROM QUEST Q, PERSO P, ASSOC_PERSO_QUEST APQ
+                      WHERE P.ID_PERSO = APQ.ID_PERSO
+                        AND APQ.ID_QUEST = Q.ID_QUEST";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getPlayerpark()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT PA.NAME_PARK, PA.ID_PERSO
+                      FROM PARK PA, PERSO P
+                      WHERE PA.ID_PERSO = P.ID_PERSO";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getPlayerMonster()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT M.NAME, M.ID_PERSO
+                      FROM MONSTER M, PERSO P
+                      WHERE M.ID_PERSO = P.ID_PERSO";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getPlayerItem()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT I.LIB_ITEM, P.ID_PERSO
+                      FROM ITEM I, PERSO P, PERSO_STOCK_ITEM PSI
+                      WHERE P.ID_PERSO = PSI.ID_PERSO
+                        AND PSI.ID_ITEM = I.ID_ITEM";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+    
+        public static function getPlayerInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM PERSO WHERE ID_PERSO = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updatePlayer($id, $infos)
+        {
+             $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "  UPDATE PERSO
+                           SET FIRST_NAME = :FIRST_NAME,
+                               LAST_NAME = :LAST_NAME,
+                               GENDER = :GENDER,
+                               PMONEY = :PMONEY,
+                               ID_ACCOUNT = :ID_ACCOUNT
+                         WHERE ID_PERSO = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('FIRST_NAME', $infos['FIRST_NAME'], PDO::PARAM_STR);
+            $qq->bindValue('LAST_NAME', $infos['LAST_NAME'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('PMONEY', $infos['PMONEY'], PDO::PARAM_INT);
+            $qq->bindValue('ID_ACCOUNT', $infos['ID_ACCOUNT'], PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deletePlayer($id)
+        {
+
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM PERSO_STOCK_ITEM WHERE ID_PERSO = :ID;
+                       DELETE FROM ASSOC_PERSO_QUEST WHERE ID_PERSO = :ID;
+                       DELETE FROM PARK WHERE ID_PERSO = :ID;
+                       DELETE FROM MONSTER WHERE ID_PERSO = :ID;
+                       DELETE FROM PERSO WHERE ID_PERSO = :ID;";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addPlayer($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO PERSO (
+                                            FIRST_NAME,
+                                            LAST_NAME,
+                                            GENDER,
+                                            PMONEY,
+                                            ID_ACCOUNT
+                                            )
+                                    VALUES (
+                                            :FIRST_NAME,
+                                            :LAST_NAME,
+                                            :GENDER,
+                                            :PMONEY,
+                                            :ID_ACCOUNT
+                                            )";
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('FIRST_NAME', $infos['FIRST_NAME'], PDO::PARAM_STR);
+            $qq->bindValue('LAST_NAME', $infos['LAST_NAME'], PDO::PARAM_STR);
+            $qq->bindValue('GENDER', $infos['GENDER'], PDO::PARAM_STR);
+            $qq->bindValue('PMONEY', $infos['PMONEY'], PDO::PARAM_INT);
+            $qq->bindValue('ID_ACCOUNT', $infos['ID_ACCOUNT'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
 
         /**
 
@@ -633,8 +813,8 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = " DELETE FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID;
-                       UPDATE MONSTER SET ID_ENCLOSURE = NULL;";
+            $query = " UPDATE MONSTER SET ID_ENCLOSURE = NULL WHERE ID_ENCLOSURE = :ID;
+                       DELETE FROM ENCLOSURE WHERE ID_ENCLOSURE = :ID;";
 
             $qq = $pdo->prepare($query);
 
@@ -670,6 +850,115 @@
             $qq->bindValue('PRICE', $infos['PRICE'], PDO::PARAM_INT);
             $qq->bindValue('CLIMATE', $infos['CLIMATE'], PDO::PARAM_STR);
             $qq->bindValue('ID_SUB_SPECIE', $infos['ID_SUB_SPECIE'], PDO::PARAM_INT);
+            $result = $qq->execute();
+
+            return $result;
+        }
+
+        /**
+
+                                                REQUEST ABOUT ITEM
+    
+        **/
+            
+        public static function countItem()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT COUNT(ID_ITEM) AS NB_ITEM FROM ITEM";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function fillItemTable($currentPage, $perPage)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ITEM LIMIT :STARTPAGE, :PERPAGE";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
+            $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+    
+        public static function getItemInfos($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query = "SELECT * FROM ITEM WHERE ID_ITEM = :ID";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+
+        public static function updateItem($id, $infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "UPDATE ITEM SET LIB_ITEM = :LIB_ITEM,
+                                      TYPE_ITEM = :TYPE_ITEM,
+                                      FAMILY_ITEM = :FAMILY_ITEM,
+                                      PRIX_ITEM = :PRIX_ITEM
+                      WHERE ID_ITEM = :ID";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $qq->bindValue('LIB_ITEM', $infos['LIB_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('TYPE_ITEM', $infos['TYPE_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('FAMILY_ITEM', $infos['FAMILY_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('PRIX_ITEM', $infos['PRIX_ITEM'], PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function deleteItem($id)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = " DELETE FROM PERSO_STOCK_ITEM WHERE ID_ITEM = :ID;
+                       DELETE FROM QUEST_REWARD_ITEM WHERE ID_ITEM = :ID;
+                       DELETE FROM ITEM WHERE ID_ITEM = :ID; ";
+
+            $qq = $pdo->prepare($query);
+
+            $qq->bindValue('ID', $id, PDO::PARAM_INT);
+            $result = $qq->execute();
+            return $result;
+        }
+
+        public static function addItem($infos)
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $query  = "INSERT INTO ITEM 
+                                  (LIB_ITEM,
+                                   TYPE_ITEM,
+                                   FAMILY_ITEM,
+                                   PRIX_ITEM)
+
+                        VALUES    (:LIB_ITEM,
+                                   :TYPE_ITEM,
+                                   :FAMILY_ITEM,
+                                   :PRIX_ITEM)";
+
+            $qq = $pdo->prepare($query);
+            $qq->bindValue('LIB_ITEM', $infos['LIB_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('TYPE_ITEM', $infos['TYPE_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('FAMILY_ITEM', $infos['FAMILY_ITEM'], PDO::PARAM_STR);
+            $qq->bindValue('PRIX_ITEM', $infos['PRIX_ITEM'], PDO::PARAM_INT);
             $result = $qq->execute();
 
             return $result;
@@ -1752,6 +2041,17 @@
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT ID_PERSO FROM PERSO";
+            $qq = $pdo->prepare($query);
+            $qq->execute();
+            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        }
+
+        public static function getAllAccount()
+        {
+            $pdo = self::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT ID_ACCOUNT FROM ACCOUNT";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

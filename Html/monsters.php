@@ -15,15 +15,15 @@
 			<div>
 				<label>Search by Name</label>
 				<input class="search_bar" id="nameSearch" type="text" placeholder="Name" />
-				<label>Search by specie</label>
+				<label>Search by specie</label><br>
 				<select class="search_bar selectSpecies" id="selectSpecies"></select>
-				<label>Search by sub specie</label>
+				<label>Search by sub specie</label><br>
 				<select class="search_bar selectSubSpecies" id="selectSubSpecies"></select>
-				<label>Search by maturity</label>
-				<select class="search_bar selectMaturity" id="selectMaturity"></select>
-				<label>Search by Regime</label>
+				<label>Search by maturity</label><br>
+				<select class="search_bar selectMaturity" id="selectMaturity"></select><br>
+				<label>Search by Regime</label><br>
 				<select class="search_bar selectRegime" id="selectRegime"></select>
-				<label>Search by Danger Scale</label>
+				<label>Search by Danger Scale</label><br>
 				<select class="search_bar selectDanger" id="selectDanger"></select>
 				<div>
 					<label class="radio-inline">
@@ -44,7 +44,7 @@
 
 <div class="col-md-10" style="margin-top:2%;">
 
-	<div id="optionMonster">
+	<div class="tableOption" id="optionMonster">
 	</div>
 
 	<table id="tableMonsters" class="table table-bordered">

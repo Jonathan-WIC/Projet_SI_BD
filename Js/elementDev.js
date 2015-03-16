@@ -198,7 +198,7 @@ function addElement(){
 	    url:"Handler/developpeur.hand.php",
 	    data: {'data': json_option, 'role': "addElement" }
 	}).done(function(){
-		$('#addElementModal').modal('hide');
+		$('#AddElementModal').modal('hide');
 		alert("Element created!")
 		fillElementTable(0);
 	});

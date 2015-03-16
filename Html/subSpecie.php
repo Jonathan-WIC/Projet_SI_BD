@@ -41,7 +41,7 @@
 
 <div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
 
-	<div id="optionSubSpecie">
+	<div class="tableOption" id="optionSubSpecie">
 	</div>
 
 	<table id="tableSubSpecies" class="table table-bordered">

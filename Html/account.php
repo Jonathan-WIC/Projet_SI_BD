@@ -43,7 +43,7 @@
 
 <div class="col-md-10" style="margin-top:2%;">
 
-	<div id="optionAccount"> </div>
+	<div class="tableOption" id="optionAccount"> </div>
 
 	<table id="tableAccounts" class="table table-bordered">
 		<thead>

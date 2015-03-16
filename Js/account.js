@@ -223,15 +223,9 @@ function deleteMultipleAccount(){
 		return false;
 	}
 
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/developpeur.hand.php",
-	    data: {'data': accountChecked, 'role': "deleteMultipleAccount" }
-	}).done(function(){
-		alert("Accounts deleted");
-		var currentPage = $('.active').attr('id').replace("page", "");
-		fillAccountTable(currentPage);
-	});
+	for (var i = 0; i < accountChecked.length; i++) {
+		deleteAccount(accountChecked[i]);
+	};
 };
 
 function addAccount(){
