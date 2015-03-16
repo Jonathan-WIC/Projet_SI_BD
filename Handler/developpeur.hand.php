@@ -90,9 +90,9 @@
     		$nbPage = ceil($total[0]['NB_SPECIES'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
     		if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
-    		    $currentPage = $_GET['p'];    				// Page courante initialser avec le parametre de la fonction
+    		    $currentPage = $_GET['p'];    					// Page courante initialser avec le parametre de la fonction
     		else
-    		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
+    		    $currentPage = 1;            					// Page courante initialiser à 1 par défaut
 
 	    	$species = $connect->fillSpecieTable($currentPage, $perPage);
 			$jsonarray = array("specie" => $species, "page" => $currentPage, "nbPage" => $nbPage);

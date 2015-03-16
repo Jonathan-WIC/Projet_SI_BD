@@ -43,7 +43,7 @@ function fillNewsPage(page){
 		var nextPage = parseInt(response.page) + 1;
 
 		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillMaturityTable('+ previousPage +')">'+
+		$('#pagination').append('<li id="previousArrow" onclick="fillNewsPage('+ previousPage +')">'+
 									'<a href="#" aria-label="Previous">'+
 										'<span aria-hidden="true">&laquo;</span>'+
 									'</a>'+
@@ -54,15 +54,29 @@ function fillNewsPage(page){
 			$('#previousArrow').removeAttr('onclick');
 		}
 		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillMaturityTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
+		if(response.nbPage <= 12){
+			for (var i = 1; i <= response.nbPage; i++) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
+			}
+		} else{
+			for (var i = 1; i < 6; i++) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
+			}
+			for (var i = response.nbPage; i > response.nbPage - 6; i--) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
 			}
 		}
 
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillMaturityTable('+nextPage+')">'+
+		$('#pagination').append('<li id="nextArrow" onclick="fillNewsPage('+nextPage+')">'+
 									'<a href="#" aria-label="Next">'+
 										'<span aria-hidden="true">&raquo;</span>'+
 									'</a>'+
