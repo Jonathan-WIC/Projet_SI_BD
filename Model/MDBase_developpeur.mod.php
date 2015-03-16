@@ -1991,7 +1991,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0 LIMIT 30";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -2002,7 +2002,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
+            $query = "SELECT * FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0 LIMIT 30";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -2025,7 +2025,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT ID_PARK FROM PARK";
+            $query = "SELECT ID_PARK FROM PARK LIMIT 30";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -2036,7 +2036,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT ID_PERSO FROM PERSO";
+            $query = "SELECT ID_PERSO FROM PERSO LIMIT 30";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -2047,7 +2047,7 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT ID_ACCOUNT FROM ACCOUNT";
+            $query = "SELECT ID_ACCOUNT FROM ACCOUNT LIMIT 30";
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
