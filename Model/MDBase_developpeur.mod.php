@@ -1835,13 +1835,11 @@
             return $result;
         }
 
-
         /**
 
                                                 REQUESTS ABOUT NEWS
 
         **/
-
 
         public static function countNewsFromNewspaper($id)
         {
