@@ -132,13 +132,27 @@ function fillMonsterTable(page){
 			$('#previousArrow').removeAttr('onclick');
 		}
 		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'""><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
+		if(response.nbPage <= 12){
+			for (var i = 1; i <= response.nbPage; i++) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
+			}
+		} else{
+			for (var i = 1; i < 6; i++) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
+			}
+			for (var i = response.nbPage; i > response.nbPage - 6; i--) {
+				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
+				if (i == response.page) {
+					$('#page'+i).attr('class', 'active');
+				}
 			}
 		}
-
 
 		$('#pagination').append('<li id="nextArrow" onclick="fillMonsterTable('+nextPage+')">'+
 									'<a href="#" aria-label="Next">'+
@@ -149,8 +163,7 @@ function fillMonsterTable(page){
 		if (nextPage > response.nbPage){
 			$('#nextArrow').attr('class', 'disabled');
 			$('#nextArrow').removeAttr('onclick');
-		}
-		
+		}		
 	});
 };
 
