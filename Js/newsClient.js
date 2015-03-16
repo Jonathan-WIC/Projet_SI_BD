@@ -65,8 +65,22 @@ function fillNewsPage(page){
 			for (var i = 1; i < 6; i++) {
 				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
 				if (i == response.page) {
-					$('#page'+i).attr('class', 'active');
 				}
+			}
+			if(response.page = 6){
+				$('#pagination').append('<li id="page'+6+'"><a href="#" onclick="fillNewsPage('+6+')">'+6+'</a></li>');
+				$('#page'+6).attr('class', 'active');
+				$('#pagination').append('<li id="page'+7+'"><a href="#" onclick="fillNewsPage('+7+')">'+7+'</a></li>');
+			}
+			if(response.page <= response.nbPage - 6){
+				$('#pagination').append('<li id="page'+response.page - 6+'"><a href="#" onclick="fillNewsPage('+response.page - 6+')">'+6+'</a></li>');
+				$('#page'+6).attr('class', 'active');
+				$('#pagination').append('<li id="page'+7+'"><a href="#" onclick="fillNewsPage('+7+')">'+7+'</a></li>');
+			}
+			if(response.page >= 7 && response.page <= response.nbPage - 7){
+				$('#pagination').append('<li id="page'+response.page - 1+'"><a href="#" onclick="fillNewsPage('+(response.page - 1)+')">'+(response.page - 1)+'</a></li>');
+				$('#pagination').append('<li id="page'+response.page+'"><a href="#" onclick="fillNewsPage('+response.page+')">'+response.page+'</a></li>');
+				$('#pagination').append('<li id="page'+(response.page+1)+'"><a href="#" onclick="fillNewsPage('+(response.page+1)+')">'+(response.page+1)+'</a></li>');
 			}
 			for (var i = response.nbPage; i > response.nbPage - 6; i--) {
 				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
