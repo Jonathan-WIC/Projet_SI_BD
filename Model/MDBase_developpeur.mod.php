@@ -1793,7 +1793,8 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "DELETE FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID";
+            $query = "DELETE FROM NEWS WHERE ID_NEWSPAPER = :ID;
+                      DELETE FROM NEWSPAPER WHERE ID_NEWSPAPER = :ID;";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('ID', $id, PDO::PARAM_INT);
