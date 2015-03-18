@@ -53,10 +53,19 @@ function fillEnclosureTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    ID_PARK : $('#searchSelectPark').val(),
+	    TYPE_ENCLOS : $('#searchTypeEnclosure').val(),
+	    CAPACITY_MONSTER : $('#searchCapacityEnclosure').val(),
+	    PRICE : $('#searchPricEnclosure').val(),
+	    CLIMATE : $('#searchClimatEnclosure').val(),
+	    LIB_SUB_SPECIE : $('#searchSelectSubSpecies').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableEnclosure" },
+	    data: {'data': json_option, 'role': "tableEnclosure" },
 	    dataType: 'json',
 	    success: function(response){
 

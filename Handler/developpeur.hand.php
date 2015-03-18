@@ -838,7 +838,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$enclosure = $connect->fillEnclosureTable($currentPage, $perPage);
+	    	$enclosure = $connect->fillEnclosureTable($currentPage, $perPage, $_POST['data']);
 
 			$jsonarray = array("enclosure" => $enclosure, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
@@ -900,7 +900,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$item = $connect->fillItemTable($currentPage, $perPage);
+	    	$item = $connect->fillItemTable($currentPage, $perPage, $_POST['data']);
 
 			$jsonarray = array("item" => $item, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);

@@ -12,22 +12,44 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label class="control-label" for="searchNameEnclosure">Name :</label>
+				<label class="control-label" for="searchTypeEnclosure">Type of Enclosure :</label>
 				<div class="controls">
-					<input id="searchNameEnclosure" name="searchNameEnclosure" />
+					<input type="text" id="searchTypeEnclosure" name="searchTypeEnclosure" />
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="searchSelectSubSpecies">Sub-SPecies :</label>
-				<select size="1" class="search_bar selectSubSpecies" id="searchSelectSubSpecies"></select>
+				<label class="control-label" for="searchSelectSubSpecies">Type of monster :</label>
+				<div class="controls">
+					<input type="text" id="searchSelectSubSpecies" name="searchSelectSubSpecies" />
+				</div>
 			</div>
 			<div>
 			<div class="control-group">
-				<label class="control-label" for="searchSelectPark">SelectPark :</label>
-				<select class="search_bar selectPark" id="searchSelectPark"></select>
+				<label class="control-label" for="searchSelectPark">Park :</label>
+				<div class="controls">
+					<input type="number" id="searchSelectPark" name="searchSelectPark" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchCapacityEnclosure">Minimal Capacity :</label>
+				<div class="controls">
+					<input type="number" id="searchCapacityEnclosure" name="searchCapacityEnclosure" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchPricEnclosure">Maximal Price :</label>
+				<div class="controls">
+					<input type="number" id="searchPricEnclosure" name="searchPricEnclosure" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchClimatEnclosure">Climat :</label>
+				<div class="controls">
+					<input type="text" id="searchClimatEnclosure" name="searchClimatEnclosure" />
+				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnEnclosureSearch">Search</button>
+				<button class="btn" id="btnEnclosureSearch" onclick="fillEnclosureTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -39,6 +61,8 @@
 
 	<div class="tableOption" id="optionEnclosure">
 	</div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableEnclosures" class="table table-bordered">
 		<thead>

@@ -14,12 +14,13 @@
 			<div class="control-group">
 				<label class="control-label" for="searchNameItem">Name :</label>
 				<div class="controls">
-					<input id="searchNameItem" name="searchNameItem" />
+					<input type="text" id="searchNameItem" name="searchNameItem" />
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="searchFamilyItem">Family :</label><br/>
-				<select id ="searchFamilyItem" class="search_bar">
+				<label class="control-label" for="selectSearchTypeItem">Type :</label><br/>
+				<select id ="selectSearchTypeItem" class="search_bar">
+					<option value="">Select an option</option>
 					<option value="ARMOR">ARMOR</option>
 					<option value="ENTRETIEN">ENTRETIEN</option>
 					<option value="FOOD">FOOD</option>
@@ -27,14 +28,21 @@
 				</select>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="selectSearchTypeItem">Type :</label><br/>
-				<select id ="selectSearchTypeItem" class="search_bar">
+				<label class="control-label" for="searchFamilyItem">Family :</label><br/>
+				<select id ="searchFamilyItem" class="search_bar">
+					<option value="">Select an option</option>
 					<option value="EQUIPMENT">EQUIPMENT</option>
 					<option value="CONSUMABLE">CONSUMABLE</option>
 				</select>
 			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchMinPriceItem">Maximal Price :</label>
+				<div class="controls">
+					<input type="number" id="searchMinPriceItem" name="searchMinPriceItem" />
+				</div>
+			</div>
 			<div>
-				<button class="btn" id="btnItemSearch">Search</button>
+				<button class="btn" id="btnItemSearch" onclick="fillItemTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -44,8 +52,9 @@
 
 <div class="col-md-offset-1 col-md-7" style="margin-top:2%;">
 
-	<div class="tableOption" id="optionItem">
-	</div>
+	<div class="tableOption" id="optionItem"></div>
+	
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableItems" class="table table-bordered">
 		<thead>
@@ -82,7 +91,6 @@
 				</div>
 
 				<div class="modal-body">
-
 
                     <form class="form-horizontal">
 						<div class="control-group">

@@ -44,17 +44,24 @@ function fillItemTable(page){
 
 	$('#optionItem').empty();
 	$('#optionItem').append('<button id="addItem" onclick="showAddItemModal()">Add Item</button>'+
-							   '<button id="deleteItem" onclick="deleteMultipleItem()">Delete Selected</button>');
+							'<button id="deleteItem" onclick="deleteMultipleItem()">Delete Selected</button>');
 
 	var url = "";
 	if (page != 0){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    LIB_ITEM : $('#searchNameItem').val(),
+	    TYPE_ITEM : $('#selectSearchTypeItem').val(),
+	    FAMILY_ITEM : $('#searchFamilyItem').val(),
+	    PRIX_ITEM : $('#searchMinPriceItem').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableItem" },
+	    data: {'data': json_option, 'role': "tableItem" },
 	    dataType: 'json',
 	    success: function(response){
 

@@ -767,15 +767,29 @@
             return $data;
         }
     
-        public static function fillEnclosureTable($currentPage, $perPage)
+        public static function fillEnclosureTable($currentPage, $perPage, $search)
         {
+            $condition = "";
+            if($search['ID_PARK'] != "")
+                $condition .= " AND ID_PARK = ".$search['ID_PARK'];
+            if($search['TYPE_ENCLOS'] != "")
+                $condition .= " AND TYPE_ENCLOS LIKE '".$search['TYPE_ENCLOS']."%' ";
+            if($search['CAPACITY_MONSTER'] != "")
+                $condition .= " AND CAPACITY_MONSTER >= ".$search['CAPACITY_MONSTER'];
+            if($search['PRICE'] != "")
+                $condition .= " AND PRICE <= ".$search['PRICE'];
+            if($search['CLIMATE'] != "")
+                $condition .= " AND CLIMATE LIKE '".$search['CLIMATE']."%' ";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $query = "SELECT E.*, SSP.LIB_SUB_SPECIE
                       FROM ENCLOSURE E, SUB_SPECIE SSP
-                      WHERE E.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
-                      LIMIT :STARTPAGE, :PERPAGE";
+                      WHERE E.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE";
+            $query.=  $condition." LIMIT :STARTPAGE, :PERPAGE ";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -888,12 +902,32 @@
             return $data;
         }
     
-        public static function fillItemTable($currentPage, $perPage)
+        public static function fillItemTable($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ITEM LIMIT :STARTPAGE, :PERPAGE";
+            $condition = "";
+            if($search['LIB_ITEM'] != "")
+                $condition .= " WHERE LIB_ITEM LIKE '".$search['LIB_ITEM']."%' ";            
+            if($search['TYPE_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND TYPE_ITEM LIKE '".$search['TYPE_ITEM']."%' ";
+                else
+                    $condition .= " WHERE TYPE_ITEM LIKE '".$search['TYPE_ITEM']."%' ";
+            if($search['FAMILY_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND FAMILY_ITEM LIKE '".$search['FAMILY_ITEM']."%' ";
+                else
+                    $condition .= " WHERE FAMILY_ITEM LIKE '".$search['FAMILY_ITEM']."%' ";
+            if($search['PRIX_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND PRIX_ITEM LIKE '".$search['PRIX_ITEM']."%' ";
+                else
+                    $condition .= " WHERE PRIX_ITEM <= ".$search['PRIX_ITEM'];
+
+
+            $query = "SELECT * FROM ITEM ".$condition." LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);

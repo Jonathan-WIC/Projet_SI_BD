@@ -1,5 +1,6 @@
 body{
 	background: #D7BD8D;
+	margin-bottom: 50px;
 }
 
 h1, h2, h3{
@@ -19,7 +20,7 @@ footer{
 /** Size of the font on the search tables's body **/
 
 table>tbody{
-	font-size: 0.85em;
+	font-size: 0.82em;
 }
 
 #globalHeader{
