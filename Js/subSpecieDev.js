@@ -53,10 +53,16 @@ function fillSubSpecieTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    LIB_SUB_SPECIE : $('#searchNameSubSpecie').val(),
+	    LIB_SPECIE : $('#searchNameSpecie').val(),
+	    LIB_HABITAT : $('#selectHabitat').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableSubSpecie" },
+	    data: {'data': json_option, 'role': "tableSubSpecie" },
 	    dataType: 'json',
 	    success: function(response){
 

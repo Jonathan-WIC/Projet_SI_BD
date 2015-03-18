@@ -12,7 +12,7 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label class="control-label" for="selectNameSubSpecie">Name :</label>
+				<label class="control-label" for="searchNameSubSpecie">Name :</label>
 				<div class="controls">
 					<input id="searchNameSubSpecie" name="searchNameSubSpecie" />
 				</div>
@@ -27,11 +27,12 @@
 				<label class="control-label" for="selectHabitat">Habitat :</label>
 				<div class="controls">
 					<select id="selectHabitat" name="selectHabitat" class="selectHabitat">
+						<option value="">Select an option</option>
 					</select>
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnSubSpecieSearch">Search</button>
+				<button class="btn" id="btnSubSpecieSearch" onclick="fillSubSpecieTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -43,6 +44,8 @@
 
 	<div class="tableOption" id="optionSubSpecie">
 	</div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableSubSpecies" class="table table-bordered">
 		<thead>

@@ -31,10 +31,14 @@ function fillRegimeTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    LIB_REGIME : $('#searchNameRegime').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableRegime" },
+	    data: {'data': json_option, 'role': "tableRegime" },
 	    dataType: 'json',
 	    success: function(response){
 

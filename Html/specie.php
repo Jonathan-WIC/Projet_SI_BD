@@ -32,6 +32,8 @@
 	<div class="tableOption" id="optionSpecie">
 	</div>
 
+	<div class="loaderTable divLoader"></div>
+
 	<table id="tableSpecies" class="table table-bordered">
 		<thead>
 			<tr>

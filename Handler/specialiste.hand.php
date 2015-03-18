@@ -102,7 +102,7 @@
     		else
     		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
 
-	    	$subSpecies = $connect->fillSubSpecieTable($currentPage, $perPage);
+	    	$subSpecies = $connect->fillSubSpecieTable($currentPage, $perPage, $_POST['data']);
 			$jsonarray = array("subSpecie" => $subSpecies, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -176,7 +176,7 @@
     		else
     		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
 
-	    	$regimes = $connect->fillRegimeTable($currentPage, $perPage);
+	    	$regimes = $connect->fillRegimeTable($currentPage, $perPage, $_POST['data']);
 			$jsonarray = array("regime" => $regimes, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;

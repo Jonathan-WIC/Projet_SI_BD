@@ -21,6 +21,12 @@
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label" for="searchStartDateQuest">begin after this date :</label>
+				<div class="controls">
+					<input type="datetime" id="searchStartDateQuest" name="searchStartDateQuest">
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label" for="searchDurationQuest">Duration :</label>
 				<div class="controls">
 					<input type="number" id="searchDurationQuest" name="searchDurationQuest">
@@ -33,7 +39,7 @@
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnQuestSearch">Search</button>
+				<button class="btn" id="btnQuestSearch" onclick="fillQuestTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -45,6 +51,8 @@
 
 	<div class="tableOption" id="optionQuest">
 	</div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableQuests" class="table table-bordered">
 		<thead>

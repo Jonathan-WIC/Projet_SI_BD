@@ -31,10 +31,14 @@ function fillSpecieTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+		LIB_SPECIE : $('#searchNameSpecie').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableSpecie" },
+	    data: {'data': json_option, 'role': "tableSpecie" },
 	    dataType: 'json',
 	    success: function(response){
 

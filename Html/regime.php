@@ -12,13 +12,13 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="searchNameRegime">Name :</label>
+				<label class="control-label" for="searchNameRegime">Name :</label>
 				<div class="controls">
 					<input id="searchNameRegime" name="searchNameRegime" />
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnRegimeSearch">Search</button>
+				<button class="btn" id="btnRegimeSearch" onclick="fillRegimeTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -30,6 +30,8 @@
 
 	<div class="tableOption" id="optionRegime">
 	</div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableRegimes" class="table table-bordered">
 		<thead>
@@ -72,7 +74,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="alterNameRegime">Name* :</label>
+							<label class="control-label" for="alterNameRegime">Name* :</label>
 							<div class="controls">
 								<input type="text" name="alterNameRegime" id="alterNameRegime" />
 							</div>
@@ -109,7 +111,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="addNameRegime">Name* :</label>
+							<label class="control-label" for="addNameRegime">Name* :</label>
 							<div class="controls">
 								<input type="text" name="addNameRegime" id="addNameRegime" />
 							</div>

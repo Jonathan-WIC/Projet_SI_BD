@@ -52,7 +52,7 @@ function fillSpecieTable(page){
 	}
 
 	var json_option = {
-		NAME : $('#searchNameSpecie').val()
+		LIB_SPECIE : $('#searchNameSpecie').val()
 	};
 
 	$.ajax({

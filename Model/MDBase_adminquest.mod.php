@@ -151,7 +151,27 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT * FROM QUEST ORDER BY ID_QUEST DESC LIMIT :STARTPAGE, :PERPAGE";
+            
+             $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " WHERE NAME LIKE '".$search['NAME']."%' ";
+            if($search['DATE_DEB'] != "")
+                if($condition == "")
+                $condition .= " WHERE DATE_DEB > ".$search['DATE_DEB'];
+                else
+                $condition .= " AND DATE_DEB > ".$search['DATE_DEB'];
+            if($search['DURATION'] != "")
+                if($condition == "")
+                $condition .= " WHERE DURATION >= ".$search['DURATION'];
+                else
+                $condition .= " AND DURATION >= ".$search['DURATION'];
+            if($search['FEE'] != "")
+                if($condition == "")
+                $condition .= " WHERE FEE >= ".$search['FEE'];
+                else
+                $condition .= " AND FEE >= ".$search['FEE'];
+
+            $query = "SELECT * FROM QUEST ".$condition." ORDER BY ID_QUEST DESC LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);

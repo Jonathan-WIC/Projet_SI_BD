@@ -105,10 +105,17 @@ function fillQuestTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    NAME : $('#searchNameQuest').val(),
+	    DATE_DEB : $('#searchStartDateQuest').val(),
+	    DURATION : $('#searchDurationQuest').val(),
+	    FEE : $('#searchMinFeeQuest').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/"+MDBase+".hand.php"+url,
-	    data: {'role': "tableQuest" },
+	    data: {'data': json_option, 'role': "tableQuest" },
 	    dataType: 'json',
 	    success: function(response){
 

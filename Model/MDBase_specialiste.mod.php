@@ -245,8 +245,8 @@
         {
 
             $condition = "";
-            if($search['NAME'] != "")
-                $condition .= " AND LIB_SPECIE LIKE'". $search['NAME']."%' "; 
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND LIB_SPECIE LIKE'". $search['LIB_SPECIE']."%' "; 
 
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -308,16 +308,24 @@
             return $data;
         }
     
-        public static function fillSubSpecieTable($currentPage, $perPage)
+        public static function fillSubSpecieTable($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+            $condition = "";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND SP.LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_HABITAT'] != "")
+                $condition .= " AND LIB_HABITAT LIKE '".$search['LIB_HABITAT']."%' ";
+
             $query = "SELECT SSP.*, SP.LIB_SPECIE
                       FROM SUB_SPECIE SSP, SPECIE SP
                       WHERE SSP.ID_SPECIE = SP.ID_SPECIE
-                        AND ID_SUB_SPECIE <> 0
-                      LIMIT :STARTPAGE, :PERPAGE";
+                        AND ID_SUB_SPECIE <> 0 ";
+            $query .= $condition." LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -447,12 +455,16 @@
             return $data;
         }
     
-        public static function fillRegimeTable($currentPage, $perPage)
+        public static function fillRegimeTable($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0 LIMIT :STARTPAGE, :PERPAGE";
+            $condition = "";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+
+            $query = "SELECT * FROM REGIME WHERE ID_REGIME <> 0 ".$condition." LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
