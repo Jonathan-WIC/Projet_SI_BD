@@ -131,6 +131,9 @@ function showAddNewsModal(){
 	$('#addNewsModal').modal('show');
 };
 
+function getNewspaperId(id){
+	$('#divNewspapers').attr('idNewspaper', id);
+}
 
 	/////////////////////////////////////////////////////////////////
     ////////////////// Check/Uncheck all checkbox  //////////////////
@@ -184,7 +187,7 @@ function fillNewsPage(page){
 				}
 
 				$('#divNewspapers').append(	 	'</div>'+
-					    						 '<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="afficheArticle('+response.newspaper[i]['ID_NEWSPAPER']+', 0);">'+
+					    						 '<div id="newspaper'+response.newspaper[i]['ID_NEWSPAPER']+'" class="divNewspaper row" onclick="getNewspaperId('+response.newspaper[i]['ID_NEWSPAPER']+'); afficheArticle(0);">'+
 						    						 '<div class="headerDivNewspaper">'+
 								    				 	'<h3>Journal N° '+response.newspaper[i]['ID_NEWSPAPER']+'<span class="dateDivNewspaper">'+response.newspaper[i]['PUBLICATION'].substring(0, 10)+'</span></h3>'+
 								    				 '</div>'+
@@ -318,7 +321,9 @@ function insertNewspaper(){
 								/**************************************************/
 
 
-function afficheArticle(id, page){
+function afficheArticle(page){
+
+	var id = $('#divNewspapers').attr('idNewspaper');
 
 	var url = "";
 	if (page != 0){
@@ -366,39 +371,8 @@ function afficheArticle(id, page){
 			}
 	    }
 	}).done(function(response){
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="afficheArticle('+ $('#divNewspapers').attr('idNewspaper') +','+ previousPage+')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="afficheArticle('+ $('#divNewspapers').attr('idNewspaper') +','+ i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-
-		$('#pagination').append('<li id="nextArrow" onclick="afficheArticle('+ $('#divNewspapers').attr('idNewspaper') +','+ nextPage +')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'afficheArticle');
 	});
 };
 
