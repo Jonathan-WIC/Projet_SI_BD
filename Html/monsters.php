@@ -25,13 +25,14 @@
 				<select class="search_bar selectRegime" id="selectRegime"></select>
 				<label>Search by Danger Scale</label><br>
 				<select class="search_bar selectDanger" id="selectDanger"></select>
-				<div>
-					<label class="radio-inline">
-						<input type="radio" name="gender" id="searchGenderM" value="M" />M
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="gender" id="searchGenderF" value="F"/>F
-					</label>
+				<div class="control-group">
+					<label class="control-label" for="searchGenderMonster">Gender :</label>
+					<div class="controls">
+						<select id="searchGenderAccount" name="searchGenderAccount">
+							<option value="M">M</option>
+							<option value="F">F</option>
+						</select>
+					</div>
 				</div>
 				<br />
 				<button class="btn" id="btnMonsterSearch">Search</button>

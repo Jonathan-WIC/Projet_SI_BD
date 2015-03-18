@@ -94,7 +94,7 @@
     		else
     		    $currentPage = 1;            					// Page courante initialiser à 1 par défaut
 
-	    	$species = $connect->fillSpecieTable($currentPage, $perPage);
+	    	$species = $connect->fillSpecieTable($currentPage, $perPage, $_POST['data']);
 			$jsonarray = array("specie" => $species, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -214,7 +214,7 @@
     		else
     		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
 
-	    	$elements = $connect->fillElementTable($currentPage, $perPage);
+	    	$elements = $connect->fillElementTable($currentPage, $perPage, $_POST['data']);
 			$jsonarray = array("element" => $elements, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
@@ -651,7 +651,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$accounts = $connect->fillAccountTable($currentPage, $perPage);
+	    	$accounts = $connect->fillAccountTable($currentPage, $perPage, $_POST['dataTable']);
 	    	$persos = $connect->getPersoAccount();
 
 			$jsonarray = array("account" => $accounts, "perso" => $persos, "page" => $currentPage, "nbPage" => $nbPage);

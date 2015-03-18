@@ -46,6 +46,10 @@ function fillElementTable(page){
 	$('#optionElement').append('<button id="addElement" onclick="showAddElementModal()">Add Element</button>'+
 							   '<button id="deleteElement" onclick="deleteMultipleElement()">Delete Selected</button>');
 
+	var json_option = {
+		LIB_ELEMENT: $('#searchNameElement').val()
+	};
+
 	var url = "";
 	if (page != 0){
 		url = "?p=" + page;
@@ -54,7 +58,7 @@ function fillElementTable(page){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableElement" },
+	    data: {'data': json_option, 'role': "tableElement" },
 	    dataType: 'json',
 	    success: function(response){
 

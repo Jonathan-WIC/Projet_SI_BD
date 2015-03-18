@@ -62,7 +62,7 @@ function fillSpecieTable(page){
 			info: false
 		});
 
-		$('loaderTable')empty();
+		$('.loaderTable').empty();
 
 	});
 };

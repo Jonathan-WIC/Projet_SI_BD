@@ -31,10 +31,14 @@ function fillElementTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+		LIB_ELEMENT: $('#searchNameElement').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableElement" },
+	    data: {'data': json_option, 'role': "tableElement" },
 	    dataType: 'json',
 	    success: function(response){
 

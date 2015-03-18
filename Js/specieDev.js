@@ -51,10 +51,14 @@ function fillSpecieTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+		NAME : $('#searchNameSpecie').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableSpecie" },
+	    data: {'data' : json_option, 'role': "tableSpecie" },
 	    dataType: 'json',
 	    success: function(response){
 
@@ -85,7 +89,7 @@ function fillSpecieTable(page){
 			info: false
 		});
 
-		$('.loaderTable')empty();
+		$('.loaderTable').empty();
 	
 	});
 };

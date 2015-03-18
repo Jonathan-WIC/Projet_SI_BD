@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnSpecieSearch">Search</button>
+				<button class="btn" id="btnSpecieSearch" onclick="fillSpecieTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>

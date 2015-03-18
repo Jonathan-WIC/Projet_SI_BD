@@ -27,7 +27,7 @@ function isEmail(mail){
 	// Reg ex pour une addresse mail
 	var regEmail = new RegExp('^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$','i');
 	return regEmail.test(mail);
-}
+};
 
 function showAddAccountModal(){
 	$('#AddAccountModal').modal('show');
@@ -57,10 +57,18 @@ function fillAccountTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    PSEUDO : $('#searchPseudoAccount').val(),
+	    GENDER : $('#searchGenderAccount').val(),
+	    AGE : $('#searchAgeAccount').val(),
+	    DATEREG : $('#searchDateRegisterAccount').val(),
+	    DATECO : $('#searchDateLastCoAccount').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableAccount" },
+	    data: {'dataTable': json_option, 'role': "tableAccount"},
 	    dataType: 'json',
 	    success: function(response){
 
@@ -81,9 +89,9 @@ function fillAccountTable(page){
 													'<select id="playerAccount'+response.account[i]['ID_ACCOUNT']+'" class="playerAccountTable">'+
 													'</select>'+
 												'</td>'+
-												'<td>'+response.account[i]['DATE_INSCRIPTION']+'</td>' +
+												'<td>'+response.account[i]['DATE_INSCRIPTION'].substring(0, 10)+'</td>' +
 												'<td>'+response.account[i]['IP']+'</td>' +
-												'<td>'+response.account[i]['DATE_LAST_CONNEXION']+'.</td>' +
+												'<td>'+response.account[i]['DATE_LAST_CONNEXION'].substring(0, 10)+'</td>' +
 												'<td>'+
 													'<button class="altAccount" onclick="fillAccountInfos('+response.account[i]['ID_ACCOUNT']+');">Modif</button>'+
 													'<button class="deleteAccount" onclick="deleteAccount('+response.account[i]['ID_ACCOUNT']+');">Delete</button>'+

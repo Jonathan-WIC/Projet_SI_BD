@@ -12,13 +12,13 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="searchNameElement">Name :</label>
+				<label class="control-label" for="searchNameElement">Name :</label>
 				<div class="controls">
 					<input id="searchNameElement" name="searchNameElement" />
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnElementSearch">Search</button>
+				<button class="btn" id="btnElementSearch" onclick="fillElementTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -72,7 +72,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="alterNameElement">Name* :</label>
+							<label class="control-label" for="alterNameElement">Name* :</label>
 							<div class="controls">
 								<input type="text" name="alterNameElement" id="alterNameElement" />
 							</div>
@@ -109,7 +109,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="addNameElement">Name* :</label>
+							<label class="control-label" for="addNameElement">Name* :</label>
 							<div class="controls">
 								<input type="text" name="addNameElement" id="addNameElement" />
 							</div>

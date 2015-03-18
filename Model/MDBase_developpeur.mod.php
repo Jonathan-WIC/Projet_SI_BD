@@ -286,12 +286,28 @@
             return $data;
         }
     
-        public static function fillAccountTable($currentPage, $perPage)
+        public static function fillAccountTable($currentPage, $perPage, $data)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ACCOUNT WHERE ID_ACCOUNT <> 0 LIMIT :STARTPAGE, :PERPAGE";
+            $condition = "";
+            if($data['PSEUDO'] != "")
+                $condition .= " AND PSEUDO LIKE '".$data['PSEUDO']."%' ";
+            if($data['GENDER'] != "null")
+                $condition .= " AND GENDER = '".$data['GENDER']."' ";
+            if($data['AGE'] != "")
+                $condition .= " AND AGE >= ".$data['AGE']." ";
+            if($data['DATEREG'] != "")
+                $condition .= " AND DATE_INSCRIPTION = '".$data['DATEREG']."' ";
+            if($data['DATECO'] != "")
+                $condition .= " AND DATE_LAST_CONNEXION >= '".$data['DATECO']."' ";
+
+           //echo $condition;
+
+            $query = "SELECT * FROM ACCOUNT WHERE ID_ACCOUNT <> 0 ".$condition." LIMIT :STARTPAGE, :PERPAGE";
+
+            //echo $query;
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -981,12 +997,17 @@
             return $data;
         }
     
-        public static function fillSpecieTable($currentPage, $perPage)
+        public static function fillSpecieTable($currentPage, $perPage, $search)
         {
+
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " AND LIB_SPECIE LIKE'". $search['NAME']."%' ";
+
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0 LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM SPECIE WHERE ID_SPECIE <> 0 ".$condition." LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -1184,12 +1205,17 @@
             return $data;
         }
     
-        public static function fillElementTable($currentPage, $perPage)
+        public static function fillElementTable($currentPage, $perPage, $search)
         {
+
+            $condition = "";
+            if($search['LIB_ELEMENT'] != "")
+                $condition .= " WHERE LIB_ELEMENT LIKE '". $search['LIB_ELEMENT'] ."%' ";
+
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ELEMENT ORDER BY ID_ELEMENT LIMIT :STARTPAGE, :PERPAGE";
+            $query = "SELECT * FROM ELEMENT ".$condition." ORDER BY ID_ELEMENT LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
