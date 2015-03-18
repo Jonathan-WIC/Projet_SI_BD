@@ -10,6 +10,8 @@ $(document).ready(function(){
 
 function fillNewsPage(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	var url = "";
 	if (page != 0){
 		url = "?p=" + page;
@@ -39,7 +41,10 @@ function fillNewsPage(page){
 	    }
 	}).done(function(response){
 		// On active la pagination
-		pagination(response.nbPage, response.page, 'fillNewsPage');		
+		pagination(response.nbPage, response.page, 'fillNewsPage');	
+
+		$('.loaderTable').empty();
+
 	});
 };
 

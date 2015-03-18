@@ -55,6 +55,8 @@ function showAddMonsterModal(){
 
 function fillMonsterTable(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	if(table){
 		table.destroy();
 	}
@@ -117,6 +119,8 @@ function fillMonsterTable(page){
 
             //On cherche les selects qui ne sont pas remplis (les mob qui n'ont pas d'éléments) et on met le 'N/A' par défaut
             $('.elementMonsterTable:empty').append('<option>N/A</option>');
+
+			//$('#divLoader').empty();
 	    }
 	}).done(function(response){
 		// On active la pagination
@@ -129,6 +133,7 @@ function fillMonsterTable(page){
 			info: false
 		});
 
+		$('.loaderTable').empty();
 	});
 };
 

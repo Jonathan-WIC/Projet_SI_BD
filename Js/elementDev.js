@@ -36,6 +36,8 @@ function selectAll(){
 
 function fillElementTable(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	if(table){
 		table.destroy();
 	}
@@ -82,6 +84,8 @@ function fillElementTable(page){
 			searching: false,
 			info: false
 		});
+
+		$('.loaderTable').empty();
 
 	});
 };

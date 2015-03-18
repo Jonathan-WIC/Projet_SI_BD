@@ -20,6 +20,8 @@ $(document).ready(function(){
 
 function fillRegimeTable(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	if(table){
 		table.destroy();
 	}
@@ -59,6 +61,8 @@ function fillRegimeTable(page){
 			searching: false,
 			info: false
 		});
+
+		$('.loaderTable').empty();
 
 	});
 };

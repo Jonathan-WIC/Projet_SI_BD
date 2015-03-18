@@ -11,6 +11,8 @@ $(document).ready(function(){
 
 function fillQuestTable(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	if(table){
 		table.destroy();
 	}
@@ -62,6 +64,8 @@ function fillQuestTable(page){
 			searching: false,
 			info: false
 		});
+
+		$('.loaderTable').empty();
 
 	});
 };

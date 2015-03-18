@@ -47,6 +47,8 @@
 	<div class="tableOption" id="optionMonster">
 	</div>
 
+	<div class="loaderTable divLoader"></div>
+
 	<table id="tableMonsters" class="table table-bordered">
 		<thead>
 			<tr>

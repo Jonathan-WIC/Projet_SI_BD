@@ -110,3 +110,7 @@ table>tbody{
     text-align: right;
     margin-right: 1%;
 }
+
+.loaderTable {
+    text-align: center;
+}

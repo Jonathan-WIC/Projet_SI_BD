@@ -149,6 +149,8 @@ function selectAll(){
 
 function fillNewsPage(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	$("#optionNews").empty();
 	$("#optionNews").append('<input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll()">'+
 							 '<label for="selectAll">SelectAll</label>'+
@@ -196,7 +198,10 @@ function fillNewsPage(page){
 	    }
 	}).done(function(response){
 		// On active la pagination
-		pagination(response.nbPage, response.page, 'fillNewsPage');		
+		pagination(response.nbPage, response.page, 'fillNewsPage');	
+
+		$('.loaderTable').empty();
+
 	});
 };
 

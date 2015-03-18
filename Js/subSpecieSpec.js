@@ -22,6 +22,8 @@ $(document).ready(function(){
 
 function fillSubSpecieTable(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	if(table){
 		table.destroy();
 	}
@@ -63,6 +65,9 @@ function fillSubSpecieTable(page){
 			searching: false,
 			info: false
 		});
+
+		$('.loaderTable').empty();
+
 	});
 };
 

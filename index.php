@@ -380,7 +380,7 @@
 
     function logadmin()
     {
-        $_SESSION['model'] = 'MDBase_administrateur';
+        $_SESSION['model'] = 'MDBase_developpeur';
         monstersDev();
     }
     
