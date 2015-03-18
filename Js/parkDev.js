@@ -52,10 +52,16 @@ function fillParkTable(page){
 		url = "?p=" + page;
 	}
 
+	var json_option = {
+	    NAME_PARK : $('#searchNamePark').val(),
+	    CAPACITY_ENCLOSURE : $('#searchCapacityPark').val(),
+	    ID_PERSO : $('#selectSearchPersoPark').val()
+	};
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tablePark" },
+	    data: {'data': json_option, 'role': "tablePark" },
 	    dataType: 'json',
 	    success: function(response){
 

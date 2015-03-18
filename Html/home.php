@@ -1,4 +1,4 @@
-<h2>Vous êtes sur le panneau d'administration de monster park</h2>
+<h2>Welcome on administration panel, please log in to continue</h2>
 <div style="text-align: center;">
 	<form id="loginForm">
 		<div class="form-group">

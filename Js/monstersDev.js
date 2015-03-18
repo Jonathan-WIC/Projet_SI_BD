@@ -70,24 +70,25 @@ function fillMonsterTable(page){
 	}
 
 	var json_option = {
-		    NAME : $('#alterNameMonster').val(),
-		    GENDER : $('#selectAlterGenderMonster').val(),
-		    AGE : $('#alterAgeMonster').val(),
-		    WEIGHT : $('#alterWeightMonster').val(),
-		    DANGER_SCALE : $('#selectAlterDangerMonster').val(),
-		    HEALTH_STATE : $('#alterHealthMonster').val(),
-		    HUNGER_STATE : $('#alterHungerMonster').val(),
-		    CLEAN_SCALE : $('#alterCleanMonster').val(),
-		    LIB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
-		    LIB_SUB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
-		    LIB_MATURITY : $('#selectAlterMaturityMonster').val(),
-		    LIB_REGIME : $('#selectAlterRegimeMonster').val()
+		    NAME : $('#nameSearch').val(),
+		    GENDER : $('#searchGenderMonster').val(),
+		    DANGER_SCALE : $('#selectDanger').val(),
+		    LIB_SPECIE : $('#selectSpecies').val(),
+		    LIB_SUB_SPECIE : $('#selectSubSpecies').val(),
+		    LIB_MATURITY : $('#selectMaturity').val(),
+		    LIB_REGIME : $('#selectRegime').val(),
+		    CLEAN_SCALE : $('#searchCleanMonster').val(),
+		    HEALTH_STATE : $('#searchHealthMonster').val(),
+		    HUNGER_STATE : $('#searchHungerMonster').val(),
+		    AGE : $('#searchAgeMonster').val(),
+		    WEIGHT : $('#searchWeigthMonster').val(),
+		    ID_PERSO : $('#ownerSearch').val()
 		};
 
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableMonster" },
+	    data: {'data': json_option, 'role': "tableMonster" },
 	    dataType: 'json',
 	    success: function(response){
 

@@ -1,4 +1,4 @@
-<h3>Administrer les monstres du jeu</h3>
+<h3>Manage Monsters</h3>
 
 	
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
@@ -47,7 +47,7 @@
 				<div class="control-group">
 					<label class="control-label" for="searchGenderMonster">Gender :</label>
 					<div class="controls">
-						<select id="searchGenderAccount" name="searchGenderAccount">
+						<select id="searchGenderMonster" name="searchGenderMonster">
 							<option value="">Select an option</option>
 							<option value="M">M</option>
 							<option value="F">F</option>
@@ -85,7 +85,7 @@
 					</div>
 				</div>
 				<br />
-				<button class="btn" id="btnMonsterSearch">Search</button>
+				<button class="btn" id="btnMonsterSearch" onclick="fillMonsterTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>

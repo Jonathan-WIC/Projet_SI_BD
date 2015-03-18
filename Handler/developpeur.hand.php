@@ -25,7 +25,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$monsters = $connect->getMonstersInfos($currentPage, $perPage);
+	    	$monsters = $connect->getMonstersInfos($currentPage, $perPage, $_POST['data']);
 	    	$monstersElements = $connect->getMonstersElementsInfos();
 	    	$jsonarray = array("infos" => $monsters, "element" => $monstersElements, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
@@ -775,7 +775,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$park = $connect->fillParkTable($currentPage, $perPage);
+	    	$park = $connect->fillParkTable($currentPage, $perPage, $_POST['data']);
 	    	$enclosure = $connect->getEnclosurePark();
 
 			$jsonarray = array("park" => $park, "enclosure" => $enclosure, "page" => $currentPage, "nbPage" => $nbPage);

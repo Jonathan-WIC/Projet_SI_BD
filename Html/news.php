@@ -1,4 +1,4 @@
-<h3>Voici les News du jeu</h3>
+<h3>Here are News from the game</h3>
 
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
 	<!-- ------------------------------------------------ Main Page Part -------------------------------------------------- -->
@@ -11,6 +11,8 @@
 	
 	<div class="tableOption" id="optionNews">
 	</div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<div id="divNewspapers" >
 	</div>

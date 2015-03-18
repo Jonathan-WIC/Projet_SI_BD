@@ -1,4 +1,4 @@
-<h3>Administrer les parks du jeu</h3>
+<h3>Manage Parks and Player's parks</h3>
 
 	<!-- -------------------------------------------------------------------------------------------------------------------- -->
 	<!-- ------------------------------------------------ Main Page Part -------------------------------------------------- -->
@@ -14,22 +14,24 @@
 			<div class="control-group">
 				<label class="control-label" for="searchNamePark">Name :</label>
 				<div class="controls">
-					<input id="searchNamePark" name="searchNamePark" />
+					<input type="text" id="searchNamePark" name="searchNamePark" />
 				</div>
 			</div>
 			<div>
 			<div class="control-group">
 				<label class="control-label" for="searchCapacityPark">Capacity :</label>
 				<div class="controls">
-					<input id="searchCapacityPark" name="searchCapacityPark" />
+					<input type="number" id="searchCapacityPark" name="searchCapacityPark" />
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="selectSearchPersoPark">Owner :</label><br>
-				<select id ="selectSearchPersoPark" class="search_bar selectPersos"></select>
+				<div class="controls">
+					<input type="number" id="selectSearchPersoPark" name="selectSearchPersoPark" />
+				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnParkSearch">Search</button>
+				<button class="btn" id="btnParkSearch" onclick="fillParkTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -41,6 +43,8 @@
 
 	<div class="tableOption" id="optionPark">
 	</div>
+	
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableParks" class="table table-bordered">
 		<thead>

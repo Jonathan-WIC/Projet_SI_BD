@@ -57,18 +57,45 @@
             return $data;
         }
 
-        public static function getMonstersInfos($currentPage, $perPage)
+        public static function getMonstersInfos($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " AND M.NAME LIKE '".$search['NAME']."%' ";
+            if($search['GENDER'] != "")
+                $condition .= " AND M.GENDER LIKE '".$search['GENDER']."%' ";
+            if($search['DANGER_SCALE'] != "")
+                $condition .= " AND M.DANGER_SCALE LIKE '".$search['DANGER_SCALE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND SP.LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND MA.LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND R.LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+            if($search['CLEAN_SCALE'] != "")
+                $condition .= " AND M.CLEAN_SCALE >= ". $search['CLEAN_SCALE'];
+            if($search['HEALTH_STATE'] != "")
+                $condition .= " AND M.HEALTH_STATE >= ". $search['HEALTH_STATE'];
+            if($search['HUNGER_STATE'] != "")
+                $condition .= " AND M.HUNGER_STATE >= ". $search['HUNGER_STATE'];
+            if($search['AGE'] != "")
+                $condition .= " AND M.AGE >= ". $search['AGE'];
+            if($search['WEIGHT'] != "")
+                $condition .= " AND M.WEIGHT >= ". $search['WEIGHT'];
 
             $query = "SELECT M.*, MA.*, R.LIB_REGIME, SSP.LIB_SUB_SPECIE, SSP.LIB_HABITAT, SP.LIB_SPECIE
                       FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND M.ID_REGIME = R.ID_REGIME
-                      AND SSP.ID_SPECIE = SP.ID_SPECIE
-                      LIMIT :STARTPAGE, :PERPAGE";
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE ";
+            $query.= $condition." ORDER BY ID_MONSTER LIMIT :STARTPAGE, :PERPAGE";
+
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
             $qq->bindValue('PERPAGE', $perPage, PDO::PARAM_INT);

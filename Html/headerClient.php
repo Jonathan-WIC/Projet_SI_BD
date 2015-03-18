@@ -1,4 +1,4 @@
-<h1>Panneau d'administration Monster Park !</h1>
+<h1>Administration pannel for Monster Park</h1>
 <nav class="navbar navbar-default">
 	<div id="globalHeader" class="container-fluid">
 	<!-- Brand and toggle get grouped for better mobile display -->
@@ -15,10 +15,10 @@
 		<div class="collapse navbar-collapse" id="navbar-header">
 			<ul class="nav navbar-nav">
 				<li><a class="linkHeader" href="index.php?EX=newsClient">News</a></li>
-				<li><a class="linkHeader" href="index.php?EX=questClient">Quêtes</a></li>
+				<li><a class="linkHeader" href="index.php?EX=questClient">Quests</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="linkHeader" href="index.php?EX=home">Se déconnecter</a></li>
+				<li><a class="linkHeader" href="index.php?EX=home">Log out</a></li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->

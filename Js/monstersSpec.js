@@ -44,10 +44,27 @@ function fillMonsterTable(page){
 		url = "?p=" + page;
 	}
 
+
+	var json_option = {
+		    NAME : $('#nameSearch').val(),
+		    GENDER : $('#searchGenderMonster').val(),
+		    DANGER_SCALE : $('#selectDanger').val(),
+		    LIB_SPECIE : $('#selectSpecies').val(),
+		    LIB_SUB_SPECIE : $('#selectSubSpecies').val(),
+		    LIB_MATURITY : $('#selectMaturity').val(),
+		    LIB_REGIME : $('#selectRegime').val(),
+		    CLEAN_SCALE : $('#searchCleanMonster').val(),
+		    HEALTH_STATE : $('#searchHealthMonster').val(),
+		    HUNGER_STATE : $('#searchHungerMonster').val(),
+		    AGE : $('#searchAgeMonster').val(),
+		    WEIGHT : $('#searchWeigthMonster').val()
+		};
+
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableMonster" },
+	    data: {'data': json_option, 'role': "tableMonster" },
 	    dataType: 'json',
 	    success: function(response){
 

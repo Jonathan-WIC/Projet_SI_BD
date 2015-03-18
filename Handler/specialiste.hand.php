@@ -19,7 +19,7 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$monsters = $connect->getMonstersInfos($currentPage, $perPage);
+	    	$monsters = $connect->getMonstersInfos($currentPage, $perPage, $_POST['data']);
 	    	$monstersElements = $connect->getMonstersElementsInfos();
 	    	$jsonarray = array("infos" => $monsters, "element" => $monstersElements, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
