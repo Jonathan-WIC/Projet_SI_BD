@@ -42,6 +42,10 @@ function fillMaturityTable(page){
 		table.destroy();
 	}
 
+	json_option = {
+		LIB_MATURITY: $('#searchNameMaturity').val()
+	}
+
 	$('#optionMaturity').empty();
 	$('#optionMaturity').append('<button id="addMaturity" onclick="showAddMaturityModal()">Add Maturity</button>'+
 							   '<button id="deleteMaturity" onclick="deleteMultipleMaturity()">Delete Selected</button>');
@@ -54,7 +58,7 @@ function fillMaturityTable(page){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tableMaturity" },
+	    data: {'data': json_option, 'role': "tableMaturity" },
 	    dataType: 'json',
 	    success: function(response){
 
@@ -113,7 +117,7 @@ function updateMaturityInfos(id){
 	}
 
 	var json_option = {
-	    NAME : $('#alterNameMaturity').val()
+	    LIB_MATURITY : $('#alterNameMaturity').val()
 	};
 
 	$.ajax({

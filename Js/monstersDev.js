@@ -6,7 +6,6 @@ $(document).ready(function(){
     ////////////////////////////////////////////////////////////////
 
     fillMonsterTable(0);
-    fillSelectSpecie();
     fillSelectSubSpecie();
     fillSelectMaturity();
     fillSelectRegime();
@@ -69,6 +68,21 @@ function fillMonsterTable(page){
 	if (page != 0){
 		url = "?p=" + page;
 	}
+
+	var json_option = {
+		    NAME : $('#alterNameMonster').val(),
+		    GENDER : $('#selectAlterGenderMonster').val(),
+		    AGE : $('#alterAgeMonster').val(),
+		    WEIGHT : $('#alterWeightMonster').val(),
+		    DANGER_SCALE : $('#selectAlterDangerMonster').val(),
+		    HEALTH_STATE : $('#alterHealthMonster').val(),
+		    HUNGER_STATE : $('#alterHungerMonster').val(),
+		    CLEAN_SCALE : $('#alterCleanMonster').val(),
+		    LIB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
+		    LIB_SUB_SPECIE : $('#selectAlterSubSpecieMonster').val(),
+		    LIB_MATURITY : $('#selectAlterMaturityMonster').val(),
+		    LIB_REGIME : $('#selectAlterRegimeMonster').val()
+		};
 
 	$.ajax({
 	    type: "POST", //Sending method
@@ -362,20 +376,6 @@ function addMonster(){
 		$('#AddMonsterModal').modal('hide');
 	});
 
-};
-
-
-function fillSelectSpecie(){
-	$.ajax({
-	    type: "POST", //Sending method
-	    url:"Handler/developpeur.hand.php",
-	    data: {'role': "specie" },
-	    dataType: 'json',
-	    success: function(response){
-	    	for(i in response.specie)
-	    		$('.selectSpecies').append('<option value='+ response.specie[i]['ID_SPECIE'] +'>'+ response.specie[i]['LIB_SPECIE'] +'</option>');
-	    }
-	});
 };
 
 function fillSelectSubSpecie(){

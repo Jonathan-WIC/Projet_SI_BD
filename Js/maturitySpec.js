@@ -31,10 +31,14 @@ function fillMaturityTable(page){
 		url = "?p=" + page;
 	}
 
+	json_option = {
+		LIB_MATURITY: $('#searchNameMaturity').val()
+	}
+
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/specialiste.hand.php"+url,
-	    data: {'role': "tableMaturity" },
+	    data: {'data': json_option, 'role': "tableMaturity" },
 	    dataType: 'json',
 	    success: function(response){
 

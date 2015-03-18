@@ -481,12 +481,17 @@
             return $data;
         }
    
-        public static function fillMaturityTable($currentPage, $perPage)
+        public static function fillMaturityTable($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0 LIMIT :STARTPAGE, :PERPAGE";
+            $condition = "";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+
+            $query = "SELECT * FROM MATURITY WHERE ID_MATURITY <> 0 ".$condition." LIMIT :STARTPAGE, :PERPAGE";
+
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);

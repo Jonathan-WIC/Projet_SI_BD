@@ -14,24 +14,74 @@
 		<fieldset id="searchFields">
 			<div>
 				<label>Search by Name</label>
-				<input class="search_bar" id="nameSearch" type="text" placeholder="Name" />
-				<label>Search by specie</label><br>
-				<select class="search_bar selectSpecies" id="selectSpecies"></select>
-				<label>Search by sub specie</label><br>
-				<select class="search_bar selectSubSpecies" id="selectSubSpecies"></select>
-				<label>Search by maturity</label><br>
-				<select class="search_bar selectMaturity" id="selectMaturity"></select><br>
-				<label>Search by Regime</label><br>
-				<select class="search_bar selectRegime" id="selectRegime"></select>
+				<div class="controls">
+					<input class="search_bar" id="nameSearch" type="text" placeholder="Name" />
+				</div>
+				<?php
+					if( $_SESSION['model'] == "MDBase_developpeur" OR $_SESSION['model'] == "MDBase_administrateur" )
+				    	echo '<label>Search by ID Owner</label>'
+							      .'<div class="controls">'
+								      .'<input class="search_bar" id="ownerSearch" type="number" />'
+								  .'</div>';
+				?>
+				<label>Search by specie</label>
+				<div class="controls">
+					<input type="text" id="selectSpecies" name="selectSpecies" />
+				</div>
+				<label>Search by sub specie</label>
+				<div class="controls">
+					<input type="text" id="selectSubSpecies" name="selectSubSpecies" />
+				</div>
+				<label>Search by maturity</label>
+				<div class="controls">
+					<input type="text" id="selectMaturity" name="selectMaturity" />
+				</div>
+				<label>Search by Regime</label>
+				<div class="controls">
+					<input type="text" id="selectRegime" name="selectRegime" />
+				</div>
 				<label>Search by Danger Scale</label><br>
-				<select class="search_bar selectDanger" id="selectDanger"></select>
+				<div class="controls">
+					<input type="text" id="selectDanger" name="selectDanger" />
+				</div>
 				<div class="control-group">
 					<label class="control-label" for="searchGenderMonster">Gender :</label>
 					<div class="controls">
 						<select id="searchGenderAccount" name="searchGenderAccount">
+							<option value="">Select an option</option>
 							<option value="M">M</option>
 							<option value="F">F</option>
 						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="searchAgeMonster">Minimal Age :</label>
+					<div class="controls">
+						<input type="number" id="searchAgeMonster" name="searchAgeMonster" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="searchWeigthMonster">Minimal Weigth :</label>
+					<div class="controls">
+						<input type="number" id="searchWeigthMonster" name="searchWeigthMonster" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="searchHungerMonster">Minimal Hunger :</label>
+					<div class="controls">
+						<input type="number" id="searchHungerMonster" name="searchHungerMonster" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="searchHealthMonster">Minimal Health :</label>
+					<div class="controls">
+						<input type="number" id="searchHealthMonster" name="searchHealthMonster" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="searchCleanMonster">Minimal Clean :</label>
+					<div class="controls">
+						<input type="number" id="searchCleanMonster" name="searchCleanMonster" />
 					</div>
 				</div>
 				<br />

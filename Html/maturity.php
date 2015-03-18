@@ -12,13 +12,13 @@
 		<legend>Search</legend>
 		<fieldset id="searchFields">
 			<div class="control-group">
-				<label id="nameSearch" class="control-label" for="searchNameMaturity">Name :</label>
+				<label class="control-label" for="searchNameMaturity">Name :</label>
 				<div class="controls">
 					<input id="searchNameMaturity" name="searchNameMaturity" />
 				</div>
 			</div>
 			<div>
-				<button class="btn" id="btnMaturitySearch">Search</button>
+				<button class="btn" id="btnMaturitySearch" onclick="fillMaturityTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -28,8 +28,9 @@
 
 <div class="col-md-offset-1 col-md-5" style="margin-top:2%;">
 
-	<div class="tableOption" id="optionMaturity">
-	</div>
+	<div class="tableOption" id="optionMaturity"></div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tableMaturitys" class="table table-bordered">
 		<thead>
@@ -72,7 +73,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="alterNameMaturity">Name* :</label>
+							<label class="control-label" for="alterNameMaturity">Name* :</label>
 							<div class="controls">
 								<input type="text" name="alterNameMaturity" id="alterNameMaturity" />
 							</div>
@@ -109,7 +110,7 @@
 
                     <form class="form-horizontal">
 						<div class="control-group">
-							<label id="nameSearch" class="control-label" for="addNameMaturity">Name* :</label>
+							<label class="control-label" for="addNameMaturity">Name* :</label>
 							<div class="controls">
 								<input type="text" name="addNameMaturity" id="addNameMaturity" />
 							</div>

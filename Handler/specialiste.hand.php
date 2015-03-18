@@ -213,7 +213,7 @@
     		else
     		    $currentPage = 1;            						// Page courante initialiser à 1 par défaut
 
-	    	$maturity = $connect->fillMaturityTable($currentPage, $perPage);
+	    	$maturity = $connect->fillMaturityTable($currentPage, $perPage, $_POST['data']);
 			$jsonarray = array("maturity" => $maturity, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
 			echo $jsonReturned;
