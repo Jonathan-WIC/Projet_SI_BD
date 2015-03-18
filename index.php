@@ -380,7 +380,7 @@
 
     function logadmin()
     {
-        $_SESSION['model'] = 'MDBase_developpeur'; //Manque de temps ==> BRUT FORCE!!!! 
+        $_SESSION['model'] = 'MDBase_administrateur';
         monstersDev();
     }
     

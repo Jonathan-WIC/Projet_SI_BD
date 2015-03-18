@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -31,6 +32,10 @@ $(document).ready(function(){
 });//Ready
 
 function fillMonsterTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	var url = "";
 	if (page != 0){
@@ -80,41 +85,15 @@ function fillMonsterTable(page){
             $('.elementMonsterTable:empty').append('<option>N/A</option>');
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillMonsterTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillMonsterTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'""><a href="#" onclick="fillMonsterTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillMonsterTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
+		// Application de DataTable à un tableau
+		table = $('#tableMonsters').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 	});
 };
 

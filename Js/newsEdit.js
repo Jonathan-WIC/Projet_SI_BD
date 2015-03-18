@@ -195,54 +195,8 @@ function fillNewsPage(page){
 			}
 	    }
 	}).done(function(response){
-
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillNewsPage('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		if(response.nbPage <= 12){
-			for (var i = 1; i <= response.nbPage; i++) {
-				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
-				if (i == response.page) {
-					$('#page'+i).attr('class', 'active');
-				}
-			}
-		} else{
-			for (var i = 1; i < 6; i++) {
-				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
-				if (i == response.page) {
-					$('#page'+i).attr('class', 'active');
-				}
-			}
-			for (var i = response.nbPage; i > response.nbPage - 6; i--) {
-				$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillNewsPage('+i+')">'+i+'</a></li>');
-				if (i == response.page) {
-					$('#page'+i).attr('class', 'active');
-				}
-			}
-		}
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillNewsPage('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}		
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillNewsPage');		
 	});
 };
 

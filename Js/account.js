@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -40,6 +41,10 @@ function selectAll(){
 };
 
 function fillAccountTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	$('#optionAccount').empty();
 	$('#optionAccount').append('<button id="addAccount" onclick="showAddAccountModal()">Add Account</button>'+
@@ -96,41 +101,17 @@ function fillAccountTable(page){
             $('.playerAccountTable:empty').append('<option>N/A</option>');
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillAccountTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillAccountTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
 		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillAccountTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
+		// Application de DataTable à un tableau
+		table = $('#tableAccounts').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillAccountTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
 	});
 };
 

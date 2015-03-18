@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -35,6 +36,10 @@ function selectAll(){
 };
 
 function fillParkTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	$('#optionPark').empty();
 	$('#optionPark').append('<button id="addPark" onclick="showAddParkModal()">Add Park</button>'+
@@ -82,40 +87,16 @@ function fillParkTable(page){
             $('.enclosureParkTable:empty').append('<option>N/A</option>');
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillParkTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillParkTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillParkTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillParkTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
+		// Application de DataTable à un tableau
+		table = $('#tableParks').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
+	
 	});
 };
 

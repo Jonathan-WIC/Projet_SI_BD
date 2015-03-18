@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -18,6 +19,10 @@ $(document).ready(function(){
 });//Ready
 
 function fillElementTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	var url = "";
 	if (page != 0){
@@ -45,41 +50,17 @@ function fillElementTable(page){
 			}
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillElementTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillElementTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
 		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillElementTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
+		// Application de DataTable à un tableau
+		table = $('#tableElements').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillElementTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
 	});
 };
 

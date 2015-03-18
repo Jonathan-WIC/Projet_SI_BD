@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <title><?= $page['title']; ?></title>
+
     <link rel="stylesheet" href="./Lib/bootstrap.css">
     <link rel="stylesheet" href="./Css/main.css">
     <?php
@@ -18,7 +19,6 @@
         }
     ?>
     <link rel="icon" type="image/png" href="Img/favicon.png" />
-    <script src="Lib/jquery.min.js"></script>
 </head>
 <body>
     
@@ -51,10 +51,13 @@
         ?>
     </footer>
 
+    
     <script type="text/javascript" src="./Lib/jquery.min.js"></script>
+    <script type="text/javascript" src="./Lib/jquery.dataTables.js"></script>
     <script type="text/javascript" src="./Lib/bootstrap.js"></script>
     <?php 
         if (isset($_SESSION['script'])) {
+            echo '<script type="text/javascript" src="./Js/pagination.js"></script>';
             echo '<script src="'.$_SESSION['script'].'" /></script>';
         } else {
             echo '<script src="./Js/verifConnection.js" /></script>';

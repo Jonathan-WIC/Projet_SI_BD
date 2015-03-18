@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -35,6 +36,10 @@ function selectAll(){
 
 function fillRegimeTable(page){
 
+	if(table){
+		table.destroy();
+	}
+
 	$('#optionRegime').empty();
 	$('#optionRegime').append('<button id="addRegime" onclick="showAddRegimeModal()">Add Regime</button>'+
 							   '<button id="deleteRegime" onclick="deleteMultipleRegime()">Delete Selected</button>');
@@ -68,40 +73,15 @@ function fillRegimeTable(page){
 			}
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillRegimeTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillRegimeTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillRegimeTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillRegimeTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
+		// Application de DataTable à un tableau
+		table = $('#tableRegimes').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 		
 	});
 };

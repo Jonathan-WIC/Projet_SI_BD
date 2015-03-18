@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -37,6 +38,10 @@ function selectAll(){
 
 function fillEnclosureTable(page){
 
+	if(table){
+		table.destroy();
+	}
+
 	$('#optionEnclosure').empty();
 	$('#optionEnclosure').append('<button id="addEnclosure" onclick="showAddEnclosureModal()">Add Enclosure</button>'+
 							   '<button id="deleteEnclosure" onclick="deleteMultipleEnclosure()">Delete Selected</button>');
@@ -75,41 +80,17 @@ function fillEnclosureTable(page){
 			}
 	    }
 	}).done(function(response){
-
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
-
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillEnclosureTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillEnclosureTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillEnclosureTable');
 
 
-		$('#pagination').append('<li id="nextArrow" onclick="fillEnclosureTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
+		// Application de DataTable à un tableau
+		table = $('#tableEnclosures').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
 	});
 };
 

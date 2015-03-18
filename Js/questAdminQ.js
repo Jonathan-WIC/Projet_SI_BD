@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -83,10 +84,14 @@ function fillSelectItems(){
 
 
 								/****************************************************/
-								/*************** quest's functions **************/
+								/***************** Quest's functions ****************/
 								/****************************************************/
 
 function fillQuestTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	$('#optionQuest').empty();
 	$('#optionQuest').append('<button id="addquest" onclick="showAddQuestModal()">Add Quest</button>'+
@@ -140,41 +145,16 @@ function fillQuestTable(page){
 
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillQuestTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
+		// Application de DataTable à un tableau
+		table = $('#tableQuests').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillQuestTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillQuestTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillQuestTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
 	});
 };
 

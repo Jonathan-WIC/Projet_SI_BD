@@ -1,3 +1,4 @@
+var table;
 $(document).ready(function(){
 
 	////////////////////////////////////////////////////////////////
@@ -35,6 +36,10 @@ function selectAll(){
 };
 
 function fillPlayerTable(page){
+
+	if(table){
+		table.destroy();
+	}
 
 	$('#optionPlayer').empty();
 	$('#optionPlayer').append('<button id="addPlayer" onclick="showAddPlayerModal()">Add Player</button>'+
@@ -111,40 +116,16 @@ function fillPlayerTable(page){
 	    
 	    }
 	}).done(function(response){
+		// On active la pagination
+		pagination(response.nbPage, response.page, 'fillPlayerTable');
 
-		var previousPage = parseInt(response.page - 1);
-		var nextPage = parseInt(response.page) + 1;
+		// Application de DataTable à un tableau
+		table = $('#tablePlayers').DataTable({
+			paging: false,
+			searching: false,
+			info: false
+		});
 
-		$('#pagination').empty();
-		$('#pagination').append('<li id="previousArrow" onclick="fillPlayerTable('+ previousPage +')">'+
-									'<a href="#" aria-label="Previous">'+
-										'<span aria-hidden="true">&laquo;</span>'+
-									'</a>'+
-								'</li>');
-
-		if (previousPage == 0){
-			$('#previousArrow').attr('class', 'disabled');
-			$('#previousArrow').removeAttr('onclick');
-		}
-		
-		for (var i = 1; i <= response.nbPage; i++) {
-			$('#pagination').append('<li id="page'+i+'"><a href="#" onclick="fillPlayerTable('+i+')">'+i+'</a></li>');
-			if (i == response.page) {
-				$('#page'+i).attr('class', 'active');
-			}
-		}
-
-		$('#pagination').append('<li id="nextArrow" onclick="fillPlayerTable('+nextPage+')">'+
-									'<a href="#" aria-label="Next">'+
-										'<span aria-hidden="true">&raquo;</span>'+
-									'</a>'+
-								'</li>')
-
-		if (nextPage > response.nbPage){
-			$('#nextArrow').attr('class', 'disabled');
-			$('#nextArrow').removeAttr('onclick');
-		}
-		
 	});
 };
 
