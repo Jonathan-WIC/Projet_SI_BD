@@ -395,24 +395,27 @@
 
         public static function getPersoAccount($data)
         {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT A.ID_ACCOUNT, P.LAST_NAME, P.FIRST_NAME
-                      FROM ACCOUNT A, PERSO P
-                      WHERE A.ID_ACCOUNT = P.ID_ACCOUNT
-                      AND P.ID_ACCOUNT IN (";
+            $result = "";
+            if(count($data)>0){
+                $pdo = self::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query = "SELECT A.ID_ACCOUNT, P.LAST_NAME, P.FIRST_NAME
+                          FROM ACCOUNT A, PERSO P
+                          WHERE A.ID_ACCOUNT = P.ID_ACCOUNT
+                          AND P.ID_ACCOUNT IN (";
 
-            for($i = 0 ; $i < count($data) ; ++$i) {
-                $query .= $data[$i]['ID_ACCOUNT'].","; 
+                for($i = 0 ; $i < count($data) ; ++$i) {
+                    $query .= $data[$i]['ID_ACCOUNT'].","; 
+                }
+
+                $query = substr($query, 0, -1); // Suppression de la derniere virgule
+                $query .= ");"; // ferme la parenthese du IN
+
+                $qq = $pdo->prepare($query);
+                
+                $qq->execute();
+                $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             }
-
-            $query = substr($query, 0, -1); // Suppression de la derniere virgule
-            $query .= ");"; // ferme la parenthese du IN
-
-            $qq = $pdo->prepare($query);
-            
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
 
