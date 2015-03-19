@@ -16,7 +16,7 @@
     	**/
 
     	case "tableMonster":
-    		$total = $connect->countMonsters(); 			// Nombre total de résultat
+    		$total = $connect->countMonsters($_POST['data']); 			// Nombre total de résultat
     		$perPage = 10;                   				// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_MOB'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -85,7 +85,7 @@
 
     	case "tableSpecie":
 
-    		$total = $connect->countSpecies(); 					// Nombre total de résultat
+    		$total = $connect->countSpecies($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_SPECIES'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -143,7 +143,7 @@
 
     	case "tableSubSpecie":
 
-    		$total = $connect->countSubSpecies(); 					// Nombre total de résultat
+    		$total = $connect->countSubSpecies($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   						// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_SUB_SPECIE'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -205,7 +205,7 @@
 
     	case "tableElement":
 
-    		$total = $connect->countElement(); 						// Nombre total de résultat
+    		$total = $connect->countElement($_POST['data']); 						// Nombre total de résultat
     		$perPage = 20;                   						// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_ELEMENT'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -266,7 +266,7 @@
 
     	case "tableRegime":
 
-    		$total = $connect->countRegime(); 						// Nombre total de résultat
+    		$total = $connect->countRegime($_POST['data']); 						// Nombre total de résultat
     		$perPage = 20;                   						// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_REGIME'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -327,7 +327,7 @@
 
     	case "tableMaturity":
 
-    		$total = $connect->countMaturity(); 				// Nombre total de résultat
+    		$total = $connect->countMaturity($_POST['data']); 				// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_MATURITY'] / $perPage); 	// Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -394,7 +394,7 @@
         break;
 
         case "tableQuest":
-            $total = $connect->countQuests();                   // Nombre total de résultat
+            $total = $connect->countQuests($_POST['data']);                   // Nombre total de résultat
             $perPage = 20;                                      // Nombre de resultat par page
             $nbPage = ceil($total[0]['NB_QUESTS'] / $perPage);  // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -456,7 +456,7 @@
 
         case "newspaper":
             $total = $connect->countNewspapers();                   // Nombre total de résultat
-            $perPage = 3;                                          // Nombre de resultat par page
+            $perPage = 10;                                          // Nombre de resultat par page
             $nbPage = ceil($total[0]['NB_NEWSPAPER'] / $perPage);   // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
             if(isset($_GET['p']) AND $_GET['p'] > 0 AND $_GET['p'] <= $nbPage)
@@ -642,7 +642,7 @@
 
     	case "tableAccount":
 
-    		$total = $connect->countAccount(); 					// Nombre total de résultat
+    		$total = $connect->countAccount($_POST['dataTable']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_ACCOUNT'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -652,7 +652,7 @@
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
 	    	$accounts = $connect->fillAccountTable($currentPage, $perPage, $_POST['dataTable']);
-	    	$persos = $connect->getPersoAccount();
+	    	$persos = $connect->getPersoAccount($accounts);
 
 			$jsonarray = array("account" => $accounts, "perso" => $persos, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
@@ -700,7 +700,7 @@
 
     	case "tablePlayer":
 
-    		$total = $connect->countPlayer(); 					// Nombre total de résultat
+    		$total = $connect->countPlayer($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_PERSO'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -709,11 +709,11 @@
     		else
     		    $currentPage = 1;            				// Page courante initialiser à 1 par défaut
 
-	    	$player = $connect->fillPlayerTable($currentPage, $perPage);
-	    	$quest = $connect->getPlayerQuest();
-	    	$park = $connect->getPlayerpark();
-	    	$monster = $connect->getPlayerMonster();
-	    	$item = $connect->getPlayerItem();
+	    	$player = $connect->fillPlayerTable($currentPage, $perPage, $_POST['data']);
+	    	$quest = $connect->getPlayerQuest($player);
+	    	$park = $connect->getPlayerpark($player);
+	    	$monster = $connect->getPlayerMonster($player);
+	    	$item = $connect->getPlayerItem($player);
 
 			$jsonarray = array("player" => $player, "quest" => $quest, "park" => $park, "monster" => $monster, "item" => $item, "page" => $currentPage, "nbPage" => $nbPage);
 			$jsonReturned = json_encode($jsonarray);
@@ -766,7 +766,7 @@
 
     	case "tablePark":
 
-    		$total = $connect->countPark(); 					// Nombre total de résultat
+    		$total = $connect->countPark($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_PARK'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -829,7 +829,7 @@
 
     	case "tableEnclosure":
 
-    		$total = $connect->countEnclosure(); 					// Nombre total de résultat
+    		$total = $connect->countEnclosure($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_ENCLOSURE'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 
@@ -891,7 +891,7 @@
 
     	case "tableItem":
 
-    		$total = $connect->countItem(); 					// Nombre total de résultat
+    		$total = $connect->countItem($_POST['data']); 					// Nombre total de résultat
     		$perPage = 20;                   					// Nombre de resultat par page
     		$nbPage = ceil($total[0]['NB_ITEM'] / $perPage); // Nombre de page total (ceil permet d'arrondir au nombre supérieur)
 

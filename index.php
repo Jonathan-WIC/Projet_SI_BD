@@ -393,7 +393,7 @@
     function logmod()
     {
         $_SESSION['model'] = 'MDBase_moderateur';
-        playerModo();
+        accountDev();
     }
     
     function logspec()

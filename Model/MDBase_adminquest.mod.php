@@ -134,11 +134,31 @@
 
         **/
 
-        public static function countQuests()
+        public static function countQuests($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_QUEST) AS NB_QUESTS FROM QUEST";
+
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " WHERE NAME LIKE '".$search['NAME']."%' ";
+            if($search['DATE_DEB'] != "")
+                if($condition == "")
+                $condition .= " WHERE DATE_DEB > ".$search['DATE_DEB'];
+                else
+                $condition .= " AND DATE_DEB > ".$search['DATE_DEB'];
+            if($search['DURATION'] != "")
+                if($condition == "")
+                $condition .= " WHERE DURATION >= ".$search['DURATION'];
+                else
+                $condition .= " AND DURATION >= ".$search['DURATION'];
+            if($search['FEE'] != "")
+                if($condition == "")
+                $condition .= " WHERE FEE >= ".$search['FEE'];
+                else
+                $condition .= " AND FEE >= ".$search['FEE'];
+
+            $query = "SELECT COUNT(ID_QUEST) AS NB_QUESTS FROM QUEST ".$conditions;
 
             $qq = $pdo->prepare($query);
 
@@ -147,12 +167,12 @@
             return $data;
         }
 
-        public static function getAllQuests($currentPage, $perPage)
+        public static function getAllQuests($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-             $condition = "";
+            $condition = "";
             if($search['NAME'] != "")
                 $condition .= " WHERE NAME LIKE '".$search['NAME']."%' ";
             if($search['DATE_DEB'] != "")

@@ -323,6 +323,8 @@ function insertNewspaper(){
 
 function afficheArticle(page){
 
+	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
+
 	var id = $('#divNewspapers').attr('idNewspaper');
 
 	var url = "";
@@ -373,6 +375,9 @@ function afficheArticle(page){
 	}).done(function(response){
 		// On active la pagination
 		pagination(response.nbPage, response.page, 'afficheArticle');
+		
+		$('.loaderTable').empty();
+		
 	});
 };
 

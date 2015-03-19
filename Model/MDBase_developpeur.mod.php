@@ -40,17 +40,48 @@
 
         **/
 
-        public static function countMonsters()
+        public static function countMonsters($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " AND M.NAME LIKE '".$search['NAME']."%' ";
+            if($search['GENDER'] != "")
+                $condition .= " AND M.GENDER LIKE '".$search['GENDER']."%' ";
+            if($search['DANGER_SCALE'] != "")
+                $condition .= " AND M.DANGER_SCALE LIKE '".$search['DANGER_SCALE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND SP.LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND MA.LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND R.LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+            if($search['CLEAN_SCALE'] != "")
+                $condition .= " AND M.CLEAN_SCALE >= ". $search['CLEAN_SCALE'];
+            if($search['HEALTH_STATE'] != "")
+                $condition .= " AND M.HEALTH_STATE >= ". $search['HEALTH_STATE'];
+            if($search['HUNGER_STATE'] != "")
+                $condition .= " AND M.HUNGER_STATE >= ". $search['HUNGER_STATE'];
+            if($search['AGE'] != "")
+                $condition .= " AND M.AGE >= ". $search['AGE'];
+            if($search['WEIGHT'] != "")
+                $condition .= " AND M.WEIGHT >= ". $search['WEIGHT'];
+
+            if($search['ID_PERSO'] == 0 AND $search['ID_PERSO'] != "")
+                $condition .= " AND M.ID_PERSO IS NULL " ;
+            else if($search['ID_PERSO'] != "")
+                $condition .= " AND M.ID_PERSO = ". $search['ID_PERSO'];
 
             $query = "SELECT COUNT(M.ID_MONSTER) AS NB_MOB
                       FROM MONSTER M, MATURITY MA, SUB_SPECIE SSP, SPECIE SP, REGIME R
                       WHERE M.ID_MATURITY = MA.ID_MATURITY
                       AND M.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE
                       AND M.ID_REGIME = R.ID_REGIME
-                      AND SSP.ID_SPECIE = SP.ID_SPECIE"; 
+                      AND SSP.ID_SPECIE = SP.ID_SPECIE ".$condition; 
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -306,11 +337,25 @@
     
         **/
             
-        public static function countAccount()
+        public static function countAccount($data)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ACCOUNT) AS NB_ACCOUNT FROM ACCOUNT WHERE ID_ACCOUNT <> 0";
+
+            $condition = "";
+            if($data['PSEUDO'] != "")
+                $condition .= " AND PSEUDO LIKE '".$data['PSEUDO']."%' ";
+            if($data['GENDER'] != "null")
+                $condition .= " AND GENDER = '".$data['GENDER']."' ";
+            if($data['AGE'] != "")
+                $condition .= " AND AGE >= ".$data['AGE']." ";
+            if($data['DATEREG'] != "")
+                $condition .= " AND DATE_INSCRIPTION = '".$data['DATEREG']."' ";
+            if($data['DATECO'] != "")
+                $condition .= " AND DATE_LAST_CONNEXION >= '".$data['DATECO']."' ";
+
+            $query = "SELECT COUNT(ID_ACCOUNT) AS NB_ACCOUNT FROM ACCOUNT WHERE ID_ACCOUNT <> 0 ".$condition;
+
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -348,14 +393,24 @@
             return $data;
         }
 
-        public static function getPersoAccount()
+        public static function getPersoAccount($data)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $query = "SELECT A.ID_ACCOUNT, P.LAST_NAME, P.FIRST_NAME
                       FROM ACCOUNT A, PERSO P
-                      WHERE A.ID_ACCOUNT = P.ID_ACCOUNT";
+                      WHERE A.ID_ACCOUNT = P.ID_ACCOUNT
+                      AND P.ID_ACCOUNT IN (";
+
+            for($i = 0 ; $i < count($data) ; ++$i) {
+                $query .= $data[$i]['ID_ACCOUNT'].","; 
+            }
+
+            $query = substr($query, 0, -1); // Suppression de la derniere virgule
+            $query .= ");"; // ferme la parenthese du IN
+
             $qq = $pdo->prepare($query);
+            
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
@@ -480,23 +535,48 @@
     
         **/
             
-        public static function countPlayer()
+        public static function countPlayer($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_PERSO) AS NB_PERSO FROM PERSO WHERE ID_PERSO <> 0";
+
+            $condition = "";
+            if($search['FIRST_NAME'] != "")
+                $condition .= " AND FIRST_NAME LIKE '".$search['FIRST_NAME']."%' ";
+            if($search['LAST_NAME'] != "")
+                $condition .= " AND LAST_NAME LIKE '".$search['LAST_NAME']."%' ";
+            if($search['GENDER'] != "")
+                $condition .= " AND GENDER LIKE '".$search['GENDER']."%' ";
+            if($search['PMONEY'] != "")
+                $condition .= " AND PMONEY >= ".$search['PMONEY'];
+            if($search['ID_ACCOUNT'] != "")
+                $condition .= " AND ID_ACCOUNT = ".$search['ID_ACCOUNT'];
+
+            $query = "SELECT COUNT(ID_PERSO) AS NB_PERSO FROM PERSO WHERE ID_PERSO <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         }
     
-        public static function fillPlayerTable($currentPage, $perPage)
+        public static function fillPlayerTable($currentPage, $perPage, $search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM PERSO WHERE ID_PERSO <> 0 LIMIT :STARTPAGE, :PERPAGE";
+            $condition = "";
+            if($search['FIRST_NAME'] != "")
+                $condition .= " AND FIRST_NAME LIKE '".$search['FIRST_NAME']."%' ";
+            if($search['LAST_NAME'] != "")
+                $condition .= " AND LAST_NAME LIKE '".$search['LAST_NAME']."%' ";
+            if($search['GENDER'] != "")
+                $condition .= " AND GENDER LIKE '".$search['GENDER']."%' ";
+            if($search['PMONEY'] != "")
+                $condition .= " AND PMONEY >= ".$search['PMONEY'];
+            if($search['ID_ACCOUNT'] != "")
+                $condition .= " AND ID_ACCOUNT = ".$search['ID_ACCOUNT'];
+
+            $query = "SELECT * FROM PERSO WHERE ID_PERSO <> 0 ".$condition." LIMIT :STARTPAGE, :PERPAGE";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('STARTPAGE', ($currentPage-1)*$perPage, PDO::PARAM_INT);
@@ -506,57 +586,106 @@
             return $data;
         }
 
-        public static function getPlayerQuest()
+        public static function getPlayerQuest($data)
         {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT Q.NAME, P.ID_PERSO
-                      FROM QUEST Q, PERSO P, ASSOC_PERSO_QUEST APQ
-                      WHERE P.ID_PERSO = APQ.ID_PERSO
-                        AND APQ.ID_QUEST = Q.ID_QUEST";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+
+            $result = "";
+            if(count($data)>0){
+                $pdo = self::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query = "SELECT Q.NAME, P.ID_PERSO
+                          FROM QUEST Q, PERSO P, ASSOC_PERSO_QUEST APQ
+                          WHERE P.ID_PERSO = APQ.ID_PERSO
+                            AND APQ.ID_QUEST = Q.ID_QUEST
+                            AND P.ID_PERSO IN (";
+
+                for($i = 0 ; $i < count($data) ; ++$i) {
+                    $query .= $data[$i]['ID_PERSO'].","; 
+                }
+
+                $query = substr($query, 0, -1); // Suppression de la derniere virgule
+                $query .= ");"; // ferme la parenthese du IN
+
+                $qq = $pdo->prepare($query);
+                $qq->execute();
+                $result = $qq->fetchAll(PDO::FETCH_ASSOC);
+            }
             return $data;
         }
 
-        public static function getPlayerpark()
+        public static function getPlayerpark($data)
         {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT PA.NAME_PARK, PA.ID_PERSO
-                      FROM PARK PA, PERSO P
-                      WHERE PA.ID_PERSO = P.ID_PERSO";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            $result = "";
+            if(count($data)>0){
+                $pdo = self::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query = "SELECT PA.NAME_PARK, PA.ID_PERSO
+                          FROM PARK PA, PERSO P
+                          WHERE PA.ID_PERSO = P.ID_PERSO
+                            AND P.ID_PERSO IN (";
+
+                for($i = 0 ; $i < count($data) ; ++$i) {
+                    $query .= $data[$i]['ID_PERSO'].","; 
+                }
+
+                $query = substr($query, 0, -1); // Suppression de la derniere virgule
+                $query .= ");"; // ferme la parenthese du IN
+                
+                $qq = $pdo->prepare($query);
+                $qq->execute();
+                $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            }
             return $data;
         }
 
-        public static function getPlayerMonster()
+        public static function getPlayerMonster($data)
         {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT M.NAME, M.ID_PERSO
-                      FROM MONSTER M, PERSO P
-                      WHERE M.ID_PERSO = P.ID_PERSO";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            $result = "";
+            if(count($data)>0){
+                $pdo = self::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query = "SELECT M.NAME, M.ID_PERSO
+                          FROM MONSTER M, PERSO P
+                          WHERE M.ID_PERSO = P.ID_PERSO
+                            AND P.ID_PERSO IN (";
+
+                for($i = 0 ; $i < count($data) ; ++$i) {
+                    $query .= $data[$i]['ID_PERSO'].","; 
+                }
+
+                $query = substr($query, 0, -1); // Suppression de la derniere virgule
+                $query .= ");"; // ferme la parenthese du IN
+                
+                $qq = $pdo->prepare($query);
+                $qq->execute();
+                $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            }
             return $data;
         }
 
-        public static function getPlayerItem()
+        public static function getPlayerItem($data)
         {
-            $pdo = self::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT I.LIB_ITEM, P.ID_PERSO
-                      FROM ITEM I, PERSO P, PERSO_STOCK_ITEM PSI
-                      WHERE P.ID_PERSO = PSI.ID_PERSO
-                        AND PSI.ID_ITEM = I.ID_ITEM";
-            $qq = $pdo->prepare($query);
-            $qq->execute();
-            $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            $result = "";
+            if(count($data)>0){
+                $pdo = self::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query = "SELECT I.LIB_ITEM, P.ID_PERSO
+                          FROM ITEM I, PERSO P, PERSO_STOCK_ITEM PSI
+                          WHERE P.ID_PERSO = PSI.ID_PERSO
+                            AND PSI.ID_ITEM = I.ID_ITEM
+                            AND P.ID_PERSO IN (";
+
+                for($i = 0 ; $i < count($data) ; ++$i) {
+                    $query .= $data[$i]['ID_PERSO'].","; 
+                }
+
+                $query = substr($query, 0, -1); // Suppression de la derniere virgule
+                $query .= ");"; // ferme la parenthese du IN
+                
+                $qq = $pdo->prepare($query);
+                $qq->execute();
+                $data = $qq->fetchAll(PDO::FETCH_ASSOC);
+            }
             return $data;
         }
 
@@ -655,11 +784,32 @@
     
         **/
             
-        public static function countPark()
+        public static function countPark($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_PARK) AS NB_PARK FROM PARK";
+
+            $condition = "";
+            if($search['NAME_PARK'] != "")
+                $condition .= " WHERE NAME_PARK LIKE '".$search['NAME_PARK']."%' ";
+            if($search['CAPACITY_ENCLOSURE'] != "")
+                if($condition == "")
+                    $condition .= " WHERE CAPACITY_ENCLOSURE >= ".$search['CAPACITY_ENCLOSURE'];
+                else
+                    $condition .= " AND CAPACITY_ENCLOSURE >= ".$search['CAPACITY_ENCLOSURE'];
+
+            if($search['ID_PERSO'] == 0 AND $search['ID_PERSO'] != "")
+                if($condition == "")
+                    $condition .= " WHERE ID_PERSO IS NULL " ;
+                else
+                    $condition .= " AND ID_PERSO IS NULL ";
+            else if($search['ID_PERSO'] != "")
+                if($condition == "")
+                    $condition .= " WHERE ID_PERSO = ".$search['ID_PERSO'];
+                else
+                    $condition .= " AND ID_PERSO = ".$search['ID_PERSO'];
+
+            $query = "SELECT COUNT(ID_PARK) AS NB_PARK FROM PARK ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -807,11 +957,26 @@
     
         **/
             
-        public static function countEnclosure()
+        public static function countEnclosure($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ENCLOSURE) AS NB_ENCLOSURE FROM ENCLOSURE";
+
+            $condition = "";
+            if($search['ID_PARK'] != "")
+                $condition .= " AND ID_PARK = ".$search['ID_PARK'];
+            if($search['TYPE_ENCLOS'] != "")
+                $condition .= " AND TYPE_ENCLOS LIKE '".$search['TYPE_ENCLOS']."%' ";
+            if($search['CAPACITY_MONSTER'] != "")
+                $condition .= " AND CAPACITY_MONSTER >= ".$search['CAPACITY_MONSTER'];
+            if($search['PRICE'] != "")
+                $condition .= " AND PRICE <= ".$search['PRICE'];
+            if($search['CLIMATE'] != "")
+                $condition .= " AND CLIMATE LIKE '".$search['CLIMATE']."%' ";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+
+            $query = "SELECT COUNT(ID_ENCLOSURE) AS NB_ENCLOSURE FROM ENCLOSURE E, SUB_SPECIE SSP WHERE ID_ENCLOSURE <> 0 AND E.ID_SUB_SPECIE = SSP.ID_SUB_SPECIE".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -942,11 +1107,31 @@
     
         **/
             
-        public static function countItem()
+        public static function countItem($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ITEM) AS NB_ITEM FROM ITEM";
+
+            $condition = "";
+            if($search['LIB_ITEM'] != "")
+                $condition .= " WHERE LIB_ITEM LIKE '".$search['LIB_ITEM']."%' ";            
+            if($search['TYPE_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND TYPE_ITEM LIKE '".$search['TYPE_ITEM']."%' ";
+                else
+                    $condition .= " WHERE TYPE_ITEM LIKE '".$search['TYPE_ITEM']."%' ";
+            if($search['FAMILY_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND FAMILY_ITEM LIKE '".$search['FAMILY_ITEM']."%' ";
+                else
+                    $condition .= " WHERE FAMILY_ITEM LIKE '".$search['FAMILY_ITEM']."%' ";
+            if($search['PRIX_ITEM'] != "")
+                if($condition != "")
+                    $condition .= " AND PRIX_ITEM <= ".$search['PRIX_ITEM'];
+                else
+                    $condition .= " WHERE PRIX_ITEM <= ".$search['PRIX_ITEM'];
+
+            $query = "SELECT COUNT(ID_ITEM) AS NB_ITEM FROM ITEM ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1071,11 +1256,16 @@
     
         **/
             
-        public static function countSpecies()
+        public static function countSpecies($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE <> 0";
+
+            $condition = "";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND LIB_SPECIE LIKE'". $search['LIB_SPECIE']."%' ";
+
+            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1177,11 +1367,21 @@
     
         **/
             
-        public static function countSubSpecies()
+        public static function countSubSpecies($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
+
+            $condition = "";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_HABITAT'] != "")
+                $condition .= " AND LIB_HABITAT LIKE '".$search['LIB_HABITAT']."%' ";
+
+
+            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE SSP, SPECIE SP WHERE ID_SUB_SPECIE <> 0 AND SSP.ID_SPECIE = SP.ID_SPECIE ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1287,11 +1487,17 @@
     
         **/
             
-        public static function countElement()
+        public static function countElement($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ELEMENT) AS NB_ELEMENT FROM ELEMENT";
+
+            $condition = "";
+            if($search['LIB_ELEMENT'] != "")
+                $condition .= " WHERE LIB_ELEMENT LIKE '". $search['LIB_ELEMENT'] ."%' ";
+
+            $query = "SELECT COUNT(ID_ELEMENT) AS NB_ELEMENT FROM ELEMENT ".$condition;
+            
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1394,11 +1600,16 @@
     
         **/
             
-        public static function countRegime()
+        public static function countRegime($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0";
+
+            $condition = "";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+
+            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1501,11 +1712,16 @@
     
         **/
             
-        public static function countMaturity()
+        public static function countMaturity($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0";
+
+            $condition = "";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+
+            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -1703,11 +1919,31 @@
 
         **/
 
-        public static function countQuests()
+        public static function countQuests($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_QUEST) AS NB_QUESTS FROM QUEST";
+
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " WHERE NAME LIKE '".$search['NAME']."%' ";
+            if($search['DATE_DEB'] != "")
+                if($condition == "")
+                $condition .= " WHERE DATE_DEB > ".$search['DATE_DEB'];
+                else
+                $condition .= " AND DATE_DEB > ".$search['DATE_DEB'];
+            if($search['DURATION'] != "")
+                if($condition == "")
+                $condition .= " WHERE DURATION >= ".$search['DURATION'];
+                else
+                $condition .= " AND DURATION >= ".$search['DURATION'];
+            if($search['FEE'] != "")
+                if($condition == "")
+                $condition .= " WHERE FEE >= ".$search['FEE'];
+                else
+                $condition .= " AND FEE >= ".$search['FEE'];
+
+            $query = "SELECT COUNT(ID_QUEST) AS NB_QUESTS FROM QUEST ".$condition;
 
             $qq = $pdo->prepare($query);
 
@@ -1973,10 +2209,11 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO NEWSPAPER (SUMMARY) VALUES (:SUMMARY)";
+            $query = "INSERT INTO NEWSPAPER (SUMMARY, PUBLICATION) VALUES (:SUMMARY, :PUBLICATION)";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
+            $qq->bindValue('PUBLICATION', date("Y-m-d"), PDO::PARAM_STR);
 
             $result = $qq->execute();
             return $result;
@@ -1988,7 +2225,7 @@
 
         **/
 
-        public static function countNewsFromNewspaper($id)
+        public static function countNewsFromNewspaper()
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

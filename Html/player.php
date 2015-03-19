@@ -23,8 +23,30 @@
 					<input id="selectLastNamePlayer" name="selectLastNamePlayer"/>
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchGenderPlayer">Gender :</label>
+				<div class="controls">
+					<select id="searchGenderPlayer" name="searchGenderPlayer">
+						<option value="">Select an option</option>
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select>
+				</div>
+			</div>			
+			<div class="control-group">
+				<label class="control-label" for="searchMinMoneyPlayer">Minimal Money :</label>
+				<div class="controls">
+					<input type="number" id="searchMinMoneyPlayer" name="searchMinMoneyPlayer"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="searchAccountPlayer">Id account :</label>
+				<div class="controls">
+					<input type="number" id="searchAccountPlayer" name="searchAccountPlayer"/>
+				</div>
+			</div>
 			<div>
-				<button class="btn" id="btnPlayerSearch">Search</button>
+				<button class="btn" id="btnPlayerSearch" onclick="fillPlayerTable(0)">Search</button>
 			</div>
 		</fieldset>
 	</div>
@@ -34,8 +56,9 @@
 
 <div class="col-md-10" style="margin-top:2%;">
 
-	<div class="tableOption" id="optionPlayer">
-	</div>
+	<div class="tableOption" id="optionPlayer"></div>
+
+	<div class="loaderTable divLoader"></div>
 
 	<table id="tablePlayers" class="table table-bordered">
 		<thead>

@@ -152,10 +152,11 @@
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO NEWSPAPER (SUMMARY) VALUES (:SUMMARY)";
+            $query = "INSERT INTO NEWSPAPER (SUMMARY, PUBLICATION) VALUES (:SUMMARY, :PUBLICATION)";
 
             $qq = $pdo->prepare($query);
             $qq->bindValue('SUMMARY',  $infos['SUMMARY'], PDO::PARAM_STR);
+            $qq->bindValue('PUBLICATION', date("Y-m-d"), PDO::PARAM_STR);
 
             $result = $qq->execute();
             return $result;

@@ -205,13 +205,10 @@ function addSubSpecie(){
 };
 
 
-
-
-
 function fillSelectSpecie(){
 	$.ajax({
 	    type: "POST", //Sending method
-	    url:"Handler/specialiste.hand.php",
+	    url:"Handler/developpeur.hand.php",
 	    data: {'role': "specie" },
 	    dataType: 'json',
 	    success: function(response){

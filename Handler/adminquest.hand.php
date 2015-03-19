@@ -11,7 +11,7 @@
         **/
 
         case "fillItems":
-            $result = $connect->fillItemSelect();
+            $result = $connect->fillItemSelect($_POST['data']);
             $jsonarray = array("item" => $result);
             $jsonReturned = json_encode($jsonarray);
             echo $jsonReturned;

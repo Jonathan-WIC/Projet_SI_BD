@@ -44,13 +44,38 @@
         get informations about all monsters and their elements
         **/
 
-        public static function countMonsters()
+        public static function countMonsters($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT COUNT(ID_MONSTER) AS NB_MOB
-                      FROM MONSTER "; 
+            $condition = "";
+            if($search['NAME'] != "")
+                $condition .= " AND M.NAME LIKE '".$search['NAME']."%' ";
+            if($search['GENDER'] != "")
+                $condition .= " AND M.GENDER LIKE '".$search['GENDER']."%' ";
+            if($search['DANGER_SCALE'] != "")
+                $condition .= " AND M.DANGER_SCALE LIKE '".$search['DANGER_SCALE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND SP.LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND MA.LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND R.LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+            if($search['CLEAN_SCALE'] != "")
+                $condition .= " AND M.CLEAN_SCALE >= ". $search['CLEAN_SCALE'];
+            if($search['HEALTH_STATE'] != "")
+                $condition .= " AND M.HEALTH_STATE >= ". $search['HEALTH_STATE'];
+            if($search['HUNGER_STATE'] != "")
+                $condition .= " AND M.HUNGER_STATE >= ". $search['HUNGER_STATE'];
+            if($search['AGE'] != "")
+                $condition .= " AND M.AGE >= ". $search['AGE'];
+            if($search['WEIGHT'] != "")
+                $condition .= " AND M.WEIGHT >= ". $search['WEIGHT'];
+
+            $query = "SELECT COUNT(ID_MONSTER) AS NB_MOB FROM MONSTER ".$condition; 
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -230,11 +255,16 @@
     
         **/
             
-        public static function countSpecies()
+        public static function countSpecies($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE  <> 0";
+
+            $condition = "";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND LIB_SPECIE LIKE'". $search['LIB_SPECIE']."%' "; 
+
+            $query = "SELECT COUNT(ID_SPECIE) AS NB_SPECIES FROM SPECIE WHERE ID_SPECIE <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -297,11 +327,20 @@
     
         **/
             
-        public static function countSubSpecies()
+        public static function countSubSpecies($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0";
+
+            $condition = "";
+            if($search['LIB_SUB_SPECIE'] != "")
+                $condition .= " AND SSP.LIB_SUB_SPECIE LIKE '".$search['LIB_SUB_SPECIE']."%' ";
+            if($search['LIB_SPECIE'] != "")
+                $condition .= " AND SP.LIB_SPECIE LIKE '".$search['LIB_SPECIE']."%' ";
+            if($search['LIB_HABITAT'] != "")
+                $condition .= " AND LIB_HABITAT LIKE '".$search['LIB_HABITAT']."%' ";
+
+            $query = "SELECT COUNT(ID_SUB_SPECIE) AS NB_SUB_SPECIE FROM SUB_SPECIE WHERE ID_SUB_SPECIE <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -379,11 +418,16 @@
     
         **/
             
-        public static function countElement()
+        public static function countElement($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_ELEMENT) AS NB_ELEMENT FROM ELEMENT";
+
+            $condition = "";
+            if($search['LIB_ELEMENT'] != "")
+                $condition .= " WHERE LIB_ELEMENT LIKE '". $search['LIB_ELEMENT'] ."%' ";
+
+            $query = "SELECT COUNT(ID_ELEMENT) AS NB_ELEMENT FROM ELEMENT ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -444,11 +488,16 @@
     
         **/
             
-        public static function countRegime()
+        public static function countRegime($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0";
+
+            $condition = "";
+            if($search['LIB_REGIME'] != "")
+                $condition .= " AND LIB_REGIME LIKE '".$search['LIB_REGIME']."%' ";
+
+            $query = "SELECT COUNT(ID_REGIME) AS NB_REGIME FROM REGIME WHERE ID_REGIME <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);
@@ -509,11 +558,16 @@
     
         **/
             
-        public static function countMaturity()
+        public static function countMaturity($search)
         {
             $pdo = self::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0";
+
+             $condition = "";
+            if($search['LIB_MATURITY'] != "")
+                $condition .= " AND LIB_MATURITY LIKE '".$search['LIB_MATURITY']."%' ";
+
+            $query = "SELECT COUNT(ID_MATURITY) AS NB_MATURITY FROM MATURITY WHERE ID_MATURITY <> 0 ".$condition;
             $qq = $pdo->prepare($query);
             $qq->execute();
             $data = $qq->fetchAll(PDO::FETCH_ASSOC);

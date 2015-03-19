@@ -37,6 +37,14 @@ function selectAll(){
 
 function fillPlayerTable(page){
 
+	var json_option = {
+	    FIRST_NAME : $('#selectNamePlayer').val(),
+	    LAST_NAME : $('#selectLastNamePlayer').val(),
+	    GENDER : $('#searchGenderPlayer').val(),
+	    PMONEY : $('#searchMinMoneyPlayer').val(),
+	    ID_ACCOUNT : $('#searchAccountPlayer').val()
+	};
+
 	$('.divLoader').append('<img alt="loader" src="Img/loader.gif" />');
 
 	if(table){
@@ -55,7 +63,7 @@ function fillPlayerTable(page){
 	$.ajax({
 	    type: "POST", //Sending method
 	    url:"Handler/developpeur.hand.php"+url,
-	    data: {'role': "tablePlayer" },
+	    data: {'data': json_option, 'role': "tablePlayer" },
 	    dataType: 'json',
 	    success: function(response){
 
